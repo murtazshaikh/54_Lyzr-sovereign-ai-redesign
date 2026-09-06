@@ -120,29 +120,27 @@ a real distinction: one is orderable today, the other has no date.
 Purple is now spent on the state the page is actually selling, and the
 hollow dot says dated but not yet true.
 
-## Customer wall
+## Customer board
 
-A full-bleed hairline-ruled belt, not a static grid. The heading block
-is centred, which deliberately contrasts with the asymmetric hero so
-the two sections do not read as the same shape twice.
+A board, not a belt. The first version was a logo strip sliding on a
+timer, which is decoration: it says these names exist, and nothing
+else. This says who is running, in what sector, and that it is live
+right now, which is the claim the section is actually making.
 
-- **Motion** is pure CSS. Four copies of the set translate by exactly
-  one set width, -25%, landing on an identical frame. Two copies was
-  not enough: a set is ~1095px, so once the belt had slid a full set
-  its right edge sat inside a 1440px viewport and opened a gap. Four
-  covers viewports to ~3280px.
-- **Hover** stops the belt so a logo can actually be read, then the set
-  recedes and the one under the cursor resolves. Same grammar as the
-  hero's partner row, so the page has one interaction language.
-- **Edges** dissolve with a mask rather than being cut off.
-- **Reduced motion** collapses it to a single static wrapped row.
-- **Sprite.** Geometry is defined once and referenced 24 times through
-  `<use>`. Inlined per instance it was 111KB of markup.
-- **Density.** The first pass was 631px tall at 1440 with 320px of that
-  being padding, so half the band was empty. It now runs 388px. This is
-  a proof strip, not a headline section, so it takes about half the
-  page's section rhythm and the heading drops a step below h2, from
-  52px to 34px, introducing the belt instead of competing with the hero.
+- **Each row carries the heartbeat trace** from the status system, with
+  the beats offset 380ms per row so the board reads as six independent
+  services rather than one synchronised widget.
+- **Rows light on hover** with a green rule down the left edge, the way
+  a monitoring interface behaves.
+- **The footer counts up** to the page's own figures, 1,000+ agents and
+  500+ enterprises, so the board resolves into the claim.
+
+**Nothing per-customer is invented.** The sector column describes what
+each company does, which is public fact. Agent counts or deployment
+details per named enterprise would be fabrication, so there are none.
+AWS and NVIDIA were dropped from this board entirely: they are
+technology partners, not customers running agents, and they already
+appear in the Partners menu.
 
 ### Logo pipeline
 
