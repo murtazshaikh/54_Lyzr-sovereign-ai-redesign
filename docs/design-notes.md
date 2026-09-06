@@ -185,32 +185,9 @@ Three names on the source wall are omitted because they publish no
 vector mark that could be found: Firstsource, WTW and MSP Corp. Mixing
 a PNG into a row of crisp vectors would show at any zoom.
 
-## Stack section
-
-The source page shows the four layers as a card of four rows with an
-icon each. Here it is a **rail threaded through four nodes**: a single
-hairline running down the section with a circular node per layer. The
-rail says "stack"; four identical cards in a row would not, and that
-shape is on the watchlist above.
-
-- **Node colour follows the badge ladder.** Green for live, purple for
-  dated, slate for planned, so the section and the hero card read as
-  one system rather than two vocabularies.
-- **The rail is trimmed** at both ends so it starts and stops at a
-  node instead of floating past them.
-- **Heading is left-aligned.** The hero is asymmetric and the customer
-  wall is centred, so this is a third shape rather than a repeat.
-- **On mobile** the name, tagline, badge and body stack in that order
-  and the rail narrows from 40px to 28px.
-
-Two content notes: the hero keeps its compact stack card as a glance,
-and this section carries the detail, so they reinforce rather than
-repeat. The longer per-layer copy is Lyzr's own, restored from the
-source page.
-
 ## Build status
 
-Sections complete: announcement bar, sticky header with four mega menus, hero, partner row, customer wall, stack.
+Sections complete: announcement bar, sticky header with four mega menus, hero, partner row, customer wall.
 Page is 2224px at 1440, 18KB HTML and 5.3KB CSS gzipped, plus the 29KB font. Still no external scripts and no images. Hero is 884px tall at 1440, so it fits one screen.
 No horizontal overflow at 1440, 1280, 834 or 390.
 Payload 4.5KB HTML, 3.1KB CSS, both gzipped, plus a 29KB font.
