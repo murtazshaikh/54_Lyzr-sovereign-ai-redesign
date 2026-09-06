@@ -1,0 +1,198 @@
+---
+import { layers } from "../data/stack";
+import { icons } from "../data/icons";
+---
+
+<section class="stackview" id="stack">
+  <div class="shell">
+    <div class="stackview__head">
+      <p class="label reveal">The Lyzr Sovereign AI stack</p>
+      <h2 class="h2 stackview__title reveal" style="--reveal-delay:60ms">
+        What&rsquo;s live today, and what&rsquo;s coming next
+      </h2>
+    </div>
+
+    <!-- A rail threaded through four nodes, rather than four identical
+         cards in a row. The rail says "stack"; a grid would not. -->
+    <ol class="layers">
+      {layers.map((l, i) => (
+        <li
+          class:list={["lyr", `lyr--${l.status}`]}
+          style={`--reveal-delay:${80 + i * 70}ms`}
+        >
+          <div class="lyr__rail" aria-hidden="true">
+            <span class="lyr__node" set:html={icons[l.icon]} />
+          </div>
+
+          <div class="lyr__main reveal" style={`--reveal-delay:${80 + i * 70}ms`}>
+            <div class="lyr__top">
+              <h3 class="lyr__name">
+                {l.name}
+                <span class="lyr__tagline">{l.tagline}</span>
+              </h3>
+              <span class={`pill pill--${l.status}`}>
+                {l.status === "live" && <span class="dot" />}
+                {l.status === "dated" && <span class="dot dot--ring" />}
+                {l.label}
+              </span>
+            </div>
+            <p class="lyr__body">{l.body}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+
+    <p class="stackview__foot reveal">
+      Everything live today. Everything coming next.{" "}
+      <strong>Nothing leaving your walls.</strong>
+    </p>
+  </div>
+</section>
+
+<style>
+  .stackview {
+    padding-block: clamp(3.5rem, 1.5rem + 5vw, 6.5rem);
+    border-top: 1px solid var(--line);
+  }
+
+  /* Heading is left-aligned here. The hero is asymmetric and the
+     customer wall is centred, so this is a third shape rather than a
+     repeat of either. */
+  .stackview__head { max-width: 60ch; }
+  /* 20ch at display weight settles this into two lines. The container
+     width above is for the eyebrow; the title sets its own measure. */
+  .stackview__title {
+    margin-top: var(--s3);
+    max-width: 20ch;
+  }
+
+  /* Layers ----------------------------------------------------- */
+  .layers {
+    margin-top: clamp(2.5rem, 1.5rem + 3vw, 4rem);
+    counter-reset: layer;
+  }
+
+  .lyr {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: var(--s5);
+  }
+
+  /* Rail ------------------------------------------------------- */
+  .lyr__rail {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+  /* The line runs the full height of every row, then the first and
+     last are trimmed so the rail starts and stops at a node. */
+  .lyr__rail::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--line-strong);
+  }
+  .lyr:first-child .lyr__rail::before { top: 20px; }
+  .lyr:last-child  .lyr__rail::before { bottom: calc(100% - 20px); }
+
+  .lyr__node {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    margin-top: 0;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    background: var(--paper);
+    transition: border-color var(--d-mid) var(--ease),
+                background var(--d-mid) var(--ease),
+                transform var(--d-mid) var(--ease);
+  }
+  .lyr__node :global(svg) { width: 17px; height: 17px; }
+
+  /* Node colour follows the same ladder as the badges. */
+  .lyr--live    .lyr__node { color: var(--live); }
+  .lyr--dated   .lyr__node { color: var(--dated); }
+  .lyr--planned .lyr__node { color: var(--planned); }
+
+  /* Content ---------------------------------------------------- */
+  .lyr__main {
+    padding-block: var(--s5) var(--s6);
+    border-bottom: 1px solid var(--line);
+    min-width: 0;
+  }
+  .lyr:first-child .lyr__main { padding-top: 0; }
+  .lyr:last-child  .lyr__main { border-bottom: 0; padding-bottom: 0; }
+
+  .lyr__top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--s4);
+  }
+
+  .lyr__name {
+    font-size: clamp(1.0625rem, 0.98rem + 0.4vw, 1.25rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+    min-width: 0;
+  }
+  /* The tagline rides with the name, separated by a middot, and drops
+     to its own line when there is no room. */
+  .lyr__tagline {
+    color: var(--ink-45);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .lyr__tagline::before {
+    content: " · ";
+    color: var(--line-strong);
+  }
+
+  .lyr__body {
+    margin-top: var(--s2);
+    max-width: 64ch;
+    color: var(--ink-70);
+  }
+
+  .lyr .pill { flex: none; }
+
+  /* Hover: the node lifts and takes its status colour, the row warms. */
+  .lyr:hover .lyr__node {
+    transform: scale(1.06);
+    border-color: currentColor;
+    background: var(--wash);
+  }
+
+  .stackview__foot {
+    margin-top: clamp(2rem, 1rem + 2.5vw, 3.25rem);
+    padding-top: var(--s5);
+    border-top: 1px solid var(--line);
+    font-size: var(--t-lead);
+    color: var(--ink-45);
+    text-wrap: pretty;
+  }
+  .stackview__foot strong {
+    color: var(--purple-ink);
+    font-weight: 600;
+  }
+
+  @media (max-width: 620px) {
+    .lyr { grid-template-columns: 28px minmax(0, 1fr); gap: var(--s4); }
+    .lyr__node { width: 28px; height: 28px; }
+    .lyr__node :global(svg) { width: 14px; height: 14px; }
+    .lyr:first-child .lyr__rail::before { top: 14px; }
+    .lyr:last-child  .lyr__rail::before { bottom: calc(100% - 14px); }
+    .lyr__top { flex-direction: column; align-items: flex-start; gap: var(--s2); }
+    .lyr__tagline { display: block; }
+    .lyr__tagline::before { content: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lyr__node { transition: none; }
+  }
+</style>

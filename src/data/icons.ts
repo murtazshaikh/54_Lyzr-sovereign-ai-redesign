@@ -23,6 +23,9 @@ export const icons = {
   optimus: wrap(
     '<path d="M8 2v3M8 11v3M2 8h3M11 8h3M4 4l2 2M10 10l2 2M12 4l-2 2M6 10l-2 2"/>'
   ),
+  models: wrap(
+    '<circle cx="8" cy="4" r="2.1"/><circle cx="3.6" cy="11.5" r="2.1"/><circle cx="12.4" cy="11.5" r="2.1"/><path d="M6.6 5.6 5 9.5M9.4 5.6 11 9.5M5.7 11.5h4.6"/>'
+  ),
   play: wrap('<path d="M5.5 3.5v9l7-4.5z" fill="currentColor" stroke="none"/>'),
   external: wrap('<path d="M5 11l6-6M6 5h5v5"/>'),
 } as const;
