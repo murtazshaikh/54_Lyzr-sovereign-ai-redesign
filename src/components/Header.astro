@@ -23,8 +23,16 @@ const chev = `<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="
 <header class="head">
   <div class="shell head__inner">
     <a class="brand" href="/" aria-label="Lyzr home">
-      <span class="brand__mark" aria-hidden="true"></span>
-      <span class="brand__word">lyzr</span>
+      <img
+        class="brand__logo"
+        src="/images/lyzr-ink.webp"
+        width="240"
+        height="93"
+        alt="Lyzr"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+      />
     </a>
 
     <nav class="nav" aria-label="Primary">
@@ -247,17 +255,11 @@ const chev = `<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="
     gap: var(--s2);
     flex: none;
   }
-  .brand__mark {
-    width: 18px;
-    height: 18px;
-    border-radius: var(--r-sm);
-    background: var(--purple);
-    clip-path: polygon(0 0, 100% 0, 100% 62%, 62% 100%, 0 100%);
-  }
-  .brand__word {
-    font-size: 1.3125rem;
-    font-weight: 700;
-    letter-spacing: -0.05em;
+  /* Intrinsic size is declared so the header never shifts while the
+     logo loads, and height drives the display size. */
+  .brand__logo {
+    height: 30px;
+    width: auto;
   }
 
   /* Nav triggers ------------------------------------------------ */

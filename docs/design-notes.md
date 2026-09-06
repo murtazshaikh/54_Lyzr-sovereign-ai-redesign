@@ -428,6 +428,19 @@ acknowledges in place rather than navigating away and losing the page.
 `#cta` finally resolves. Every in-page anchor now lands on something,
 verified against the built page.
 
+## Logo
+
+Lyzr's own mark, in two variants from one source. The published file is
+white artwork on transparency (its `_dark` name means "for dark
+grounds"), so the header needs it recoloured to ink and the footer and
+resource covers take it as-is. 2.7KB each at 240px, which is past 2x
+for the 77px the header renders it at.
+
+Both carry their intrinsic `width` and `height`, so the header cannot
+shift while the logo loads. The header copy is `eager` with
+`fetchpriority="high"` since it is the first thing above the fold;
+every other instance is lazy.
+
 ## Anchor hygiene
 
 The built page is checked for duplicate ids and unresolved in-page

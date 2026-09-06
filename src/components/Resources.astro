@@ -29,9 +29,15 @@ import { resources } from "../data/resources";
                  mockup would be a 200KB image per card for something
                  that is, in the end, a title on a panel. -->
             <span class="cover" aria-hidden="true">
-              <span class="cover__mark">
-                <span class="cover__glyph"></span>lyzr
-              </span>
+              <img
+                class="cover__mark"
+                src="/images/lyzr-white.webp"
+                width="240"
+                height="93"
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
               <span class="cover__type">
                 <span class="cover__lead">{r.coverLead}</span>
                 <span class="cover__accent">{r.coverAccent}</span>
@@ -120,20 +126,9 @@ import { resources } from "../data/resources";
   }
 
   .cover__mark {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.9375rem;
-    font-weight: 700;
-    letter-spacing: -0.05em;
+    height: 20px;
+    width: auto;
     justify-self: end;
-  }
-  .cover__glyph {
-    width: 13px;
-    height: 13px;
-    border-radius: 3px;
-    background: var(--purple);
-    clip-path: polygon(0 0, 100% 0, 100% 62%, 62% 100%, 0 100%);
   }
 
   .cover__type { display: grid; gap: 2px; }

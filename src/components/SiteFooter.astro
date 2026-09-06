@@ -11,8 +11,14 @@ const year = new Date().getFullYear();
     <div class="foot__top">
       <div class="foot__brand">
         <a class="foot__logo" href="/" aria-label="Lyzr home">
-          <span class="foot__mark" aria-hidden="true"></span>
-          <span class="foot__word">lyzr</span>
+          <img
+            src="/images/lyzr-white.webp"
+            width="240"
+            height="93"
+            alt="Lyzr"
+            loading="lazy"
+            decoding="async"
+          />
         </a>
 
         <p class="foot__label">Address</p>
@@ -106,19 +112,8 @@ const year = new Date().getFullYear();
     gap: clamp(2.5rem, 1rem + 5vw, 5rem);
   }
 
-  .foot__logo {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--s2);
-    color: var(--paper);
-  }
-  .foot__mark {
-    width: 20px; height: 20px;
-    border-radius: var(--r-sm);
-    background: var(--purple);
-    clip-path: polygon(0 0, 100% 0, 100% 62%, 62% 100%, 0 100%);
-  }
-  .foot__word { font-size: 1.4375rem; font-weight: 700; letter-spacing: -0.05em; }
+  .foot__logo { display: inline-block; }
+  .foot__logo img { height: 34px; width: auto; }
 
   .foot__label {
     margin-top: var(--s6);
