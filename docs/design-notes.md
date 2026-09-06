@@ -299,6 +299,39 @@ then its check stroke draws along a dash offset, staggered 130ms apart,
 so the list reads as checks being performed rather than five bullets
 appearing. Under reduced motion the marks are simply present.
 
+## Customer stories
+
+A real scroll container, not a transform carousel, so trackpad, touch
+swipe, arrow buttons and keyboard all work with no extra code. The rail
+bleeds past the shell on the right, which is what tells a reader there
+is more without showing a scrollbar. Its left edge lines up exactly
+with the heading above it, verified at 140px on both.
+
+**A proportional indicator, not an "n of 5" counter.** The last card
+never becomes the leftmost one, so a count would claim a position the
+rail can never reach. The thumb's length is the share of the rail on
+screen and its offset is how far through that share you are.
+
+**Metrics and tags are pushed to the bottom of each card**, so those
+rows line up across cards even though the quotes differ in length.
+
+**The tags name capabilities from the governance matrix**, so the proof
+visibly points back at the product rather than floating free.
+
+### Two things worth remembering
+
+**Scroll-snap was removed, deliberately.** Once the trailing cards fit
+on screen, their snap positions sit past the maximum scroll, and the
+browser snaps backwards to the last reachable one. The rail visibly
+drifted off the end on its own, and the final cards could not be
+reached. `proximity` did not fix it. The buttons already land on exact
+card offsets, so snapping bought nothing and cost correctness.
+
+**The buttons step a tracked index** rather than recomputing position
+from `scrollLeft` on each click. Reading `scrollLeft` while a smooth
+scroll is still settling lands on the wrong card. Manual scrolling
+re-syncs the index once the rail comes to rest.
+
 ## Anchor hygiene
 
 The built page is checked for duplicate ids and unresolved in-page
@@ -309,7 +342,7 @@ remaining unresolved anchor and resolves when the closing section lands.
 
 ## Build status
 
-Sections complete: announcement bar, sticky header with four mega menus, hero, customer wall, stat band, why it matters, the four-step path, the full stack, the Optimus scale, governance.
+Sections complete: announcement bar, sticky header with four mega menus, hero, customer wall, stat band, why it matters, the four-step path, the full stack, the Optimus scale, governance, customer stories.
 Page is 2224px at 1440, 18KB HTML and 5.3KB CSS gzipped, plus the 29KB font. Still no external scripts and no images. Hero is 884px tall at 1440, so it fits one screen.
 No horizontal overflow at 1440, 1280, 834 or 390.
 Payload 4.5KB HTML, 3.1KB CSS, both gzipped, plus a 29KB font.
