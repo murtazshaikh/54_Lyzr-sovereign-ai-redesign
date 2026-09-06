@@ -49,6 +49,25 @@ Tells that make a site read as machine-generated, and where this build stands.
 | Centred everything, no asymmetry | To watch. Hero is asymmetric 1.05:0.95 |
 | Uniform section padding with no rhythm | To watch. Vary density between sections |
 
+## Review pass 1 — section 1
+
+Six issues found on first visual review and fixed.
+
+| Issue | Fix |
+|---|---|
+| Dead quadrant under the stack card | Trust row moved out of the grid to span the full shell |
+| Hero 1130px tall, only half a card above the fold | Display ceiling cut 76px to 66px, top padding reduced. Now 1003px |
+| Headline broke into four ragged lines | `max-width` moved to 17ch, settles into three full lines |
+| Green status pill sat outside the palette | Desaturated to `#35624f` on `#eff4f2` so it recedes |
+| Partner names were plain text at 42% opacity | Real monochrome SVG marks, inlined, about 4KB total |
+| Announcement bar lost its message on phones | Short variant swaps in under 1020px |
+
+Note on the Azure mark: the Wikimedia source layers four paths, two of
+which are shading overlays that flatten into noise in monochrome.
+Paths 0, 1 and 3 give the correct silhouette with its counter.
+
 ## Build status
 
-Section 1 of N complete: announcement bar, sticky header, hero.
+Section 1 complete: announcement bar, sticky header, hero, partner row.
+No horizontal overflow at 1440, 1280, 834 or 390.
+Payload 4.5KB HTML, 3.1KB CSS, both gzipped, plus a 29KB font.
