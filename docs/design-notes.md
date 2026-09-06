@@ -207,7 +207,12 @@ Three columns split by hairlines, not three rounded cards with icons.
 That card shape is on the watchlist above and it is exactly what a
 generated page reaches for.
 
-The columns share five grid rows through **subgrid**, so the icon,
+**Each figure draws itself.** A meter under every number fills to its
+value: 95% nearly closes, 100% closes, and 0% stays empty, which is the
+claim made visible rather than asserted. The fill rides the same reveal
+as its column, so it draws while the number counts rather than after.
+
+The columns share six grid rows through **subgrid**, so the icon,
 heading, body, figure and caption of all three sit on the same
 baselines however the copy wraps. Bottom-pinning the figure was tried
 first and was not enough: column one's caption wraps to two lines,

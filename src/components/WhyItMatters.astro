@@ -36,6 +36,9 @@ import { icons } from "../data/icons";
               <span data-count={r.value}>{r.value}</span
               ><span class="reason__suffix">{r.suffix}</span>
             </p>
+            <span class="meter" style={`--v:${r.value / 100}`} aria-hidden="true">
+              <i></i>
+            </span>
             <p class="reason__caption">{r.caption}</p>
           </div>
         </li>
@@ -98,14 +101,15 @@ import { icons } from "../data/icons";
          figure wrapper goes display:contents so its two children join
          the grid directly. Wrapping them in one row was not enough:
          a caption that wraps to two lines pushed its own number up. */
-      .reasons { grid-template-rows: auto auto 1fr auto auto; }
+      .reasons { grid-template-rows: auto auto 1fr auto auto auto; }
       .reason {
         display: grid;
         grid-template-rows: subgrid;
-        grid-row: span 5;
+        grid-row: span 6;
       }
       .reason__figure { display: contents; }
       .reason__value { margin-top: var(--s6); }
+      .meter { margin-top: var(--s4); }
       .reason__caption { margin-top: var(--s2); }
     }
   }
@@ -158,6 +162,31 @@ import { icons } from "../data/icons";
   }
   .reason__suffix { font-size: 0.62em; margin-left: 1px; }
 
+  /* Each figure draws itself. 95% nearly fills, 100% closes, and 0%
+     stays empty, which is the whole claim: nothing left. A number that
+     illustrates itself argues better than a number that is merely
+     large. */
+  .meter {
+    display: block;
+    height: 2px;
+    margin-top: var(--s4);
+    border-radius: 2px;
+    background: var(--line-strong);
+    overflow: hidden;
+  }
+  .meter i {
+    display: block;
+    height: 100%;
+    background: var(--purple);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 1100ms var(--ease-out);
+    transition-delay: calc(var(--reveal-delay, 0ms) + 220ms);
+  }
+  /* The fill rides the same reveal the column does, so it draws while
+     the number counts rather than after it. */
+  .reason.is-in .meter i { transform: scaleX(var(--v)); }
+
   .reason__caption {
     margin-top: var(--s2);
     font-size: var(--t-small);
@@ -165,6 +194,10 @@ import { icons } from "../data/icons";
     color: var(--ink-45);
     max-width: 34ch;
     text-wrap: pretty;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .meter i { transition: none; transform: scaleX(var(--v)); }
   }
 
   @media (max-width: 880px) {
