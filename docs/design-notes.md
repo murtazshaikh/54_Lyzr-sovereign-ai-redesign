@@ -277,6 +277,28 @@ track with four stops that fills up to wherever you are.
 - All four panels share a grid cell and measure 372px, so switching
   never shifts the page.
 
+## Governance
+
+Two moves here, both about saying more than the source does with the
+same content.
+
+**The six controls are ordered by lifecycle, not by their listing
+order, and each carries the stage it runs in.** Before production, in
+production, every decision. The section's own copy already claims
+governance "runs automatically, before production, in production, and
+in every decision", so the matrix now demonstrates that claim instead
+of sitting next to it. Six generic capability cards became a matrix
+that answers when as well as what.
+
+**The controls are one matrix, not six cards.** A 1px grid gap over a
+`--line` background draws every rule, so there are no doubled borders
+between cells and the block reads as a single table.
+
+**The checklist is drawn, not faded.** Each tick's ring scales in and
+then its check stroke draws along a dash offset, staggered 130ms apart,
+so the list reads as checks being performed rather than five bullets
+appearing. Under reduced motion the marks are simply present.
+
 ## Anchor hygiene
 
 The built page is checked for duplicate ids and unresolved in-page
@@ -287,7 +309,7 @@ remaining unresolved anchor and resolves when the closing section lands.
 
 ## Build status
 
-Sections complete: announcement bar, sticky header with four mega menus, hero, customer wall, stat band, why it matters, the four-step path, the full stack, the Optimus scale.
+Sections complete: announcement bar, sticky header with four mega menus, hero, customer wall, stat band, why it matters, the four-step path, the full stack, the Optimus scale, governance.
 Page is 2224px at 1440, 18KB HTML and 5.3KB CSS gzipped, plus the 29KB font. Still no external scripts and no images. Hero is 884px tall at 1440, so it fits one screen.
 No horizontal overflow at 1440, 1280, 834 or 390.
 Payload 4.5KB HTML, 3.1KB CSS, both gzipped, plus a 29KB font.

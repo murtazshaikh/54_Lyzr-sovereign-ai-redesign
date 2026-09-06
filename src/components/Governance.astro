@@ -1,0 +1,215 @@
+---
+import { claims, controls } from "../data/governance";
+import { icons } from "../data/icons";
+
+// The tick is drawn rather than faded in, so it needs its own markup
+// with a known path length to animate the stroke against.
+const tick = `<svg class="tick" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+  <circle class="tick__ring" cx="9" cy="9" r="7.4" stroke="currentColor" stroke-width="1.3" />
+  <path class="tick__mark" d="M5.9 9.3 8.1 11.5 12.2 6.9"
+    stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+</svg>`;
+---
+
+<section class="gov" id="governance">
+  <div class="shell">
+    <div class="gov__head">
+      <p class="label gov__eyebrow reveal">
+        <span class="gov__dot" aria-hidden="true"></span>
+        Governance
+      </p>
+      <h2 class="h2 gov__title reveal" style="--reveal-delay:60ms">
+        Governance in your hands. Accountability in every decision
+      </h2>
+      <p class="lead gov__lead reveal" style="--reveal-delay:120ms">
+        When your board asks who is accountable for an AI decision, the
+        answer needs to be you, not a vendor, not a shared infrastructure
+        provider, not a black box. Lyzr&rsquo;s governance layer makes
+        accountability structurally true.
+      </p>
+    </div>
+
+    <div class="gov__grid">
+      <div class="gov__claim">
+        <h3 class="gov__claim-title reveal">
+          What governance actually means at the infrastructure level.
+        </h3>
+        <p class="gov__claim-body reveal" style="--reveal-delay:60ms">
+          Every agent deployed on Lyzr carries a governance posture that
+          runs automatically, before production, in production, and in
+          every decision your agents make. Not a policy document. An
+          architectural fact.
+        </p>
+
+        <ul class="checks reveal" style="--reveal-delay:120ms">
+          {claims.map((c, i) => (
+            <li class="check" style={`--n:${i}`}>
+              <Fragment set:html={tick} />
+              {c}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- A matrix with shared hairlines rather than six separate
+           cards, and each cell carries the stage it runs in, so the
+           block says when as well as what. -->
+      <ol class="matrix">
+        {controls.map((c, i) => (
+          <li class="ctl reveal" style={`--reveal-delay:${i * 60}ms`}>
+            <span class="ctl__ico" set:html={icons[c.icon]} />
+            <p class="ctl__stage">{c.stage}</p>
+            <h4 class="ctl__title">{c.title}</h4>
+            <p class="ctl__body">{c.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .gov {
+    padding-block: clamp(3.5rem, 1.5rem + 5vw, 7rem);
+    background: var(--wash);
+    border-top: 1px solid var(--line);
+  }
+
+  .gov__head {
+    max-width: 64ch;
+    margin-inline: auto;
+    text-align: center;
+  }
+  .gov__eyebrow { display: inline-flex; align-items: center; gap: var(--s2); }
+  .gov__dot { width: 6px; height: 6px; border-radius: 50%; background: var(--purple); }
+  .gov__title { margin-top: var(--s3); max-width: 22ch; margin-inline: auto; }
+  .gov__lead  { margin-top: var(--s5); }
+
+  .gov__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+    gap: clamp(2.5rem, 1rem + 5vw, 5rem);
+    align-items: start;
+    margin-top: clamp(3rem, 1.5rem + 4vw, 5rem);
+  }
+
+  .gov__claim-title {
+    font-size: clamp(1.25rem, 1.05rem + 0.9vw, 1.625rem);
+    font-weight: 600;
+    letter-spacing: -0.028em;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+  .gov__claim-body {
+    margin-top: var(--s4);
+    color: var(--ink-70);
+    text-wrap: pretty;
+  }
+
+  /* Checklist ---------------------------------------------------- */
+  .checks {
+    display: grid;
+    gap: var(--s4);
+    margin-top: var(--s6);
+  }
+  .check {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s3);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--ink-70);
+  }
+  .check :global(.tick) {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    color: var(--purple);
+  }
+
+  /* The tick is drawn in, one after another, so the list reads as a
+     check being performed rather than a static set of bullets. */
+  .checks.is-in :global(.tick__ring) {
+    animation: ring-in 420ms var(--ease) both;
+    animation-delay: calc(var(--n) * 130ms);
+  }
+  .checks.is-in :global(.tick__mark) {
+    stroke-dasharray: 12;
+    stroke-dashoffset: 12;
+    animation: mark-draw 340ms var(--ease) both;
+    animation-delay: calc(var(--n) * 130ms + 160ms);
+  }
+  @keyframes ring-in {
+    from { opacity: 0; transform: scale(0.6); transform-origin: center; }
+    to   { opacity: 1; transform: none; }
+  }
+  @keyframes mark-draw { to { stroke-dashoffset: 0; } }
+
+  /* Control matrix ----------------------------------------------- */
+  .matrix {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    /* 1px gaps let the background show through as the grid rules,
+       so there are no doubled borders between cells. */
+    gap: 1px;
+  }
+
+  .ctl {
+    display: grid;
+    align-content: start;
+    gap: var(--s2);
+    padding: clamp(1.25rem, 0.75rem + 1.4vw, 1.75rem);
+    background: var(--paper);
+    transition: background var(--d-mid) var(--ease);
+  }
+  .ctl:hover { background: var(--wash); }
+
+  .ctl__ico {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    margin-bottom: var(--s2);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-md);
+    color: var(--purple);
+  }
+  .ctl__ico :global(svg) { width: 16px; height: 16px; }
+
+  .ctl__stage {
+    font-size: var(--t-label);
+    font-weight: 600;
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-45);
+  }
+  .ctl__title {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -0.018em;
+  }
+  .ctl__body {
+    font-size: var(--t-small);
+    line-height: 1.45;
+    color: var(--ink-45);
+    text-wrap: pretty;
+  }
+
+  @media (max-width: 940px) {
+    .gov__grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .matrix { grid-template-columns: 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .checks.is-in :global(.tick__ring),
+    .checks.is-in :global(.tick__mark) { animation: none; }
+    .checks :global(.tick__mark) { stroke-dashoffset: 0; }
+  }
+</style>

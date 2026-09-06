@@ -32,6 +32,11 @@ export const icons = {
   audit: wrap(
     '<rect x="2.6" y="2.2" width="10.8" height="11.6" rx="1.4"/><path d="M5.6 7.6l1.5 1.5 3.3-3.3"/>'
   ),
+  shield: wrap('<path d="M8 1.8 13 3.6v4.1c0 3.2-2.1 5.4-5 6.5-2.9-1.1-5-3.3-5-6.5V3.6z"/><path d="M5.9 7.9l1.5 1.5 2.8-2.9"/>'),
+  search: wrap('<circle cx="7.1" cy="7.1" r="4.3"/><path d="M10.3 10.3 13.6 13.6"/>'),
+  scales: wrap('<path d="M8 2.4v11.2M4.2 3.6h7.6M2 12.2h4M10 12.2h4"/><path d="M4 4.2 2 9.4h4zM12 4.2l-2 5.2h4z"/>'),
+  doc: wrap('<path d="M9.2 1.9H4.6a1.3 1.3 0 0 0-1.3 1.3v9.6a1.3 1.3 0 0 0 1.3 1.3h6.8a1.3 1.3 0 0 0 1.3-1.3V5.2z"/><path d="M9.2 1.9v3.3h3.5"/><path d="M5.8 9h4.4M5.8 11.3h3"/>'),
+  flask: wrap('<path d="M6.4 1.9v3.7L3.1 11.6a1.3 1.3 0 0 0 1.1 2h7.6a1.3 1.3 0 0 0 1.1-2L9.6 5.6V1.9"/><path d="M5.6 1.9h4.8M4.6 9.6h6.8"/>'),
   check: wrap('<circle cx="8" cy="8" r="6.4"/><path d="M5.5 8.2l1.8 1.8 3.4-3.6"/>'),
   play: wrap('<path d="M5.5 3.5v9l7-4.5z" fill="currentColor" stroke="none"/>'),
   external: wrap('<path d="M5 11l6-6M6 5h5v5"/>'),
