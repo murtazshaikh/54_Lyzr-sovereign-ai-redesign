@@ -49,6 +49,51 @@ const { title, description } = Astro.props;
       } else {
         items.forEach((el) => el.classList.add("is-in"));
       }
+
+      // Count-up. Any element with data-count animates from 0 to that
+      // value once, when it first scrolls into view. Reduced motion and
+      // a zero target both land on the final string immediately.
+      const nums = document.querySelectorAll<HTMLElement>("[data-count]");
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      const render = (el: HTMLElement, v: number) => {
+        const dp = Number(el.dataset.decimals ?? 0);
+        el.textContent = v.toLocaleString("en-US", {
+          minimumFractionDigits: dp,
+          maximumFractionDigits: dp,
+        });
+      };
+
+      const run = (el: HTMLElement) => {
+        const target = Number(el.dataset.count);
+        if (reduce || !target) return render(el, target);
+
+        const dur = 1100;
+        const t0 = performance.now();
+        const tick = (now: number) => {
+          const p = Math.min(1, (now - t0) / dur);
+          // same curve as the CSS easing, so motion feels of a piece
+          const eased = 1 - Math.pow(1 - p, 3);
+          render(el, target * eased);
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      };
+
+      if (nums.length && !reduce) {
+        nums.forEach((el) => render(el, 0));
+        const io2 = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (!e.isIntersecting) continue;
+              run(e.target as HTMLElement);
+              io2.unobserve(e.target);
+            }
+          },
+          { threshold: 0.4 }
+        );
+        nums.forEach((el) => io2.observe(el));
+      }
     </script>
   </body>
 </html>

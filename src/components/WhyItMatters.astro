@@ -1,0 +1,180 @@
+---
+import { reasons } from "../data/proof";
+import { icons } from "../data/icons";
+---
+
+<section class="why" id="why">
+  <div class="shell">
+    <div class="why__head">
+      <p class="label why__eyebrow reveal">
+        <span class="why__dot" aria-hidden="true"></span>
+        Why it matters for you
+      </p>
+      <h2 class="h2 why__title reveal" style="--reveal-delay:60ms">
+        Three reasons your enterprise can&rsquo;t afford to wait
+      </h2>
+      <p class="lead why__lead reveal" style="--reveal-delay:120ms">
+        The enterprises moving to sovereign AI are not doing it because
+        they read a trend report. They are doing it because the
+        consequences of not owning their AI infrastructure are showing up
+        in their P&amp;L, their risk register, and their board room.
+      </p>
+    </div>
+
+    <!-- Three columns split by hairlines, not three bordered cards.
+         The figures are pinned to the bottom so they line up across
+         all three regardless of how the copy wraps. -->
+    <ol class="reasons">
+      {reasons.map((r, i) => (
+        <li class="reason reveal" style={`--reveal-delay:${80 + i * 90}ms`}>
+          <span class="reason__ico" set:html={icons[r.icon]} />
+          <h3 class="reason__title">{r.title}</h3>
+          <p class="reason__body">{r.body}</p>
+
+          <div class="reason__figure">
+            <p class="reason__value">
+              <span data-count={r.value}>{r.value}</span
+              ><span class="reason__suffix">{r.suffix}</span>
+            </p>
+            <p class="reason__caption">{r.caption}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .why {
+    padding-block: clamp(3.5rem, 1.5rem + 5vw, 7rem);
+    background: var(--wash);
+    border-top: 1px solid var(--line);
+  }
+
+  .why__head {
+    max-width: 62ch;
+    margin-inline: auto;
+    text-align: center;
+  }
+  .why__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s2);
+  }
+  .why__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--purple);
+  }
+  .why__title {
+    margin-top: var(--s3);
+    max-width: 20ch;
+    margin-inline: auto;
+  }
+  .why__lead { margin-top: var(--s5); }
+
+  /* Reasons ----------------------------------------------------- */
+  .reasons {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: clamp(2.75rem, 1.5rem + 4vw, 5rem);
+  }
+
+  .reason {
+    display: flex;
+    flex-direction: column;
+    padding-inline: clamp(1.25rem, 0.5rem + 2.2vw, 2.75rem);
+    border-left: 1px solid var(--line-strong);
+  }
+
+  /* Subgrid lets the icon, heading, body and figure of all three
+     columns share rows, so the three numbers sit on one baseline no
+     matter how the copy above them wraps. Bottom-pinning alone could
+     not do that, because the captions are different lengths. */
+  @supports (grid-template-rows: subgrid) {
+    @media (min-width: 881px) {
+      /* Five shared rows: icon, heading, body, value, caption. The
+         figure wrapper goes display:contents so its two children join
+         the grid directly. Wrapping them in one row was not enough:
+         a caption that wraps to two lines pushed its own number up. */
+      .reasons { grid-template-rows: auto auto 1fr auto auto; }
+      .reason {
+        display: grid;
+        grid-template-rows: subgrid;
+        grid-row: span 5;
+      }
+      .reason__figure { display: contents; }
+      .reason__value { margin-top: var(--s6); }
+      .reason__caption { margin-top: var(--s2); }
+    }
+  }
+  .reason:first-child { padding-left: 0; border-left: 0; }
+  .reason:last-child  { padding-right: 0; }
+
+  .reason__ico {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-md);
+    background: var(--paper);
+    color: var(--purple);
+  }
+  .reason__ico :global(svg) { width: 17px; height: 17px; }
+
+  .reason__title {
+    margin-top: var(--s5);
+    font-size: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.022em;
+    text-wrap: balance;
+  }
+
+  .reason__body {
+    margin-top: var(--s3);
+    color: var(--ink-70);
+    text-wrap: pretty;
+  }
+
+  /* margin-top:auto pins the figure to the bottom, so the three
+     numbers sit on one line however the copy above them wraps. */
+  .reason__figure {
+    margin-top: auto;
+    padding-top: var(--s6);
+  }
+
+  .reason__value {
+    display: flex;
+    align-items: baseline;
+    font-size: clamp(2rem, 1.4rem + 2vw, 2.75rem);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: var(--purple-ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .reason__suffix { font-size: 0.62em; margin-left: 1px; }
+
+  .reason__caption {
+    margin-top: var(--s2);
+    font-size: var(--t-small);
+    line-height: 1.45;
+    color: var(--ink-45);
+    max-width: 34ch;
+    text-wrap: pretty;
+  }
+
+  @media (max-width: 880px) {
+    .reasons { grid-template-columns: 1fr; gap: var(--s8); }
+    .reason {
+      padding: 0 0 var(--s8);
+      border-left: 0;
+      border-bottom: 1px solid var(--line-strong);
+    }
+    .reason:last-child { padding-bottom: 0; border-bottom: 0; }
+    .reason__figure { padding-top: var(--s5); }
+  }
+</style>

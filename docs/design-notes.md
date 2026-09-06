@@ -183,9 +183,40 @@ Three names on the source wall are omitted because they publish no
 vector mark that could be found: Firstsource, WTW and MSP Corp. Mixing
 a PNG into a row of crisp vectors would show at any zoom.
 
+## Stat band
+
+Five figures divided by hairlines rather than five bordered cards, each
+under the same short purple tick the mega menu column titles use.
+Numbers use `tabular-nums` so they do not jitter while counting.
+
+## Why it matters
+
+Three columns split by hairlines, not three rounded cards with icons.
+That card shape is on the watchlist above and it is exactly what a
+generated page reaches for.
+
+The columns share five grid rows through **subgrid**, so the icon,
+heading, body, figure and caption of all three sit on the same
+baselines however the copy wraps. Bottom-pinning the figure was tried
+first and was not enough: column one's caption wraps to two lines,
+which pushed its own number up by 20px. Splitting value and caption
+into their own shared rows, with the wrapper set to `display: contents`
+so its children join the grid, fixes it. Below 881px the columns stack
+and the subgrid block does not apply.
+
+## Count-up
+
+One implementation in the layout serves both sections. Any element with
+`data-count` animates from zero once, when it first enters view, on the
+same cubic curve as the CSS easing so the motion feels of a piece.
+
+Under `prefers-reduced-motion` the numbers are never blanked in the
+first place, so a reader who has asked for stillness sees the real
+figure immediately rather than a zero that never animates.
+
 ## Build status
 
-Sections complete: announcement bar, sticky header with four mega menus, hero, partner row, customer wall.
+Sections complete: announcement bar, sticky header with four mega menus, hero, customer wall, stat band, why it matters.
 Page is 2224px at 1440, 18KB HTML and 5.3KB CSS gzipped, plus the 29KB font. Still no external scripts and no images. Hero is 884px tall at 1440, so it fits one screen.
 No horizontal overflow at 1440, 1280, 834 or 390.
 Payload 4.5KB HTML, 3.1KB CSS, both gzipped, plus a 29KB font.

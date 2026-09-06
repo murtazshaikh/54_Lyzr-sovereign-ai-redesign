@@ -23,6 +23,15 @@ export const icons = {
   optimus: wrap(
     '<path d="M8 2v3M8 11v3M2 8h3M11 8h3M4 4l2 2M10 10l2 2M12 4l-2 2M6 10l-2 2"/>'
   ),
+  cost: wrap(
+    '<path d="M8 1.6v12.8"/><path d="M10.9 4.1H6.6a1.9 1.9 0 0 0 0 3.8h2.8a1.9 1.9 0 0 1 0 3.8H4.8"/>'
+  ),
+  lock: wrap(
+    '<rect x="2.8" y="6.9" width="10.4" height="7.1" rx="1.4"/><path d="M5.4 6.9V4.8a2.6 2.6 0 0 1 5.2 0v2.1"/>'
+  ),
+  audit: wrap(
+    '<rect x="2.6" y="2.2" width="10.8" height="11.6" rx="1.4"/><path d="M5.6 7.6l1.5 1.5 3.3-3.3"/>'
+  ),
   play: wrap('<path d="M5.5 3.5v9l7-4.5z" fill="currentColor" stroke="none"/>'),
   external: wrap('<path d="M5 11l6-6M6 5h5v5"/>'),
 } as const;
