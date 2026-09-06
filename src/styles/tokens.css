@@ -32,9 +32,16 @@
   --line:         rgba(19, 17, 42, 0.08);
   --line-strong:  rgba(19, 17, 42, 0.16);
 
-  /* Signal ---------------------------------------------------- */
-  --live:         #35624f;   /* desaturated, sits back on white */
+  /* Signal ----------------------------------------------------
+     Three states, three jobs:
+       live    shipped and running        green,  solid dot
+       dated   has a ship date, orderable purple, ring dot
+       planned no date committed          slate,  no dot
+     All three clear 4.5:1 on their own ground.                   */
+  --live:         #35624f;   /* 6.3:1 on --live-wash             */
   --live-wash:    #eff4f2;
+  --planned:      #5b6480;   /* 5.3:1 on --planned-wash          */
+  --planned-wash: rgba(19, 17, 42, 0.05);
 
   /* Type ------------------------------------------------------ */
   --font: "Instrument Sans", ui-sans-serif, system-ui, -apple-system,

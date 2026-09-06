@@ -18,13 +18,13 @@ const layers = [
     name: "Lyzr LLMs",
     desc: "Open source models built for responsible AI.",
     status: "Coming",
-    tone: "soon",
+    tone: "planned",
   },
   {
     name: "Lyzr Optimus",
     desc: "On-prem appliance. Air-gapped. No external calls.",
     status: "Shipping Q4",
-    tone: "soon",
+    tone: "dated",
     featured: true,
   },
 ];
@@ -68,6 +68,7 @@ const layers = [
                   <span class="layer__name">{layer.name}</span>
                   <span class={`pill pill--${layer.tone}`}>
                     {layer.tone === "live" && <span class="dot" />}
+                    {layer.tone === "dated" && <span class="dot dot--ring" />}
                     {layer.status}
                   </span>
                 </div>

@@ -100,6 +100,23 @@ layer genuinely floats. Column titles carry a short purple rule.
 - **Panel widths** 560 / 780 / 1040. Tinted first columns get 1.35fr.
   Titles and plain labels never wrap; described labels may.
 
+## Status badges
+
+Three states doing three different jobs, so each gets its own colour
+and its own dot. The dot carries the meaning too, so the ladder still
+reads with colour stripped out.
+
+| State | Meaning | Colour | Dot | Contrast |
+|---|---|---|---|---|
+| Live | Shipped and running | Green `#35624f` | Solid | 6.3:1 |
+| Shipping Q4 | Dated, pre-orderable | Purple `#2e2270` | Ring | 11.4:1 |
+| Coming | No date committed | Slate `#5b6480` | None | 5.3:1 |
+
+Before this, Coming and Shipping Q4 shared one purple, which flattened
+a real distinction: one is orderable today, the other has no date.
+Purple is now spent on the state the page is actually selling, and the
+hollow dot says dated but not yet true.
+
 ## Build status
 
 Section 1 complete after three review passes: announcement bar, sticky header with four mega menus, hero, partner row. Hero is 884px tall at 1440, so it fits one screen.
