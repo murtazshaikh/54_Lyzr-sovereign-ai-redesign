@@ -1,4 +1,5 @@
 ---
+import { ekg } from "../data/ekg";
 const layers = [
   {
     name: "Lyzr Agent Platform",
@@ -64,8 +65,8 @@ const layers = [
               <li class:list={["layer", { "layer--featured": layer.featured }]} style={`--i:${i}`}>
                 <div class="layer__top">
                   <span class="layer__name">{layer.name}</span>
-                  <span class={`pill pill--${layer.tone}`}>
-                    {layer.tone === "live" && <span class="dot" />}
+                  <span class={`pill pill--${layer.tone}`} style={`--beat-offset:${i * 420}ms`}>
+                    {layer.tone === "live" && <Fragment set:html={ekg} />}
                     {layer.tone === "dated" && <span class="dot dot--ring" />}
                     {layer.status}
                   </span>

@@ -185,8 +185,7 @@ a PNG into a row of crisp vectors would show at any zoom.
 
 ## Stat band
 
-Five figures divided by hairlines rather than five bordered cards, each
-under the same short purple tick the mega menu column titles use.
+Five figures divided by hairlines rather than five bordered cards.
 Numbers use `tabular-nums` so they do not jitter while counting.
 
 ## Why it matters
@@ -468,6 +467,34 @@ turbulence, no request.
 
 **Anchors now clear the sticky header.** `scroll-padding-top` on the
 root, verified at 96px of clearance.
+
+## Status motion
+
+The three states carry a motion ladder that mirrors the colour ladder:
+
+| State | Colour | Dot | Motion |
+|---|---|---|---|
+| Live | Green | Heartbeat trace | Sweeping |
+| Shipping Q4 | Purple | Ring | One slow outward pulse |
+| Coming | Slate | None | None |
+
+**The row that has committed to nothing does not move.** Movement means
+something here, so it is spent only where there is something to say.
+
+The live trace is drawn the way a monitor draws: a dim resting line
+with a lit segment travelling along it, not a line that blinks. The
+path declares `pathLength="100"`, so the sweep is expressed in
+percentages and the waveform can be redrawn without recomputing any
+animation values.
+
+It is one tall spike, not a full PQRST cycle. The complete waveform was
+legible drawn large and mush at 30px, where the P and T waves collapsed
+into noise around the spike. Cutting to the single feature that has to
+survive let it be twice as tall in the same space.
+
+The two live rows are offset by 420ms so they do not sweep in lockstep,
+which would read as one synchronised widget rather than two independent
+services.
 
 ## Mega menu
 

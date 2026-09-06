@@ -7,7 +7,6 @@ import { stats } from "../data/proof";
     <dl class="band__grid">
       {stats.map((s, i) => (
         <div class="stat reveal" style={`--reveal-delay:${i * 70}ms`}>
-          <span class="stat__rule" aria-hidden="true"></span>
           <dt class="stat__value">
             <span data-count={s.value}>{s.value.toLocaleString("en-US")}</span
             ><span class="stat__suffix">{s.suffix}</span>
@@ -39,17 +38,6 @@ import { stats } from "../data/proof";
   }
   .stat:first-child { padding-left: 0; border-left: 0; }
   .stat:last-child  { padding-right: 0; }
-
-  /* A short purple tick above each figure, the same mark the mega
-     menu column titles use. */
-  .stat__rule {
-    display: block;
-    width: 18px;
-    height: 2px;
-    background: var(--purple);
-    opacity: 0.75;
-    margin-bottom: var(--s4);
-  }
 
   .stat__value {
     display: flex;

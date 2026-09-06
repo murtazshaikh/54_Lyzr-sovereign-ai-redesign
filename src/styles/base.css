@@ -180,6 +180,48 @@ button { font: inherit; color: inherit; }
   box-shadow: inset 0 0 0 1.5px currentColor;
 }
 
+/* Motion ladder, matching the colour ladder.
+     live     a heartbeat trace, drawn the way a monitor draws it
+     dated    one slow outward pulse, because something is coming
+     planned  nothing at all, because nothing is committed
+   Movement carries meaning here, so the row that has committed to
+   nothing does not move. */
+
+.ekg {
+  width: 30px;
+  height: 13px;
+  flex: none;
+  overflow: visible;
+}
+.ekg__base { opacity: 0.28; }
+/* The lit segment is 18% of the path and travels its whole length,
+   leaving the dim trace behind it. */
+.ekg__lit {
+  stroke-dasharray: 22 100;
+  stroke-dashoffset: 100;
+  animation: ekg-sweep 2.6s linear infinite;
+  animation-delay: var(--beat-offset, 0ms);
+}
+@keyframes ekg-sweep {
+  to { stroke-dashoffset: -22; }
+}
+
+.pill--dated .dot { position: relative; }
+.pill--dated .dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1.5px var(--dated-dot);
+  animation: dot-wait 3.4s var(--ease-out) infinite;
+  animation-delay: var(--beat-offset, 0ms);
+}
+@keyframes dot-wait {
+  0%   { transform: scale(1);   opacity: 0.5; }
+  55%  { transform: scale(2.6); opacity: 0; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+
 /* Links that sweep rather than blink ---------------------------- */
 
 .sweep {
@@ -240,6 +282,8 @@ button { font: inherit; color: inherit; }
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .split { opacity: 1; }
+  .ekg__lit { animation: none; stroke-dasharray: none; stroke-dashoffset: 0; opacity: 0.75; }
+  .pill--dated .dot::after { animation: none; }
   .ln__i { transform: none; transition: none; }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
