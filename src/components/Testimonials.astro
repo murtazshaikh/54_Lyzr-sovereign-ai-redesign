@@ -1,0 +1,98 @@
+---
+import { testimonials } from "../data/testimonials";
+---
+
+<section class="voices" id="voices">
+  <div class="shell">
+    <div class="voices__head">
+      <p class="label voices__eyebrow reveal">
+        <span class="voices__dot" aria-hidden="true"></span>
+        What leaders say
+      </p>
+      <h2 class="h2 voices__title reveal" style="--reveal-delay:60ms">
+        Words from the people who made the call
+      </h2>
+    </div>
+
+    <!-- Full-width rows rather than three cards. These are three
+         C-level statements of the same weight, so they get equal
+         column-free space and the attribution sits opposite. -->
+    <ol class="quotes">
+      {testimonials.map((t, i) => (
+        <li class="quote reveal" style={`--reveal-delay:${80 + i * 80}ms`}>
+          <span class="quote__mark" aria-hidden="true">&ldquo;</span>
+          <blockquote class="quote__text">{t.quote}</blockquote>
+          <div class="quote__who">
+            <p class="quote__role">{t.role}</p>
+            <p class="quote__org">{t.org}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .voices {
+    padding-block: clamp(3.5rem, 1.5rem + 5vw, 7rem);
+    background: var(--wash);
+    border-top: 1px solid var(--line);
+  }
+
+  .voices__head { max-width: 60ch; }
+  .voices__eyebrow { display: inline-flex; align-items: center; gap: var(--s2); }
+  .voices__dot { width: 6px; height: 6px; border-radius: 50%; background: var(--purple); }
+  .voices__title { margin-top: var(--s3); max-width: 20ch; }
+
+  .quotes { margin-top: clamp(2.5rem, 1.5rem + 3vw, 4rem); }
+
+  .quote {
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr) minmax(0, 17rem);
+    align-items: start;
+    gap: clamp(1.25rem, 0.5rem + 2vw, 3rem);
+    padding-block: clamp(1.75rem, 1rem + 2vw, 2.75rem);
+    border-top: 1px solid var(--line-strong);
+  }
+  .quote:last-child { border-bottom: 1px solid var(--line-strong); }
+
+  /* The quote mark is set as a real glyph at display size, not an
+     icon, so it carries the typographic weight of the row. */
+  .quote__mark {
+    font-size: 3.5rem;
+    line-height: 0.8;
+    font-weight: 600;
+    color: var(--purple);
+    opacity: 0.32;
+    transition: opacity var(--d-mid) var(--ease);
+  }
+  .quote:hover .quote__mark { opacity: 1; }
+
+  .quote__text {
+    font-size: clamp(1.0625rem, 0.95rem + 0.65vw, 1.375rem);
+    line-height: 1.45;
+    letter-spacing: -0.014em;
+    color: var(--ink);
+    text-wrap: pretty;
+  }
+
+  .quote__who { padding-top: var(--s1); }
+  .quote__role {
+    font-weight: 600;
+    letter-spacing: -0.014em;
+  }
+  .quote__org {
+    margin-top: var(--s1);
+    font-size: var(--t-small);
+    color: var(--ink-45);
+  }
+
+  @media (max-width: 860px) {
+    .quote {
+      grid-template-columns: 2.25rem minmax(0, 1fr);
+      gap: var(--s4);
+    }
+    .quote__mark { font-size: 2.5rem; }
+    .quote__who { grid-column: 2; padding-top: var(--s4); }
+  }
+</style>

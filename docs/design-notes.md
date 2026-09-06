@@ -345,6 +345,32 @@ selects the wrong card.
 the browser compute `overflow-y: auto` too, so the vertical padding
 became a small scrollable strip inside the component.
 
+## Testimonials
+
+Full-width rows, not three cards. These are three C-level statements of
+equal weight, so none of them earns a column of its own: each gets the
+full measure, with the attribution set opposite and a hairline between.
+The quote mark is a real glyph at display size rather than an icon, so
+it carries the typographic weight of the row, and it lifts from 32% to
+full opacity on hover.
+
+## Recognition and compliance
+
+**The laurel is generated, not drawn.** Leaves are placed along an arc
+by formula so both sprigs mirror exactly, which hand-placed coordinates
+never quite do. The first attempt hugged the stem too closely and read
+as a pair of parentheses; splaying the leaves 40 degrees off the
+tangent fixed it. The whole wreath is about 2KB of inline SVG and is
+reused six times.
+
+**The wreath frames the award title** rather than sitting beside it, so
+it reads as a badge. That constrains the title's measure: it must stay
+narrower than the wreath's inner opening or the words collide with the
+leaves. Verified that all six titles sit inside their wreath.
+
+No analyst logos are faked. The laurel is a generic motif; the
+recognitions are set typographically.
+
 ## Anchor hygiene
 
 The built page is checked for duplicate ids and unresolved in-page
@@ -355,7 +381,7 @@ remaining unresolved anchor and resolves when the closing section lands.
 
 ## Build status
 
-Sections complete: announcement bar, sticky header with four mega menus, hero, customer wall, stat band, why it matters, the four-step path, the full stack, the Optimus scale, governance, customer stories.
+Sections complete: announcement bar, sticky header with four mega menus, hero, customer wall, stat band, why it matters, the four-step path, the full stack, the Optimus scale, governance, customer stories, testimonials, recognition and compliance.
 Page is 2224px at 1440, 18KB HTML and 5.3KB CSS gzipped, plus the 29KB font. Still no external scripts and no images. Hero is 884px tall at 1440, so it fits one screen.
 No horizontal overflow at 1440, 1280, 834 or 390.
 Payload 4.5KB HTML, 3.1KB CSS, both gzipped, plus a 29KB font.
