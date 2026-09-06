@@ -134,11 +134,15 @@ button { font: inherit; color: inherit; }
 }
 
 .pill--live    { background: var(--live-wash);    color: var(--live); }
-.pill--dated   { background: var(--wash-deep);    color: var(--purple-ink); }
+.pill--dated   { background: var(--dated-wash);   color: var(--dated); }
 .pill--planned { background: var(--planned-wash); color: var(--planned); }
 
+/* The dot outruns the text it sits beside. */
+.pill--live  .dot { background: var(--live-dot); }
+.pill--dated .dot { box-shadow: inset 0 0 0 1.5px var(--dated-dot); }
+
 .dot {
-  width: 5px; height: 5px;
+  width: 6px; height: 6px;
   border-radius: 50%;
   background: currentColor;
 }

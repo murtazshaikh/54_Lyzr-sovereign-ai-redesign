@@ -106,11 +106,16 @@ Three states doing three different jobs, so each gets its own colour
 and its own dot. The dot carries the meaning too, so the ladder still
 reads with colour stripped out.
 
-| State | Meaning | Colour | Dot | Contrast |
+| State | Meaning | Text | Dot | Contrast |
 |---|---|---|---|---|
-| Live | Shipped and running | Green `#35624f` | Solid | 6.3:1 |
-| Shipping Q4 | Dated, pre-orderable | Purple `#2e2270` | Ring | 11.4:1 |
-| Coming | No date committed | Slate `#5b6480` | None | 5.3:1 |
+| Live | Shipped and running | `#067a4e` | Solid `#16a34a` | 4.8:1 |
+| Shipping Q4 | Dated, pre-orderable | `#5433d6` | Ring `#7458e8` | 6.3:1 |
+| Coming | No date committed | `#4a5878` | None | 6.2:1 |
+
+The dot runs brighter than the text beside it. It carries no reading
+load, so it can be fully saturated while the label stays legible. That
+is where the colour feels alive without any chip failing AA. The menu's
+New and OSS badges pull from the same two ramps.
 
 Before this, Coming and Shipping Q4 shared one purple, which flattened
 a real distinction: one is orderable today, the other has no date.
