@@ -1,0 +1,68 @@
+---
+---
+
+<section class="founder">
+  <div class="shell">
+    <blockquote class="founder__quote reveal">
+      <span class="founder__mark" aria-hidden="true">&ldquo;</span>
+      Lyzr is now a fully integrated, full-stack sovereign agent
+      platform, from the control plane and the agents, down to the
+      hardware they run on. <strong>You own the intelligence. And now
+      you own the machine it lives on.</strong>
+    </blockquote>
+    <p class="founder__who reveal" style="--reveal-delay:120ms">
+      <span class="founder__name">Siva Surendira</span>
+      <span class="founder__role">Founder and CEO, Lyzr AI</span>
+    </p>
+  </div>
+</section>
+
+<style>
+  /* After a run of interactive sections, this one is deliberately
+     inert: one statement, a lot of air, nothing to click. */
+  .founder {
+    padding-block: clamp(4rem, 2rem + 6vw, 8rem);
+    border-top: 1px solid var(--line);
+    text-align: center;
+  }
+
+  .founder__quote {
+    position: relative;
+    max-width: 22ch;
+    margin-inline: auto;
+    font-size: clamp(1.5rem, 1rem + 2.2vw, 2.5rem);
+    line-height: 1.28;
+    letter-spacing: -0.03em;
+    font-weight: 500;
+    color: var(--ink-45);
+    text-wrap: pretty;
+  }
+  /* The sentence the whole page has been building to is the only part
+     set in full ink. */
+  .founder__quote strong {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .founder__mark {
+    display: block;
+    margin-bottom: var(--s3);
+    font-size: 3rem;
+    line-height: 0.6;
+    font-weight: 600;
+    color: var(--purple);
+    opacity: 0.35;
+  }
+
+  .founder__who {
+    margin-top: clamp(2rem, 1rem + 2vw, 3rem);
+    display: grid;
+    gap: var(--s1);
+  }
+  .founder__name { font-weight: 600; letter-spacing: -0.015em; }
+  .founder__role { font-size: var(--t-small); color: var(--ink-45); }
+
+  @media (max-width: 700px) {
+    .founder__quote { max-width: 20ch; }
+  }
+</style>

@@ -1,0 +1,273 @@
+---
+import { primaryGroups, secondaryGroups, legal, address, subscriberCount } from "../data/footer";
+import { socials } from "../data/socials";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="foot">
+  <div class="shell">
+    <!-- Upper: identity and subscribe on the left, four link groups -->
+    <div class="foot__top">
+      <div class="foot__brand">
+        <a class="foot__logo" href="/" aria-label="Lyzr home">
+          <span class="foot__mark" aria-hidden="true"></span>
+          <span class="foot__word">lyzr</span>
+        </a>
+
+        <p class="foot__label">Address</p>
+        <p class="foot__address">{address}</p>
+
+        <p class="foot__sub-title">Join {subscriberCount} subscribers</p>
+        <form class="subscribe" data-subscribe>
+          <label class="sr-only" for="foot-email">Email address</label>
+          <input
+            class="subscribe__input"
+            id="foot-email"
+            name="email"
+            type="email"
+            inputmode="email"
+            autocomplete="email"
+            placeholder="Enter your email"
+            required
+          />
+          <button class="subscribe__btn" type="submit">Subscribe</button>
+          <p class="subscribe__note" data-note>Real agent stories. No spam.</p>
+        </form>
+      </div>
+
+      <div class="foot__groups">
+        {primaryGroups.map((g) => (
+          <nav class="fgroup" aria-label={g.title}>
+            <h3 class="fgroup__title">{g.title}</h3>
+            <ul>
+              {g.links.map((l) => (
+                <li><a class="fgroup__link" href="#">{l}</a></li>
+              ))}
+            </ul>
+          </nav>
+        ))}
+      </div>
+    </div>
+
+    <!-- Lower: the long tail of content links -->
+    <div class="foot__bottom">
+      {secondaryGroups.map((g) => (
+        <nav class="fgroup" aria-label={g.title}>
+          <h3 class="fgroup__title">{g.title}</h3>
+          <ul>
+            {g.links.map((l) => (
+              <li><a class="fgroup__link" href="#">{l}</a></li>
+            ))}
+          </ul>
+        </nav>
+      ))}
+    </div>
+
+    <div class="foot__base">
+      <ul class="foot__legal">
+        {legal.map((l) => <li><a href="#">{l}</a></li>)}
+      </ul>
+      <p class="foot__copy">Lyzr &copy; {year}. All rights reserved.</p>
+      <ul class="foot__social">
+        {socials.map((s) => (
+          <li>
+            <a class="social" href={s.href} aria-label={s.name}>
+              <Fragment set:html={s.svg} />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .foot {
+    background: var(--ink);
+    color: rgba(255, 255, 255, 0.72);
+    padding-block: clamp(3rem, 1.5rem + 4vw, 5rem) var(--s6);
+    font-size: var(--t-small);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* Upper ------------------------------------------------------- */
+  .foot__top {
+    display: grid;
+    grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
+    gap: clamp(2.5rem, 1rem + 5vw, 5rem);
+  }
+
+  .foot__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s2);
+    color: var(--paper);
+  }
+  .foot__mark {
+    width: 20px; height: 20px;
+    border-radius: var(--r-sm);
+    background: var(--purple);
+    clip-path: polygon(0 0, 100% 0, 100% 62%, 62% 100%, 0 100%);
+  }
+  .foot__word { font-size: 1.4375rem; font-weight: 700; letter-spacing: -0.05em; }
+
+  .foot__label {
+    margin-top: var(--s6);
+    font-size: var(--t-label);
+    font-weight: 600;
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.45);
+  }
+  .foot__address {
+    margin-top: var(--s2);
+    max-width: 26ch;
+    line-height: 1.55;
+  }
+
+  .foot__sub-title {
+    margin-top: var(--s6);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: var(--paper);
+    letter-spacing: -0.02em;
+  }
+
+  .subscribe { margin-top: var(--s4); display: grid; gap: var(--s3); }
+  .subscribe__input {
+    height: 46px;
+    padding-inline: var(--s4);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: var(--r-md);
+    color: var(--paper);
+    font: inherit;
+    transition: border-color var(--d-fast) var(--ease),
+                background var(--d-fast) var(--ease);
+  }
+  .subscribe__input::placeholder { color: rgba(255, 255, 255, 0.4); }
+  .subscribe__input:focus {
+    outline: none;
+    border-color: var(--purple);
+    background: rgba(255, 255, 255, 0.08);
+  }
+  .subscribe__btn {
+    height: 46px;
+    border: 0;
+    border-radius: var(--r-md);
+    background: var(--purple);
+    color: var(--paper);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background var(--d-fast) var(--ease);
+  }
+  .subscribe__btn:hover { background: #8a72ee; }
+  .subscribe__note { color: rgba(255, 255, 255, 0.4); }
+  .subscribe__note[data-ok] { color: #7fd6ae; }
+
+  /* Groups ------------------------------------------------------ */
+  .foot__groups {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--s6) var(--s5);
+  }
+
+  .fgroup__title {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+    margin-bottom: var(--s4);
+  }
+  .fgroup ul { display: grid; gap: var(--s3); }
+  .fgroup__link {
+    color: rgba(255, 255, 255, 0.62);
+    transition: color var(--d-fast) var(--ease);
+  }
+  .fgroup__link:hover { color: var(--paper); }
+
+  /* Lower ------------------------------------------------------- */
+  .foot__bottom {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--s6) var(--s5);
+    margin-top: clamp(2.5rem, 1.5rem + 3vw, 4rem);
+    padding-top: clamp(2.5rem, 1.5rem + 3vw, 4rem);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Base -------------------------------------------------------- */
+  .foot__base {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--s4);
+    margin-top: clamp(2.5rem, 1.5rem + 3vw, 4rem);
+    padding-top: var(--s5);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .foot__legal { display: flex; gap: var(--s4); }
+  .foot__legal a { transition: color var(--d-fast) var(--ease); }
+  .foot__legal a:hover { color: var(--paper); }
+
+  .foot__social { display: flex; gap: var(--s2); }
+  .social {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 50%;
+    color: rgba(255, 255, 255, 0.7);
+    transition: border-color var(--d-fast) var(--ease),
+                color var(--d-fast) var(--ease),
+                background var(--d-fast) var(--ease);
+  }
+  .social :global(svg) { width: 14px; height: 14px; }
+  .social:hover {
+    color: var(--paper);
+    border-color: var(--purple);
+    background: rgba(116, 88, 232, 0.22);
+  }
+
+  @media (max-width: 1080px) {
+    .foot__bottom { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (max-width: 860px) {
+    .foot__top { grid-template-columns: 1fr; }
+    .foot__groups { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 560px) {
+    .foot__bottom { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .foot__base { justify-content: flex-start; }
+  }
+</style>
+
+<script>
+  // The form has nowhere to post, so it acknowledges in place rather
+  // than navigating away and losing the page.
+  const form = document.querySelector<HTMLFormElement>("[data-subscribe]");
+  form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const input = form.querySelector<HTMLInputElement>("input");
+    const note = form.querySelector<HTMLElement>("[data-note]");
+    if (!input || !note || !input.checkValidity()) {
+      input?.reportValidity();
+      return;
+    }
+    note.textContent = "Thanks. Check your inbox to confirm.";
+    note.setAttribute("data-ok", "");
+    form.reset();
+  });
+</script>

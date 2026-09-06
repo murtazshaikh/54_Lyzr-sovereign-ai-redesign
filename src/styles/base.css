@@ -114,6 +114,18 @@ button { font: inherit; color: inherit; }
 
 .btn--sm { height: 38px; padding-inline: var(--s4); font-size: 0.875rem; }
 
+/* On the ink ground the fills invert: the primary becomes paper, the
+   secondary becomes a hairline in white. */
+.btn--onDark { background: var(--paper); color: var(--ink); }
+.btn--onDark:hover { background: #ddd5ff; }
+
+.btn--ghostDark {
+  background: transparent;
+  color: var(--paper);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+.btn--ghostDark:hover { border-color: var(--paper); background: rgba(255,255,255,0.06); }
+
 /* The arrow nudges on hover. This is the only decorative motion. */
 .btn .arrow { transition: transform var(--d-fast) var(--ease); }
 .btn:hover .arrow { transform: translateX(2px); }

@@ -394,6 +394,40 @@ text, which keeps the data meaningful rather than orphaned.
 
 The page's first and only image. Everything else is still inline SVG.
 
+## Resources
+
+**The covers are typeset, not photographed.** Each card's top panel is
+a small typographic composition: title over an ink ground with a purple
+bloom, a faint vertical rule standing in for a book spine, and the mark
+set top-right. A real book mockup would be a couple of hundred KB per
+card for what is, in the end, a title on a panel. This costs nothing
+and stays sharp at every size.
+
+One card is inverted, the same anchor device the story rail uses.
+
+## Founder quote
+
+Deliberately inert. After a run of tabs, rails and scroll-trackers, one
+statement with a lot of air and nothing to click. The sentence the page
+has been building to, "you own the intelligence, and now you own the
+machine it lives on", is the only part set in full ink; the rest sits
+back in slate.
+
+## Closing and footer
+
+The page's one dark passage, and it earns it by being the end. The
+closer carries the same purple bloom as the hero, inverted and rising
+from the bottom, so the page opens and closes on the same gesture.
+
+The source sets "someone else's" in a serif italic. We hold one
+typeface, so the emphasis is carried by colour instead.
+
+The subscribe form has nowhere to post, so it validates and
+acknowledges in place rather than navigating away and losing the page.
+
+`#cta` finally resolves. Every in-page anchor now lands on something,
+verified against the built page.
+
 ## Anchor hygiene
 
 The built page is checked for duplicate ids and unresolved in-page
@@ -404,7 +438,7 @@ remaining unresolved anchor and resolves when the closing section lands.
 
 ## Build status
 
-Sections complete: announcement bar, sticky header with four mega menus, hero, customer wall, stat band, why it matters, the four-step path, the full stack, the Optimus scale, governance, customer stories, testimonials, recognition and compliance.
+Sections complete: announcement bar, sticky header with four mega menus, hero, customer wall, stat band, why it matters, the four-step path, the full stack, the Optimus scale, governance, customer stories, testimonials, recognition and compliance, resources, founder quote, closing call to action, footer. The page is complete.
 Page is 2224px at 1440, 18KB HTML and 5.3KB CSS gzipped, plus the 29KB font. Still no external scripts and no images. Hero is 884px tall at 1440, so it fits one screen.
 No horizontal overflow at 1440, 1280, 834 or 390.
 Payload 4.5KB HTML, 3.1KB CSS, both gzipped, plus a 29KB font.

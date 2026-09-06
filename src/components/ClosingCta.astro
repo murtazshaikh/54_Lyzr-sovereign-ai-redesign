@@ -1,0 +1,82 @@
+---
+---
+
+<section class="closer" id="cta">
+  <div class="shell closer__inner">
+    <h2 class="closer__title reveal">
+      Stop building on <em>someone else&rsquo;s</em> foundation.
+    </h2>
+    <p class="closer__lead reveal" style="--reveal-delay:80ms">
+      Tell us where your AI runs today. We will show you what owning
+      that stack entirely looks like, on your infrastructure, under your
+      governance, on your terms.
+    </p>
+
+    <div class="closer__actions reveal" style="--reveal-delay:150ms">
+      <a class="btn btn--onDark" href="#optimus">
+        Pre-order Optimus <span class="arrow">&rarr;</span>
+      </a>
+      <a class="btn btn--ghostDark" href="#cta">Talk to us</a>
+    </div>
+
+    <p class="closer__note reveal" style="--reveal-delay:220ms">
+      Pre-orders open Q4 2026. Architecture reviews available now.
+    </p>
+  </div>
+</section>
+
+<style>
+  .closer {
+    padding-block: clamp(4.5rem, 2rem + 7vw, 9rem);
+    background: var(--ink);
+    color: var(--paper);
+    /* The hero opens on a pale purple bloom; this closes on the same
+       bloom inverted, which bookends the page. */
+    background-image: radial-gradient(
+      90% 120% at 50% 110%,
+      rgba(116, 88, 232, 0.36) 0%,
+      rgba(116, 88, 232, 0) 62%
+    );
+  }
+
+  .closer__inner { text-align: center; }
+
+  .closer__title {
+    max-width: 18ch;
+    margin-inline: auto;
+    font-size: var(--t-display);
+    line-height: 1.04;
+    letter-spacing: var(--track-display);
+    font-weight: 600;
+    text-wrap: balance;
+  }
+  /* The source sets this phrase in a serif italic. We hold one
+     typeface, so the emphasis is carried by colour instead. */
+  .closer__title em {
+    font-style: normal;
+    color: #b7a6ff;
+  }
+
+  .closer__lead {
+    max-width: 52ch;
+    margin: var(--s6) auto 0;
+    font-size: var(--t-lead);
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.62);
+    text-wrap: pretty;
+  }
+
+  .closer__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--s3);
+    margin-top: var(--s8);
+  }
+
+  .closer__note {
+    margin-top: var(--s6);
+    font-size: var(--t-small);
+    color: rgba(255, 255, 255, 0.42);
+  }
+</style>
