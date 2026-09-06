@@ -122,8 +122,52 @@ a real distinction: one is orderable today, the other has no date.
 Purple is now spent on the state the page is actually selling, and the
 hollow dot says dated but not yet true.
 
+## Customer wall
+
+A full-bleed hairline-ruled belt, not a static grid. The heading block
+is centred, which deliberately contrasts with the asymmetric hero so
+the two sections do not read as the same shape twice.
+
+- **Motion** is pure CSS. Four copies of the set translate by exactly
+  one set width, -25%, landing on an identical frame. Two copies was
+  not enough: a set is ~1095px, so once the belt had slid a full set
+  its right edge sat inside a 1440px viewport and opened a gap. Four
+  covers viewports to ~3280px.
+- **Hover** stops the belt so a logo can actually be read, then the set
+  recedes and the one under the cursor resolves. Same grammar as the
+  hero's partner row, so the page has one interaction language.
+- **Edges** dissolve with a mask rather than being cut off.
+- **Reduced motion** collapses it to a single static wrapped row.
+- **Sprite.** Geometry is defined once and referenced 24 times through
+  `<use>`. Inlined per instance it was 111KB of markup.
+
+### Logo pipeline
+
+Source SVG, strip any embedded raster, svgo at precision 2, measure the
+real bounding box in a browser, store that as the viewBox. Tight boxes
+mean `height` alone controls optical size.
+
+| Step | HTML raw | HTML gzip |
+|---|---|---|
+| Inlined per instance | 111KB | 19.2KB |
+| Sprite + `<use>` | 88KB | 19.1KB |
+| Sprite + svgo | 80KB | 15.7KB |
+
+Cap heights are per logo, not shared: wide wordmarks read heavy at a
+given height and compact glyphs read light, so the row is balanced by
+eye. Movate 21, Accenture 22, Persistent 21, Hitachi 19, AWS 25,
+NVIDIA 24.
+
+**Do not hand-round SVG path data.** Arc flags can be written without
+separators, so a naive number rewriter changes an arc's argument count
+and the path silently collapses. That is exactly what happened to the
+Hitachi mark before svgo replaced the regex.
+
+Firstsource appears on the source page but publishes no vector mark,
+only PNG, so it is omitted rather than mixed in as a raster.
+
 ## Build status
 
-Section 1 complete after three review passes: announcement bar, sticky header with four mega menus, hero, partner row. Hero is 884px tall at 1440, so it fits one screen.
+Sections complete: announcement bar, sticky header with four mega menus, hero, partner row, customer wall. Hero is 884px tall at 1440, so it fits one screen.
 No horizontal overflow at 1440, 1280, 834 or 390.
 Payload 4.5KB HTML, 3.1KB CSS, both gzipped, plus a 29KB font.

@@ -1,0 +1,137 @@
+---
+import { customers } from "../data/customers";
+
+// The belt repeats the set four times and translates by exactly one
+// set, -25%, landing on an identical frame. Two copies was not enough:
+// a set is ~1100px, so once the track had slid a full set its right
+// edge sat inside a 1440px viewport and opened a gap. Four copies
+// covers viewports up to ~3280px. Only the first set is announced.
+const SETS = 4;
+const sets = Array.from({ length: SETS }, (_, i) => i > 0);
+
+// Each logo's geometry is defined once in a sprite and referenced
+// twelve times. Inlining it per instance cost 111KB of markup.
+const slug = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+---
+
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    {customers.map((c) => <g id={`mark-${slug(c.name)}`} set:html={c.body} />)}
+  </defs>
+</svg>
+
+<section class="proof" id="proof">
+  <div class="shell proof__head">
+    <p class="label reveal">Customers</p>
+    <h2 class="h2 proof__title reveal" style="--reveal-delay:60ms">
+      Enterprises running on the Lyzr sovereign agent platform
+    </h2>
+  </div>
+
+  <div class="wall reveal" style="--reveal-delay:120ms">
+    <div class="wall__track">
+      {sets.map((dup) => (
+        <ul class="wall__set" aria-hidden={dup ? "true" : undefined}>
+          {customers.map((c) => (
+            <li class="wall__item">
+              <svg
+                class="wall__logo"
+                viewBox={c.viewBox}
+                style={`--cap:${c.cap}px`}
+                fill="currentColor"
+                role={dup ? "presentation" : "img"}
+                aria-label={dup ? undefined : c.name}
+                focusable="false"
+              >
+                <use href={`#mark-${slug(c.name)}`} />
+              </svg>
+            </li>
+          ))}
+        </ul>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .sprite {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+  }
+
+  .proof {
+    padding-block: var(--section-y);
+    background: var(--wash);
+    border-top: 1px solid var(--line);
+  }
+
+  .proof__head { text-align: center; }
+  .proof__title {
+    margin: var(--s4) auto 0;
+    max-width: 22ch;
+  }
+
+  /* Wall ------------------------------------------------------- */
+  .wall {
+    position: relative;
+    margin-top: clamp(2.5rem, 1rem + 4vw, 4.5rem);
+    border-block: 1px solid var(--line);
+    background: var(--paper);
+    overflow: hidden;
+    /* Logos dissolve at both edges instead of being cut off. */
+    mask-image: linear-gradient(
+      90deg,
+      transparent 0,
+      #000 7%,
+      #000 93%,
+      transparent 100%
+    );
+  }
+
+  .wall__track {
+    display: flex;
+    width: max-content;
+    animation: wall-slide 44s linear infinite;
+  }
+  @keyframes wall-slide {
+    to { transform: translateX(-25%); }
+  }
+  /* Stop the belt so a logo can be read. */
+  .wall:hover .wall__track { animation-play-state: paused; }
+
+  .wall__set { display: flex; }
+
+  .wall__item {
+    display: grid;
+    place-items: center;
+    height: clamp(88px, 6vw, 112px);
+    padding-inline: clamp(1.75rem, 1rem + 2.6vw, 3.5rem);
+    border-right: 1px solid var(--line);
+  }
+
+  .wall__logo {
+    height: var(--cap);
+    width: auto;
+    color: var(--ink);
+    opacity: 0.55;
+    transition: opacity var(--d-mid) var(--ease);
+  }
+  /* Same grammar as the hero's partner row: the set recedes, the one
+     under the cursor resolves. */
+  .wall:hover .wall__logo { opacity: 0.22; }
+  .wall__item:hover .wall__logo { opacity: 1; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wall { mask-image: none; }
+    .wall__track { animation: none; width: 100%; }
+    .wall__set:not(:first-child) { display: none; }
+    .wall__set {
+      width: 100%;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .wall__item:last-child { border-right: 0; }
+  }
+</style>
