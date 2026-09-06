@@ -1,0 +1,222 @@
+---
+const layers = [
+  {
+    name: "Lyzr Agent Platform",
+    desc: "Agentic OS and Control Plane. One governance layer.",
+    status: "Live",
+    tone: "live",
+  },
+  {
+    name: "Lyzr Nitro",
+    desc: "Production modules for Bedrock, Foundry and Vertex.",
+    status: "Live",
+    tone: "live",
+  },
+  {
+    name: "Lyzr LLMs",
+    desc: "Open source models built for responsible AI.",
+    status: "Coming",
+    tone: "soon",
+  },
+  {
+    name: "Lyzr Optimus",
+    desc: "On-prem appliance. Air-gapped. No external calls.",
+    status: "Shipping Q4",
+    tone: "soon",
+  },
+];
+
+const partners = ["AWS", "Google Cloud", "Microsoft Azure", "NVIDIA"];
+---
+
+<section class="hero">
+  <div class="shell hero__grid">
+    <div class="hero__copy">
+      <p class="label reveal">Sovereign AI</p>
+
+      <h1 class="display hero__title reveal" style="--reveal-delay:60ms">
+        The Sovereign AI platform for leading enterprises
+      </h1>
+
+      <p class="lead hero__lead reveal" style="--reveal-delay:120ms">
+        Your agents, your models, your hardware, your governance. The
+        full-stack sovereign agent platform &mdash; every layer Lyzr,
+        every layer yours.
+      </p>
+
+      <div class="hero__actions reveal" style="--reveal-delay:180ms">
+        <a class="btn btn--primary" href="#optimus">
+          Pre-order Optimus <span class="arrow">&rarr;</span>
+        </a>
+        <a class="btn btn--ghost" href="#cta">Talk to us</a>
+      </div>
+
+      <div class="hero__trust reveal" style="--reveal-delay:240ms">
+        <p class="hero__trust-line">
+          Running in production at <strong>500+</strong> enterprises
+        </p>
+        <ul class="hero__partners">
+          {partners.map((p) => <li>{p}</li>)}
+        </ul>
+      </div>
+    </div>
+
+    <div class="hero__visual reveal" style="--reveal-delay:220ms">
+      <div class="stack" aria-label="The Lyzr sovereign AI stack">
+        <div class="stack__head">
+          <span class="label">The stack</span>
+          <span class="pill pill--flat">4 layers</span>
+        </div>
+
+        <ul class="stack__list">
+          {layers.map((layer, i) => (
+            <li class="layer" style={`--i:${i}`}>
+              <div class="layer__top">
+                <span class="layer__name">{layer.name}</span>
+                <span class={`pill pill--${layer.tone}`}>
+                  {layer.tone === "live" && <span class="dot" />}
+                  {layer.status}
+                </span>
+              </div>
+              <p class="layer__desc">{layer.desc}</p>
+            </li>
+          ))}
+        </ul>
+
+        <p class="stack__foot">Nothing leaves your walls.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block: clamp(3.5rem, 1.5rem + 7vw, 7.5rem)
+                   clamp(4rem, 2rem + 8vw, 9rem);
+    /* A single soft purple bloom anchored top-left. One gradient on
+       the page, used once, at very low opacity. */
+    background:
+      radial-gradient(
+        120% 90% at 8% -10%,
+        rgba(116, 88, 232, 0.09) 0%,
+        rgba(116, 88, 232, 0) 62%
+      );
+  }
+
+  .hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: clamp(2.5rem, 1rem + 5vw, 5.5rem);
+    align-items: center;
+  }
+
+  .hero__title { margin-top: var(--s4); max-width: 15ch; }
+  .hero__lead  { margin-top: var(--s5); max-width: 48ch; }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s3);
+    margin-top: var(--s7);
+  }
+
+  .hero__trust {
+    margin-top: var(--s9);
+    padding-top: var(--s5);
+    border-top: 1px solid var(--line);
+  }
+  .hero__trust-line {
+    font-size: var(--t-small);
+    color: var(--ink-45);
+  }
+  .hero__trust-line strong { color: var(--ink); font-weight: 600; }
+
+  .hero__partners {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s5);
+    margin-top: var(--s3);
+  }
+  .hero__partners li {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    opacity: 0.42;
+    transition: opacity var(--d-mid) var(--ease);
+  }
+  .hero__partners:hover li { opacity: 0.22; }
+  .hero__partners li:hover { opacity: 0.85; }
+
+  /* Stack visual ------------------------------------------------ */
+  .stack {
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-lg);
+    background: var(--paper);
+    padding: var(--s5);
+    box-shadow: 0 1px 2px rgba(19, 17, 42, 0.04);
+  }
+
+  .stack__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: var(--s4);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .stack__list { display: grid; gap: 1px; margin-top: 1px; }
+
+  .layer {
+    padding: var(--s4) var(--s3);
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    transition: background var(--d-mid) var(--ease);
+  }
+  /* The purple rule on the left is the only accent in the card and
+     appears only on hover, so the resting state stays quiet. */
+  .layer::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--purple);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform var(--d-mid) var(--ease);
+  }
+  .layer:hover { background: var(--wash); }
+  .layer:hover::before { transform: scaleY(1); }
+
+  .layer__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s3);
+  }
+  .layer__name {
+    font-weight: 600;
+    letter-spacing: -0.018em;
+  }
+  .layer__desc {
+    margin-top: var(--s1);
+    font-size: var(--t-small);
+    color: var(--ink-45);
+    max-width: 42ch;
+  }
+
+  .stack__foot {
+    margin-top: var(--s4);
+    font-size: var(--t-small);
+    font-weight: 600;
+    color: var(--purple-ink);
+  }
+
+  @media (max-width: 940px) {
+    .hero__grid { grid-template-columns: 1fr; }
+    .hero__title { max-width: 18ch; }
+    .hero__trust { margin-top: var(--s7); }
+  }
+</style>

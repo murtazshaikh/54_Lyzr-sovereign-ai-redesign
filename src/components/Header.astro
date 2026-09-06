@@ -1,0 +1,236 @@
+---
+const nav = [
+  { label: "Solutions", href: "#stack" },
+  { label: "Platform", href: "#stack" },
+  { label: "Partners", href: "#proof" },
+  { label: "Resources", href: "#governance" },
+  { label: "Customers", href: "#proof" },
+  { label: "Pricing", href: "#optimus" },
+];
+---
+
+<div class="announce">
+  <div class="shell announce__inner">
+    <span class="announce__tag">New</span>
+    <span class="announce__text">Lyzr launches the Control Plane for AI Agents</span>
+    <a class="announce__link" href="#stack">Access now <span class="arrow">&rarr;</span></a>
+  </div>
+</div>
+
+<header class="head">
+  <div class="shell head__inner">
+    <a class="brand" href="/" aria-label="Lyzr home">
+      <span class="brand__mark" aria-hidden="true"></span>
+      <span class="brand__word">lyzr</span>
+    </a>
+
+    <nav class="nav" aria-label="Primary">
+      {nav.map((item) => (
+        <a class="nav__link" href={item.href}>{item.label}</a>
+      ))}
+    </nav>
+
+    <div class="head__actions">
+      <a class="btn btn--ghost btn--sm" href="#cta">Sign in</a>
+      <a class="btn btn--primary btn--sm" href="#cta">Book a demo</a>
+    </div>
+
+    <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+      <span></span><span></span>
+    </button>
+  </div>
+
+  <div class="mobile" id="mobile-nav" hidden>
+    <div class="shell">
+      <nav class="mobile__nav" aria-label="Mobile">
+        {nav.map((item) => (
+          <a class="mobile__link" href={item.href}>{item.label}</a>
+        ))}
+      </nav>
+      <div class="mobile__actions">
+        <a class="btn btn--ghost" href="#cta">Sign in</a>
+        <a class="btn btn--primary" href="#cta">Book a demo</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  /* Announcement bar ------------------------------------------ */
+  .announce {
+    background: var(--ink);
+    color: var(--paper);
+    font-size: var(--t-small);
+  }
+  .announce__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--s3);
+    height: 40px;
+  }
+  .announce__tag {
+    background: var(--purple);
+    border-radius: var(--r-sm);
+    padding: 2px var(--s2);
+    font-size: var(--t-label);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .announce__text {
+    color: rgba(255, 255, 255, 0.72);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .announce__link {
+    font-weight: 600;
+    white-space: nowrap;
+    display: inline-flex;
+    gap: var(--s2);
+  }
+  .announce__link .arrow { transition: transform var(--d-fast) var(--ease); }
+  .announce__link:hover .arrow { transform: translateX(3px); }
+
+  /* Header ----------------------------------------------------- */
+  .head {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255, 255, 255, 0.86);
+    backdrop-filter: saturate(1.6) blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .head__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--s7);
+    height: 64px;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s2);
+    flex: none;
+  }
+  .brand__mark {
+    width: 18px;
+    height: 18px;
+    border-radius: var(--r-sm);
+    background: var(--purple);
+    /* A notch cut from the square keeps the mark from reading as
+       a generic rounded box. */
+    clip-path: polygon(0 0, 100% 0, 100% 62%, 62% 100%, 0 100%);
+  }
+  .brand__word {
+    font-size: 1.3125rem;
+    font-weight: 700;
+    letter-spacing: -0.05em;
+  }
+
+  .nav {
+    display: flex;
+    gap: var(--s5);
+    margin-right: auto;
+  }
+  .nav__link {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--ink-70);
+    padding-block: var(--s2);
+    position: relative;
+    transition: color var(--d-fast) var(--ease);
+  }
+  .nav__link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: var(--ink);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--d-mid) var(--ease);
+  }
+  .nav__link:hover { color: var(--ink); }
+  .nav__link:hover::after { transform: scaleX(1); }
+
+  .head__actions { display: flex; gap: var(--s2); flex: none; }
+
+  /* Burger ------------------------------------------------------ */
+  .burger {
+    display: none;
+    width: 40px;
+    height: 40px;
+    margin-left: auto;
+    background: none;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-md);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+  }
+  .burger span {
+    width: 16px;
+    height: 1.5px;
+    background: var(--ink);
+    transition: transform var(--d-mid) var(--ease),
+                opacity var(--d-fast) var(--ease);
+  }
+  .burger[aria-expanded="true"] span:first-child {
+    transform: translateY(3.25px) rotate(45deg);
+  }
+  .burger[aria-expanded="true"] span:last-child {
+    transform: translateY(-3.25px) rotate(-45deg);
+  }
+
+  /* Mobile panel ------------------------------------------------ */
+  .mobile {
+    border-top: 1px solid var(--line);
+    background: var(--paper);
+    padding-block: var(--s5) var(--s6);
+  }
+  .mobile__nav { display: grid; gap: var(--s1); }
+  .mobile__link {
+    font-size: 1.125rem;
+    font-weight: 500;
+    padding-block: var(--s3);
+    border-bottom: 1px solid var(--line);
+  }
+  .mobile__actions {
+    display: grid;
+    gap: var(--s3);
+    margin-top: var(--s5);
+  }
+  .mobile__actions .btn { justify-content: center; }
+
+  @media (max-width: 1020px) {
+    .nav, .head__actions { display: none; }
+    .burger { display: flex; }
+    .announce__text { display: none; }
+  }
+</style>
+
+<script>
+  const burger = document.querySelector<HTMLButtonElement>(".burger");
+  const panel = document.querySelector<HTMLElement>("#mobile-nav");
+
+  burger?.addEventListener("click", () => {
+    const open = burger.getAttribute("aria-expanded") === "true";
+    burger.setAttribute("aria-expanded", String(!open));
+    burger.setAttribute("aria-label", open ? "Open menu" : "Close menu");
+    if (panel) panel.hidden = open;
+  });
+
+  panel?.addEventListener("click", (e) => {
+    if ((e.target as HTMLElement).closest("a")) {
+      burger?.setAttribute("aria-expanded", "false");
+      panel.hidden = true;
+    }
+  });
+</script>

@@ -1,0 +1,54 @@
+---
+import "../styles/tokens.css";
+import "../styles/base.css";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#ffffff" />
+    <link
+      rel="preload"
+      href="/fonts/instrument-sans-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+  </head>
+  <body>
+    <slot />
+
+    <script>
+      // Scroll reveal. ~20 lines of vanilla JS is the entire runtime
+      // cost of the page's motion system.
+      const items = document.querySelectorAll<HTMLElement>(".reveal");
+
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue;
+              entry.target.classList.add("is-in");
+              io.unobserve(entry.target);
+            }
+          },
+          { rootMargin: "0px 0px -12% 0px", threshold: 0.1 }
+        );
+        items.forEach((el) => io.observe(el));
+      } else {
+        items.forEach((el) => el.classList.add("is-in"));
+      }
+    </script>
+  </body>
+</html>
