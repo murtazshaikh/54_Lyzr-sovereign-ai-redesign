@@ -140,6 +140,11 @@ the two sections do not read as the same shape twice.
 - **Reduced motion** collapses it to a single static wrapped row.
 - **Sprite.** Geometry is defined once and referenced 24 times through
   `<use>`. Inlined per instance it was 111KB of markup.
+- **Density.** The first pass was 631px tall at 1440 with 320px of that
+  being padding, so half the band was empty. It now runs 388px. This is
+  a proof strip, not a headline section, so it takes about half the
+  page's section rhythm and the heading drops a step below h2, from
+  52px to 34px, introducing the belt instead of competing with the hero.
 
 ### Logo pipeline
 
