@@ -131,10 +131,12 @@ middle of the page killed the movement that gives this section its
 life, and the sector column added a row of text nobody needs to read.
 
 - **Colour on hover.** The marks are desaturated at rest and lift to
-  full brand colour under the cursor, while the rest of the set
-  recedes. One asset serves both states through a CSS filter; shipping
-  a second coloured set would have doubled the payload for the same
-  effect.
+  full brand colour under the cursor. One asset serves both states
+  through a CSS filter; shipping a second coloured set would have
+  doubled the payload for the same effect.
+- **Only the hovered mark changes.** An earlier version dimmed the rest
+  of the set, which made the whole row react to a pointer that is only
+  pointing at one thing. The set now holds still and one mark lights.
 - **Hover stops the belt**, because a logo wall you cannot read is just
   noise.
 - **Edges dissolve** with a mask rather than being cut off.

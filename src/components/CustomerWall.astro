@@ -129,9 +129,9 @@ const slug = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
     transition: filter var(--d-mid) var(--ease),
                 opacity var(--d-mid) var(--ease);
   }
-  /* The set recedes and the one under the cursor resolves, the same
-     grammar the page uses elsewhere. */
-  .wall:hover .wall__logo { opacity: 0.32; }
+  /* Only the mark under the cursor changes. Dimming the rest of the
+     set made the whole row react to a pointer that is only pointing at
+     one thing. */
   .wall__item:hover .wall__logo {
     filter: none;
     opacity: 1;
