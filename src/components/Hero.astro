@@ -25,6 +25,7 @@ const layers = [
     desc: "On-prem appliance. Air-gapped. No external calls.",
     status: "Shipping Q4",
     tone: "soon",
+    featured: true,
   },
 ];
 ---
@@ -62,7 +63,7 @@ const layers = [
 
           <ul class="stack__list">
             {layers.map((layer, i) => (
-              <li class="layer" style={`--i:${i}`}>
+              <li class:list={["layer", { "layer--featured": layer.featured }]} style={`--i:${i}`}>
                 <div class="layer__top">
                   <span class="layer__name">{layer.name}</span>
                   <span class={`pill pill--${layer.tone}`}>
@@ -92,15 +93,15 @@ const layers = [
                    clamp(3rem, 1.5rem + 5.5vw, 5.5rem);
     /* One soft purple bloom, anchored top-left, used once on the page. */
     background: radial-gradient(
-      110% 85% at 6% -12%,
-      rgba(116, 88, 232, 0.1) 0%,
-      rgba(116, 88, 232, 0) 60%
+      100% 80% at 4% -10%,
+      rgba(116, 88, 232, 0.17) 0%,
+      rgba(116, 88, 232, 0) 58%
     );
   }
 
   .hero__grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
     gap: clamp(2.5rem, 1rem + 5vw, 5rem);
     align-items: center;
   }
@@ -166,6 +167,11 @@ const layers = [
   }
   .layer:hover { background: var(--wash); }
   .layer:hover::before { transform: scaleY(1); }
+
+  /* Optimus is what the hero button sells, so it carries the rule
+     at rest and the eye lands there first. */
+  .layer--featured { background: var(--wash); }
+  .layer--featured::before { transform: scaleY(1); }
 
   .layer__top {
     display: flex;

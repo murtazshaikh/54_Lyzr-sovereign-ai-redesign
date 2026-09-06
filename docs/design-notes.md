@@ -66,8 +66,22 @@ Note on the Azure mark: the Wikimedia source layers four paths, two of
 which are shading overlays that flatten into noise in monochrome.
 Paths 0, 1 and 3 give the correct silhouette with its counter.
 
+## Review pass 2 — section 1
+
+| Change | Why |
+|---|---|
+| Announcement chip became a beacon dot plus label | A filled purple chip reads as a button. A pulsing dot reads as news |
+| Sign in demoted to a text link | Four buttons above the fold was too many. Book a demo is now the only nav control |
+| Optimus row highlighted at rest | The hero button sells Optimus, so the card points at it |
+| Chevrons on Solutions, Platform, Partners, Resources | Signals the mega menus without building them |
+| Hero bloom raised from 10% to 17% | Was faint enough to read as a rendering artefact |
+| Copy column widened to 1.1fr | "leading enterprises" needed 552px and had 551. Now has 594 |
+
+The beacon is the one deliberate looping animation on the page. It is a
+status signal, not decoration, and stops under `prefers-reduced-motion`.
+
 ## Build status
 
-Section 1 complete: announcement bar, sticky header, hero, partner row.
+Section 1 complete after two review passes: announcement bar, sticky header, hero, partner row. Hero is 884px tall at 1440, so it fits one screen.
 No horizontal overflow at 1440, 1280, 834 or 390.
 Payload 4.5KB HTML, 3.1KB CSS, both gzipped, plus a 29KB font.

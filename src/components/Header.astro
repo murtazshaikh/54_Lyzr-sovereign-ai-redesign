@@ -1,9 +1,9 @@
 ---
 const nav = [
-  { label: "Solutions", href: "#stack" },
-  { label: "Platform", href: "#stack" },
-  { label: "Partners", href: "#proof" },
-  { label: "Resources", href: "#governance" },
+  { label: "Solutions", href: "#stack", menu: true },
+  { label: "Platform", href: "#stack", menu: true },
+  { label: "Partners", href: "#proof", menu: true },
+  { label: "Resources", href: "#governance", menu: true },
   { label: "Customers", href: "#proof" },
   { label: "Pricing", href: "#optimus" },
 ];
@@ -32,12 +32,19 @@ const nav = [
 
     <nav class="nav" aria-label="Primary">
       {nav.map((item) => (
-        <a class="nav__link" href={item.href}>{item.label}</a>
+        <a class="nav__link" href={item.href}>
+          {item.label}
+          {item.menu && (
+            <svg class="nav__chev" viewBox="0 0 10 10" aria-hidden="true">
+              <path d="M2.5 3.75 5 6.25l2.5-2.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          )}
+        </a>
       ))}
     </nav>
 
     <div class="head__actions">
-      <a class="btn btn--ghost btn--sm" href="#cta">Sign in</a>
+      <a class="head__signin" href="#cta">Sign in</a>
       <a class="btn btn--primary btn--sm" href="#cta">Book a demo</a>
     </div>
 
@@ -185,6 +192,9 @@ const nav = [
     margin-right: auto;
   }
   .nav__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
     font-size: 0.9375rem;
     font-weight: 500;
     color: var(--ink-70);
@@ -192,6 +202,14 @@ const nav = [
     position: relative;
     transition: color var(--d-fast) var(--ease);
   }
+  .nav__chev {
+    width: 10px;
+    height: 10px;
+    opacity: 0.55;
+    transition: opacity var(--d-fast) var(--ease),
+                transform var(--d-mid) var(--ease);
+  }
+  .nav__link:hover .nav__chev { opacity: 1; transform: translateY(1px); }
   .nav__link::after {
     content: "";
     position: absolute;
@@ -207,7 +225,21 @@ const nav = [
   .nav__link:hover { color: var(--ink); }
   .nav__link:hover::after { transform: scaleX(1); }
 
-  .head__actions { display: flex; gap: var(--s2); flex: none; }
+  .head__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--s4);
+    flex: none;
+  }
+  /* Sign in is a link, not a control, so Book a demo is the only
+     bordered element in the header. */
+  .head__signin {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--ink-70);
+    transition: color var(--d-fast) var(--ease);
+  }
+  .head__signin:hover { color: var(--ink); }
 
   /* Burger ------------------------------------------------------ */
   .burger {
