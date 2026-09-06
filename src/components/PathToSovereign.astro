@@ -1,0 +1,350 @@
+---
+import { steps, DWELL_MS } from "../data/path";
+import { icons } from "../data/icons";
+---
+
+<section class="path" id="path" style={`--dwell:${DWELL_MS}ms`}>
+  <div class="shell">
+    <div class="path__head">
+      <p class="label path__eyebrow reveal">
+        <span class="path__dot" aria-hidden="true"></span>
+        How Lyzr gets you there
+      </p>
+      <h2 class="h2 path__title reveal" style="--reveal-delay:60ms">
+        From where your AI is today to owning all of it
+      </h2>
+      <p class="lead path__lead reveal" style="--reveal-delay:120ms">
+        Sovereign AI is not a migration. It is a progression. You do not
+        rebuild from scratch, you add the layers that make your AI
+        operation fully yours. Select each step.
+      </p>
+    </div>
+
+    <div class="path__steps reveal" role="tablist" aria-label="Steps to sovereign AI">
+      {steps.map((s, i) => (
+        <button
+          class="step"
+          type="button"
+          role="tab"
+          id={`step-${i}`}
+          aria-controls={`panel-${i}`}
+          aria-selected={i === 0 ? "true" : "false"}
+          tabindex={i === 0 ? 0 : -1}
+        >
+          <span class="step__num">{s.num}</span>
+          <span class="step__title">{s.title}</span>
+          <span class="step__brief">{s.brief}</span>
+          <span class="step__track" aria-hidden="true"><i></i></span>
+        </button>
+      ))}
+    </div>
+
+    <!-- All four panels occupy one grid cell, so the block is as tall
+         as the tallest and nothing jumps when the step changes. -->
+    <div class="path__panels reveal" style="--reveal-delay:80ms">
+      {steps.map((s, i) => (
+        <section
+          class="panel"
+          role="tabpanel"
+          id={`panel-${i}`}
+          aria-labelledby={`step-${i}`}
+          hidden={i !== 0}
+        >
+          <div class="panel__copy">
+            <h3 class="panel__heading">{s.heading}</h3>
+            <p class="panel__body">{s.body}</p>
+          </div>
+          <ul class="panel__points">
+            {s.points.map((pt) => (
+              <li>
+                <span class="panel__tick" set:html={icons.check} />
+                {pt}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .path {
+    padding-block: clamp(3.5rem, 1.5rem + 5vw, 7rem);
+    border-top: 1px solid var(--line);
+  }
+
+  .path__head {
+    max-width: 62ch;
+    margin-inline: auto;
+    text-align: center;
+  }
+  .path__eyebrow { display: inline-flex; align-items: center; gap: var(--s2); }
+  .path__dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--purple);
+  }
+  .path__title {
+    margin-top: var(--s3);
+    max-width: 18ch;
+    margin-inline: auto;
+  }
+  .path__lead { margin-top: var(--s5); }
+
+  /* Steps ------------------------------------------------------- */
+  .path__steps {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--s4);
+    margin-top: clamp(2.5rem, 1.5rem + 3vw, 4rem);
+  }
+
+  .step {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s2);
+    padding: var(--s5);
+    text-align: left;
+    background: var(--paper);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-lg);
+    cursor: pointer;
+    overflow: hidden;
+    transition: border-color var(--d-mid) var(--ease),
+                background var(--d-mid) var(--ease),
+                color var(--d-mid) var(--ease);
+  }
+  .step:hover { border-color: var(--ink-45); }
+
+  .step__num {
+    display: grid;
+    place-items: center;
+    min-width: 30px;
+    height: 26px;
+    padding-inline: var(--s2);
+    border-radius: var(--r-sm);
+    background: var(--wash-deep);
+    color: var(--dated);
+    font-size: var(--t-label);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    transition: background var(--d-mid) var(--ease),
+                color var(--d-mid) var(--ease);
+  }
+
+  .step__title {
+    margin-top: var(--s3);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .step__brief {
+    font-size: var(--t-small);
+    line-height: 1.45;
+    color: var(--ink-45);
+    text-wrap: pretty;
+    transition: color var(--d-mid) var(--ease);
+  }
+
+  /* The active card is ink. It is the one dark element in the flow,
+     which is what makes the selection unmistakable on a white page. */
+  .step[aria-selected="true"] {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper);
+  }
+  .step[aria-selected="true"] .step__num {
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--paper);
+  }
+  .step[aria-selected="true"] .step__brief { color: rgba(255, 255, 255, 0.62); }
+
+  /* Dwell indicator: fills across the active card, then advances. */
+  .step__track {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.14);
+    opacity: 0;
+  }
+  .step[aria-selected="true"] .step__track { opacity: 1; }
+  .step__track i {
+    display: block;
+    height: 100%;
+    width: 100%;
+    background: var(--purple);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  .step[aria-selected="true"].is-running .step__track i {
+    animation: dwell var(--dwell) linear forwards;
+  }
+  @keyframes dwell { to { transform: scaleX(1); } }
+
+  /* Panels ------------------------------------------------------ */
+  .path__panels {
+    display: grid;
+    margin-top: var(--s4);
+  }
+
+  .panel {
+    grid-area: 1 / 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: clamp(2rem, 1rem + 3vw, 4rem);
+    padding: clamp(1.75rem, 1rem + 2.4vw, 3rem);
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: var(--r-lg);
+  }
+  .panel[hidden] {
+    display: none;
+  }
+  .panel.is-entering {
+    animation: panel-in var(--d-slow) var(--ease) both;
+  }
+  @keyframes panel-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  .panel__heading {
+    font-size: clamp(1.25rem, 1rem + 1vw, 1.625rem);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+  .panel__body {
+    margin-top: var(--s4);
+    color: rgba(255, 255, 255, 0.66);
+    max-width: 56ch;
+    text-wrap: pretty;
+  }
+
+  .panel__points {
+    display: grid;
+    align-content: center;
+    gap: var(--s4);
+  }
+  .panel__points li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s3);
+    font-size: 0.9375rem;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.9);
+  }
+  .panel__tick {
+    flex: none;
+    width: 17px;
+    height: 17px;
+    margin-top: 1px;
+    color: var(--purple);
+  }
+  .panel__tick :global(svg) { width: 100%; height: 100%; }
+
+  @media (max-width: 980px) {
+    .path__steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .panel { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .path__steps { grid-template-columns: 1fr; gap: var(--s3); }
+    .step { padding: var(--s4); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .step[aria-selected="true"].is-running .step__track i { animation: none; }
+    .step[aria-selected="true"] .step__track { opacity: 0; }
+    .panel.is-entering { animation: none; }
+  }
+</style>
+
+<script>
+  import { DWELL_MS } from "../data/path";
+
+  const root = document.querySelector<HTMLElement>(".path");
+  if (root) {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const panels = [...root.querySelectorAll<HTMLElement>('[role="tabpanel"]')];
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    let current = 0;
+    let timer = 0;
+    let visible = false;
+    let hovered = false;
+    // A click means the reader is driving. Stop advancing for them.
+    let taken = false;
+
+    function show(next: number) {
+      if (next === current) return;
+      tabs[current].setAttribute("aria-selected", "false");
+      tabs[current].tabIndex = -1;
+      tabs[current].classList.remove("is-running");
+      panels[current].hidden = true;
+      panels[current].classList.remove("is-entering");
+
+      current = next;
+      tabs[current].setAttribute("aria-selected", "true");
+      tabs[current].tabIndex = 0;
+      panels[current].hidden = false;
+      // reflow so the entrance animation restarts every time
+      void panels[current].offsetWidth;
+      panels[current].classList.add("is-entering");
+    }
+
+    function stop() {
+      clearTimeout(timer);
+      tabs.forEach((t) => t.classList.remove("is-running"));
+    }
+
+    function start() {
+      stop();
+      if (reduce || taken || !visible || hovered) return;
+      // restart the dwell bar from zero
+      void tabs[current].offsetWidth;
+      tabs[current].classList.add("is-running");
+      timer = window.setTimeout(() => {
+        show((current + 1) % tabs.length);
+        start();
+      }, DWELL_MS);
+    }
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener("click", () => {
+        taken = true;
+        stop();
+        show(i);
+      });
+      tab.addEventListener("keydown", (e) => {
+        const map: Record<string, number> = {
+          ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1,
+        };
+        const step = map[e.key];
+        if (!step) return;
+        e.preventDefault();
+        taken = true;
+        stop();
+        const next = (current + step + tabs.length) % tabs.length;
+        show(next);
+        tabs[next].focus();
+      });
+    });
+
+    root.addEventListener("pointerenter", () => { hovered = true; stop(); });
+    root.addEventListener("pointerleave", () => { hovered = false; start(); });
+    root.addEventListener("focusin", () => { hovered = true; stop(); });
+
+    // Only run the belt while the section is actually on screen.
+    new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+        visible ? start() : stop();
+      },
+      { threshold: 0.25 }
+    ).observe(root);
+  }
+</script>

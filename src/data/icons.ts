@@ -32,6 +32,7 @@ export const icons = {
   audit: wrap(
     '<rect x="2.6" y="2.2" width="10.8" height="11.6" rx="1.4"/><path d="M5.6 7.6l1.5 1.5 3.3-3.3"/>'
   ),
+  check: wrap('<circle cx="8" cy="8" r="6.4"/><path d="M5.5 8.2l1.8 1.8 3.4-3.6"/>'),
   play: wrap('<path d="M5.5 3.5v9l7-4.5z" fill="currentColor" stroke="none"/>'),
   external: wrap('<path d="M5 11l6-6M6 5h5v5"/>'),
 } as const;

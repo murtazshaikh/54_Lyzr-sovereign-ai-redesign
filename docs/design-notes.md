@@ -214,9 +214,31 @@ Under `prefers-reduced-motion` the numbers are never blanked in the
 first place, so a reader who has asked for stillness sees the real
 figure immediately rather than a zero that never animates.
 
+## The four-step path
+
+Four step cards over one detail panel. The belt advances on its own so
+every step's content gets seen without the reader having to click, but
+it yields the moment they engage.
+
+- **Active card is ink.** The one dark card in a white row makes the
+  selection unmistakable without a highlight colour or a border trick.
+- **A dwell bar** fills across the active card, so the advance is
+  announced rather than surprising.
+- **It yields.** Hover or focus pauses it. A click or arrow key means
+  the reader is driving, and the belt stops for good.
+- **It idles.** An IntersectionObserver stops the timer whenever the
+  section is off screen, so nothing runs in the background.
+- **No layout jump.** All four panels sit in one grid cell, so the
+  block is as tall as the tallest and the page never shifts when the
+  step changes. Measured: all four are 220px.
+- **Real tabs.** `role="tablist"`, `aria-selected`, roving tabindex and
+  arrow-key navigation, so it works from the keyboard.
+- **Reduced motion** disables the auto-advance and the dwell bar
+  entirely; the steps become plain clickable tabs.
+
 ## Build status
 
-Sections complete: announcement bar, sticky header with four mega menus, hero, customer wall, stat band, why it matters.
+Sections complete: announcement bar, sticky header with four mega menus, hero, customer wall, stat band, why it matters, the four-step path.
 Page is 2224px at 1440, 18KB HTML and 5.3KB CSS gzipped, plus the 29KB font. Still no external scripts and no images. Hero is 884px tall at 1440, so it fits one screen.
 No horizontal overflow at 1440, 1280, 834 or 390.
 Payload 4.5KB HTML, 3.1KB CSS, both gzipped, plus a 29KB font.
