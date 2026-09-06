@@ -80,8 +80,28 @@ Paths 0, 1 and 3 give the correct silhouette with its counter.
 The beacon is the one deliberate looping animation on the page. It is a
 status signal, not decoration, and stops under `prefers-reduced-motion`.
 
+## Mega menus
+
+Four dropdowns transcribed from the source site, rendered in the page's
+own language: white panel, hairline border, one soft shadow because the
+layer genuinely floats. Column titles carry a short purple rule.
+
+- **Data** lives in `src/data/nav.ts`. Icons in `src/data/icons.ts`,
+  partner marks in `src/data/marks.ts` shared with the hero.
+- **Open** on hover after a 60ms intent delay, on click, on focus.
+  **Close** on Escape, outside pointer, focus leaving, or 140ms after
+  the pointer leaves. A 14px invisible bridge covers the gap between
+  trigger and panel.
+- **Placement** clamps each panel inside the shell, so the two 1040px
+  panels never spill past the right edge.
+- **Mobile** uses native `<details>` accordions. No JS.
+- **Cost** about 5.6KB gzipped HTML, no images. The Featured strip
+  is text cards with a play mark rather than video thumbnails.
+- **Panel widths** 560 / 780 / 1040. Tinted first columns get 1.35fr.
+  Titles and plain labels never wrap; described labels may.
+
 ## Build status
 
-Section 1 complete after two review passes: announcement bar, sticky header, hero, partner row. Hero is 884px tall at 1440, so it fits one screen.
+Section 1 complete after three review passes: announcement bar, sticky header with four mega menus, hero, partner row. Hero is 884px tall at 1440, so it fits one screen.
 No horizontal overflow at 1440, 1280, 834 or 390.
 Payload 4.5KB HTML, 3.1KB CSS, both gzipped, plus a 29KB font.

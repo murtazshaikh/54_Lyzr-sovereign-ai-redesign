@@ -1,12 +1,9 @@
 ---
-const nav = [
-  { label: "Solutions", href: "#stack", menu: true },
-  { label: "Platform", href: "#stack", menu: true },
-  { label: "Customers", href: "#proof" },
-  { label: "Pricing", href: "#optimus" },
-  { label: "Partners", href: "#proof", menu: true },
-  { label: "Resources", href: "#governance", menu: true },
-];
+import { nav } from "../data/nav";
+import { icons } from "../data/icons";
+import { marks } from "../data/marks";
+
+const chev = `<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="M2.5 3.75 5 6.25l2.5-2.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 ---
 
 <div class="announce">
@@ -31,16 +28,72 @@ const nav = [
     </a>
 
     <nav class="nav" aria-label="Primary">
-      {nav.map((item) => (
-        <a class="nav__link" href={item.href}>
-          {item.label}
-          {item.menu && (
-            <svg class="nav__chev" viewBox="0 0 10 10" aria-hidden="true">
-              <path d="M2.5 3.75 5 6.25l2.5-2.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          )}
-        </a>
-      ))}
+      {nav.map((item, i) =>
+        item.columns ? (
+          <div class="nav__item">
+            <button
+              class="nav__link nav__trigger"
+              type="button"
+              aria-expanded="false"
+              aria-controls={`menu-${i}`}
+            >
+              {item.label}
+              <Fragment set:html={chev} />
+            </button>
+
+            <div class={`menu menu--${item.size ?? "md"}`} id={`menu-${i}`}>
+              <div class:list={["menu__grid", { "menu__grid--panel-first": item.columns[0].panel }]} style={`--cols:${item.columns.length}`}>
+                {item.columns.map((col) => (
+                  <div class:list={["menu__col", { "menu__col--panel": col.panel }]}>
+                    <p class="menu__title">{col.title}</p>
+                    <ul class="menu__list">
+                      {col.links.map((l) => (
+                        <li>
+                          <a
+                            class:list={["menu__link", { "is-muted": l.muted, "has-desc": !!l.desc }]}
+                            href={l.href}
+                            aria-disabled={l.muted ? "true" : undefined}
+                          >
+                            {l.icon && <span class="menu__ico" set:html={icons[l.icon]} />}
+                            {l.mark && <span class="menu__ico menu__ico--mark" set:html={marks[l.mark]} />}
+                            <span class="menu__text">
+                              <span class="menu__label">
+                                {l.label}
+                                {l.badge && <span class={`badge badge--${l.badge.toLowerCase()}`}>{l.badge}</span>}
+                              </span>
+                              {l.desc && <span class="menu__desc">{l.desc}</span>}
+                            </span>
+                            {l.external && <span class="menu__ext" set:html={icons.external} />}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+
+              {item.featured && (
+                <div class="menu__featured">
+                  <p class="menu__title">Featured</p>
+                  <div class="menu__cards">
+                    {item.featured.map((f) => (
+                      <a class="fcard" href={f.href}>
+                        <span class="fcard__play" set:html={icons.play} />
+                        <span class="fcard__body">
+                          <span class="fcard__source">{f.source}</span>
+                          <span class="fcard__title">{f.title}</span>
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        ) : (
+          <a class="nav__link" href={item.href}>{item.label}</a>
+        )
+      )}
     </nav>
 
     <div class="head__actions">
@@ -61,13 +114,36 @@ const nav = [
 
   <div class="mobile" id="mobile-nav" hidden>
     <div class="shell">
-      <nav class="mobile__nav" aria-label="Mobile">
-        {nav.map((item) => (
-          <a class="mobile__link" href={item.href}>{item.label}</a>
-        ))}
+      <nav class="mnav" aria-label="Mobile">
+        {nav.map((item) =>
+          item.columns ? (
+            <details class="mnav__group">
+              <summary class="mnav__summary">
+                {item.label}
+                <Fragment set:html={chev} />
+              </summary>
+              <div class="mnav__body">
+                {item.columns.map((col) => (
+                  <div class="mnav__col">
+                    <p class="menu__title">{col.title}</p>
+                    <ul class="mnav__list">
+                      {col.links.map((l) => (
+                        <li>
+                          <a class:list={["mnav__sub", { "is-muted": l.muted }]} href={l.href}>{l.label}</a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </details>
+          ) : (
+            <a class="mnav__link" href={item.href}>{item.label}</a>
+          )
+        )}
+        <a class="mnav__link" href="#stack">Agent Usecases</a>
       </nav>
       <div class="mobile__actions">
-        <a class="mobile__link" href="#stack">Agent Usecases</a>
         <a class="btn btn--ghost" href="#stack">Agent Studio</a>
         <a class="btn btn--primary" href="#cta">Talk to Us</a>
       </div>
@@ -89,7 +165,6 @@ const nav = [
     gap: var(--s4);
     height: 40px;
   }
-
   /* "New" is a signal, not a control: a pulsing dot and a quiet
      letterspaced label. No fill, no border, nothing to press. */
   .announce__new {
@@ -121,13 +196,11 @@ const nav = [
     0%   { transform: scale(1);   opacity: 0.6; }
     100% { transform: scale(3.4); opacity: 0; }
   }
-
   .announce__sep {
     width: 1px;
     height: 14px;
     background: rgba(255, 255, 255, 0.18);
   }
-
   .announce__text {
     color: rgba(255, 255, 255, 0.92);
     white-space: nowrap;
@@ -135,7 +208,6 @@ const nav = [
     text-overflow: ellipsis;
   }
   .announce__text--short { display: none; }
-
   .announce__link {
     display: inline-flex;
     align-items: center;
@@ -152,10 +224,6 @@ const nav = [
   .announce__link .arrow { transition: transform var(--d-fast) var(--ease); }
   .announce__link:hover .arrow { transform: translateX(3px); }
 
-  @media (prefers-reduced-motion: reduce) {
-    .beacon::after { animation: none; }
-  }
-
   /* Header ----------------------------------------------------- */
   .head {
     position: sticky;
@@ -166,6 +234,7 @@ const nav = [
     border-bottom: 1px solid var(--line);
   }
   .head__inner {
+    position: relative;
     display: flex;
     align-items: center;
     gap: var(--s7);
@@ -183,8 +252,6 @@ const nav = [
     height: 18px;
     border-radius: var(--r-sm);
     background: var(--purple);
-    /* A notch cut from the square keeps the mark from reading as
-       a generic rounded box. */
     clip-path: polygon(0 0, 100% 0, 100% 62%, 62% 100%, 0 100%);
   }
   .brand__word {
@@ -193,6 +260,7 @@ const nav = [
     letter-spacing: -0.05em;
   }
 
+  /* Nav triggers ------------------------------------------------ */
   .nav {
     display: flex;
     gap: var(--s5);
@@ -202,21 +270,16 @@ const nav = [
     display: inline-flex;
     align-items: center;
     gap: 5px;
+    padding: var(--s2) 0;
+    border: 0;
+    background: none;
     font-size: 0.9375rem;
     font-weight: 500;
     color: var(--ink-70);
-    padding-block: var(--s2);
+    cursor: pointer;
     position: relative;
     transition: color var(--d-fast) var(--ease);
   }
-  .nav__chev {
-    width: 10px;
-    height: 10px;
-    opacity: 0.55;
-    transition: opacity var(--d-fast) var(--ease),
-                transform var(--d-mid) var(--ease);
-  }
-  .nav__link:hover .nav__chev { opacity: 1; transform: translateY(1px); }
   .nav__link::after {
     content: "";
     position: absolute;
@@ -229,17 +292,230 @@ const nav = [
     transform-origin: left;
     transition: transform var(--d-mid) var(--ease);
   }
-  .nav__link:hover { color: var(--ink); }
-  .nav__link:hover::after { transform: scaleX(1); }
+  .nav__link:hover,
+  .nav__trigger[aria-expanded="true"] { color: var(--ink); }
+  .nav__link:hover::after,
+  .nav__trigger[aria-expanded="true"]::after { transform: scaleX(1); }
 
+  .nav__link :global(.chev) {
+    width: 10px;
+    height: 10px;
+    opacity: 0.55;
+    transition: opacity var(--d-fast) var(--ease),
+                transform var(--d-mid) var(--ease);
+  }
+  .nav__link:hover :global(.chev) { opacity: 1; }
+  .nav__trigger[aria-expanded="true"] :global(.chev) {
+    opacity: 1;
+    transform: rotate(180deg);
+  }
+
+  /* Menu panels ------------------------------------------------- */
+  .menu {
+    position: absolute;
+    top: 100%;
+    left: var(--x, 0);
+    margin-top: -1px;
+    padding: var(--s6);
+    background: var(--paper);
+    border: 1px solid var(--line-strong);
+    border-radius: 0 0 var(--r-lg) var(--r-lg);
+    /* The one real shadow on the page: this layer genuinely floats. */
+    box-shadow: 0 16px 40px -16px rgba(19, 17, 42, 0.22),
+                0 1px 2px rgba(19, 17, 42, 0.05);
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity var(--d-mid) var(--ease),
+                transform var(--d-mid) var(--ease),
+                visibility 0s linear var(--d-mid);
+  }
+  .menu.is-open {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition-delay: 0s;
+  }
+  /* Invisible bridge so the pointer can cross from trigger to panel
+     without a closing gap. */
+  .menu::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -14px;
+    height: 14px;
+  }
+  .menu--sm { width: 560px; }
+  .menu--md { width: 780px; }
+  .menu--lg { width: 1040px; }
+
+  .menu__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
+    gap: var(--s6);
+  }
+  .menu__grid--panel-first {
+    grid-template-columns: minmax(0, 1.35fr) repeat(calc(var(--cols, 3) - 1), minmax(0, 1fr));
+  }
+  .menu__col--panel {
+    background: var(--wash);
+    border-radius: var(--r-md);
+    padding: var(--s4);
+    margin: calc(var(--s4) * -1);
+    margin-right: 0;
+  }
+  .menu__col--panel + .menu__col { padding-left: var(--s2); }
+
+  .menu__title {
+    display: flex;
+    align-items: center;
+    gap: var(--s2);
+    margin-bottom: var(--s3);
+    font-size: var(--t-label);
+    font-weight: 600;
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--ink-45);
+  }
+  .menu__title::before {
+    content: "";
+    width: 14px;
+    height: 1.5px;
+    background: var(--purple);
+    opacity: 0.7;
+  }
+
+  .menu__list { display: grid; }
+
+  .menu__link {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s2);
+    padding: 5px 0;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--ink-70);
+    transition: color var(--d-fast) var(--ease);
+  }
+  .menu__link:hover { color: var(--ink); }
+  .menu__link.has-desc { padding: var(--s2) 0; }
+  .menu__link.has-desc .menu__label { color: var(--ink); font-weight: 600; }
+  .menu__link.has-desc:hover .menu__label { color: var(--purple-ink); }
+
+  .menu__text { display: grid; gap: 2px; min-width: 0; }
+  .menu__label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s2);
+    line-height: 1.35;
+    white-space: nowrap;
+  }
+  .menu__link.has-desc .menu__label { white-space: normal; }
+  .menu__desc {
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: var(--ink-45);
+    text-wrap: pretty;
+  }
+
+  .menu__ico {
+    flex: none;
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+    color: var(--purple);
+  }
+  .menu__ico :global(svg) { width: 100%; height: 100%; }
+  .menu__ico--mark { color: var(--ink); opacity: 0.75; }
+  .menu__ext {
+    flex: none;
+    width: 12px;
+    height: 12px;
+    margin-left: auto;
+    margin-top: 4px;
+    opacity: 0.35;
+    transition: opacity var(--d-fast) var(--ease),
+                transform var(--d-fast) var(--ease);
+  }
+  .menu__ext :global(svg) { width: 100%; height: 100%; }
+  .menu__link:hover .menu__ext { opacity: 0.8; transform: translate(1px, -1px); }
+
+  .menu__link.is-muted { opacity: 0.42; pointer-events: none; }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    height: 16px;
+    padding-inline: 5px;
+    border-radius: var(--r-sm);
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .badge--new { background: var(--wash-deep); color: var(--purple-ink); }
+  .badge--oss { background: rgba(19,17,42,0.06); color: var(--ink-45); }
+
+  /* Featured strip ---------------------------------------------- */
+  .menu__featured {
+    margin-top: var(--s6);
+    padding-top: var(--s5);
+    border-top: 1px solid var(--line);
+  }
+  .menu__cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s4);
+  }
+  .fcard {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s3);
+    padding: var(--s4);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--wash);
+    transition: border-color var(--d-fast) var(--ease),
+                background var(--d-fast) var(--ease);
+  }
+  .fcard:hover { border-color: var(--line-strong); background: var(--wash-deep); }
+  .fcard__play {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .fcard__play :global(svg) { width: 14px; height: 14px; }
+  .fcard__body { display: grid; gap: 3px; }
+  .fcard__source {
+    font-size: var(--t-label);
+    font-weight: 600;
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-45);
+  }
+  .fcard__title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    text-wrap: pretty;
+  }
+
+  /* Actions ------------------------------------------------------ */
   .head__actions {
     display: flex;
     align-items: center;
     gap: var(--s2);
     flex: none;
   }
-  /* Agent Usecases is a link with a mark, not a control, so the two
-     buttons beside it keep their weight. */
   .head__usecases {
     display: inline-flex;
     align-items: center;
@@ -251,11 +527,7 @@ const nav = [
     transition: color var(--d-fast) var(--ease);
   }
   .head__usecases:hover { color: var(--ink); }
-  .head__star {
-    width: 13px;
-    height: 13px;
-    color: var(--purple);
-  }
+  .head__star { width: 13px; height: 13px; color: var(--purple); }
 
   /* Burger ------------------------------------------------------ */
   .burger {
@@ -276,35 +548,59 @@ const nav = [
     width: 16px;
     height: 1.5px;
     background: var(--ink);
-    transition: transform var(--d-mid) var(--ease),
-                opacity var(--d-fast) var(--ease);
+    transition: transform var(--d-mid) var(--ease);
   }
-  .burger[aria-expanded="true"] span:first-child {
-    transform: translateY(3.25px) rotate(45deg);
-  }
-  .burger[aria-expanded="true"] span:last-child {
-    transform: translateY(-3.25px) rotate(-45deg);
-  }
+  .burger[aria-expanded="true"] span:first-child { transform: translateY(3.25px) rotate(45deg); }
+  .burger[aria-expanded="true"] span:last-child  { transform: translateY(-3.25px) rotate(-45deg); }
 
   /* Mobile panel ------------------------------------------------ */
   .mobile {
     border-top: 1px solid var(--line);
     background: var(--paper);
-    padding-block: var(--s5) var(--s6);
+    padding-block: var(--s4) var(--s6);
+    max-height: calc(100dvh - 104px);
+    overflow-y: auto;
   }
-  .mobile__nav { display: grid; gap: var(--s1); }
-  .mobile__link {
-    font-size: 1.125rem;
-    font-weight: 500;
+  .mnav { display: grid; }
+  .mnav__link,
+  .mnav__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding-block: var(--s3);
     border-bottom: 1px solid var(--line);
+    font-size: 1.0625rem;
+    font-weight: 500;
+    cursor: pointer;
+    list-style: none;
   }
+  .mnav__summary::-webkit-details-marker { display: none; }
+  .mnav__summary :global(.chev) {
+    width: 12px;
+    height: 12px;
+    opacity: 0.5;
+    transition: transform var(--d-mid) var(--ease);
+  }
+  .mnav__group[open] .mnav__summary :global(.chev) { transform: rotate(180deg); }
+  .mnav__body {
+    display: grid;
+    gap: var(--s5);
+    padding: var(--s4) 0 var(--s5);
+    border-bottom: 1px solid var(--line);
+  }
+  .mnav__list { display: grid; }
+  .mnav__sub {
+    display: block;
+    padding-block: 6px;
+    font-size: 0.9375rem;
+    color: var(--ink-70);
+  }
+  .mnav__sub.is-muted { opacity: 0.42; pointer-events: none; }
   .mobile__actions {
     display: grid;
     gap: var(--s3);
     margin-top: var(--s5);
   }
-  .mobile__actions .mobile__link { border-bottom: 0; padding-block: 0 var(--s2); }
   .mobile__actions .btn { justify-content: center; }
 
   @media (max-width: 1020px) {
@@ -314,23 +610,100 @@ const nav = [
     .announce__text--short { display: block; }
     .announce__sep--cta { display: none; }
   }
+  @media (prefers-reduced-motion: reduce) {
+    .beacon::after { animation: none; }
+    .menu { transition: none; transform: none; }
+  }
 </style>
 
 <script>
+  // ---- Desktop menus ---------------------------------------------
+  // Hover opens after a short intent delay so crossing the nav does
+  // not flicker panels. Click and keyboard open too. Escape, outside
+  // pointer, or tabbing away closes. Panels clamp inside the shell.
+  const shell = document.querySelector<HTMLElement>(".head__inner");
+  const items = [...document.querySelectorAll<HTMLElement>(".nav__item")];
+  let active: HTMLElement | null = null;
+  let openTimer = 0;
+  let closeTimer = 0;
+
+  const parts = (item: HTMLElement) => ({
+    trigger: item.querySelector<HTMLButtonElement>(".nav__trigger")!,
+    menu: item.querySelector<HTMLElement>(".menu")!,
+  });
+
+  function place(item: HTMLElement) {
+    if (!shell) return;
+    const { trigger, menu } = parts(item);
+    const cs = getComputedStyle(shell);
+    const padL = parseFloat(cs.paddingLeft);
+    const padR = parseFloat(cs.paddingRight);
+    const max = shell.clientWidth - padR - menu.offsetWidth;
+    const x = Math.max(padL, Math.min(trigger.offsetLeft - 12, max));
+    menu.style.setProperty("--x", `${x}px`);
+  }
+
+  function close() {
+    if (!active) return;
+    const { trigger, menu } = parts(active);
+    trigger.setAttribute("aria-expanded", "false");
+    menu.classList.remove("is-open");
+    active = null;
+  }
+
+  function open(item: HTMLElement) {
+    if (active === item) return;
+    close();
+    place(item);
+    const { trigger, menu } = parts(item);
+    trigger.setAttribute("aria-expanded", "true");
+    menu.classList.add("is-open");
+    active = item;
+  }
+
+  for (const item of items) {
+    const { trigger } = parts(item);
+
+    item.addEventListener("pointerenter", (e) => {
+      if (e.pointerType !== "mouse") return;
+      clearTimeout(closeTimer);
+      openTimer = window.setTimeout(() => open(item), 60);
+    });
+    item.addEventListener("pointerleave", (e) => {
+      if (e.pointerType !== "mouse") return;
+      clearTimeout(openTimer);
+      closeTimer = window.setTimeout(close, 140);
+    });
+    trigger.addEventListener("click", () => (active === item ? close() : open(item)));
+    item.addEventListener("focusout", (e) => {
+      if (!item.contains(e.relatedTarget as Node)) close();
+    });
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape" || !active) return;
+    parts(active).trigger.focus();
+    close();
+  });
+  document.addEventListener("pointerdown", (e) => {
+    if (active && !active.contains(e.target as Node)) close();
+  });
+  window.addEventListener("resize", () => active && place(active), { passive: true });
+
+  // ---- Mobile panel ----------------------------------------------
   const burger = document.querySelector<HTMLButtonElement>(".burger");
   const panel = document.querySelector<HTMLElement>("#mobile-nav");
 
   burger?.addEventListener("click", () => {
-    const open = burger.getAttribute("aria-expanded") === "true";
-    burger.setAttribute("aria-expanded", String(!open));
-    burger.setAttribute("aria-label", open ? "Open menu" : "Close menu");
-    if (panel) panel.hidden = open;
+    const isOpen = burger.getAttribute("aria-expanded") === "true";
+    burger.setAttribute("aria-expanded", String(!isOpen));
+    burger.setAttribute("aria-label", isOpen ? "Open menu" : "Close menu");
+    if (panel) panel.hidden = isOpen;
   });
-
   panel?.addEventListener("click", (e) => {
-    if ((e.target as HTMLElement).closest("a")) {
-      burger?.setAttribute("aria-expanded", "false");
-      panel.hidden = true;
-    }
+    const a = (e.target as HTMLElement).closest("a");
+    if (!a || a.getAttribute("href") === "#") return;
+    burger?.setAttribute("aria-expanded", "false");
+    panel.hidden = true;
   });
 </script>
