@@ -366,16 +366,20 @@ Getting it small took some work. The recoloured strip at full width was
 
 **Source width and display width are locked to a 2x ratio.** A first
 pass shipped 1400px and rendered it at 1100px, which is 0.64x of what a
-retina screen asks for, and it read as soft. It is now a 1600px source
-rendered at 800px: exactly 1.0x, measured in the browser rather than
-assumed. Lazy-loaded and below the fold.
+retina screen asks for, and it read as soft. It now renders at 601px,
+the width Lyzr's own page uses, from a 1202px source: exactly 1.0x,
+measured in the browser rather than assumed. 14KB, lazy-loaded and
+below the fold.
 
 The perceived vertical stretch was the blur, not the geometry. The
 aspect ratio was 8.28 at both natural and rendered size throughout.
 
-Compliance icons use the paths from Lyzr's own markup, on a 24-unit
+Compliance is a five-column grid of large outlined marks over centred
+labels, matching the source layout rather than the chips it was first
+built as. The icon paths come from Lyzr's own markup on a 24-unit
 viewBox, kept separate from the 16-unit set the governance matrix uses
-so neither drifts when the other changes.
+so neither drifts when the other changes. Stroke width is thinned to
+1.3 because 1.6 reads heavy once a mark is 46px across.
 
 The whole strip is one image, so the recognitions would be invisible to
 a screen reader. The `awards` array still exists and now builds the alt
