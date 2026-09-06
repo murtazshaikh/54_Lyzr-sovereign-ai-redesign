@@ -11,9 +11,14 @@ const nav = [
 
 <div class="announce">
   <div class="shell announce__inner">
-    <span class="announce__tag">New</span>
+    <span class="announce__new">
+      <span class="beacon" aria-hidden="true"></span>
+      New
+    </span>
+    <span class="announce__sep" aria-hidden="true"></span>
     <span class="announce__text">Lyzr launches the Control Plane for AI Agents</span>
-    <span class="announce__text announce__text--short">Control Plane for AI Agents</span>
+    <span class="announce__text announce__text--short">Control Plane is live</span>
+    <span class="announce__sep announce__sep--cta" aria-hidden="true"></span>
     <a class="announce__link" href="#stack">Access now <span class="arrow">&rarr;</span></a>
   </div>
 </div>
@@ -67,20 +72,50 @@ const nav = [
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--s3);
+    gap: var(--s4);
     height: 40px;
   }
-  .announce__tag {
-    background: var(--purple);
-    border-radius: var(--r-sm);
-    padding: 2px var(--s2);
+
+  /* "New" is a signal, not a control: a pulsing dot and a quiet
+     letterspaced label. No fill, no border, nothing to press. */
+  .announce__new {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s2);
     font-size: var(--t-label);
     font-weight: 600;
-    letter-spacing: 0.04em;
+    letter-spacing: var(--track-label);
     text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.78);
   }
+  .beacon {
+    position: relative;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--purple);
+  }
+  .beacon::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--purple);
+    animation: beacon 2.4s var(--ease) infinite;
+  }
+  @keyframes beacon {
+    0%   { transform: scale(1);   opacity: 0.6; }
+    100% { transform: scale(3.4); opacity: 0; }
+  }
+
+  .announce__sep {
+    width: 1px;
+    height: 14px;
+    background: rgba(255, 255, 255, 0.18);
+  }
+
   .announce__text {
-    color: rgba(255, 255, 255, 0.72);
+    color: rgba(255, 255, 255, 0.92);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -88,13 +123,24 @@ const nav = [
   .announce__text--short { display: none; }
 
   .announce__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s2);
     font-weight: 600;
     white-space: nowrap;
-    display: inline-flex;
-    gap: var(--s2);
+    color: var(--paper);
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 255, 255, 0.28);
+    text-underline-offset: 4px;
+    transition: text-decoration-color var(--d-fast) var(--ease);
   }
+  .announce__link:hover { text-decoration-color: var(--paper); }
   .announce__link .arrow { transition: transform var(--d-fast) var(--ease); }
   .announce__link:hover .arrow { transform: translateX(3px); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .beacon::after { animation: none; }
+  }
 
   /* Header ----------------------------------------------------- */
   .head {
@@ -217,6 +263,7 @@ const nav = [
     .burger { display: flex; }
     .announce__text { display: none; }
     .announce__text--short { display: block; }
+    .announce__sep--cta { display: none; }
   }
 </style>
 
