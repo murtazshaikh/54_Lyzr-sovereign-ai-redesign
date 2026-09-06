@@ -327,6 +327,13 @@ drifted off the end on its own, and the final cards could not be
 reached. `proximity` did not fix it. The buttons already land on exact
 card offsets, so snapping bought nothing and cost correctness.
 
+**The rail's vertical axis is pinned shut.** Setting `overflow-x: auto`
+makes the browser compute `overflow-y: auto` as well, so the rail's own
+vertical padding became a small scrollable strip inside the component.
+It was most visible before the cards revealed, while they still held
+their 16px entry offset. `overflow-y: hidden` fixes it, and the padding
+still gives the hover shadow room.
+
 **The buttons step a tracked index** rather than recomputing position
 from `scrollLeft` on each click. Reading `scrollLeft` while a smooth
 scroll is still settling lands on the wrong card. Manual scrolling

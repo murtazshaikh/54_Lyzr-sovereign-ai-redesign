@@ -153,8 +153,13 @@ const chev = (dir: "prev" | "next") =>
     gap: var(--s4);
     margin-top: clamp(2rem, 1rem + 2.5vw, 3rem);
     padding-inline: var(--edge) var(--gutter);
-    padding-block: var(--s2);
+    padding-block: var(--s3);
+    /* overflow-x:auto alone makes the browser compute overflow-y:auto,
+       which turned the vertical padding into a tiny scrollable strip
+       inside the rail. Pin the vertical axis shut; the padding still
+       gives the hover shadow room to show. */
     overflow-x: auto;
+    overflow-y: hidden;
     overscroll-behavior-x: contain;
     /* No scroll-snap. Once the trailing cards fit on screen, their
        snap positions sit past the maximum scroll, and the browser
