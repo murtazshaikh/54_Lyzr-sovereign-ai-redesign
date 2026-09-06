@@ -257,9 +257,37 @@ faint purple border.
 - The aside measures 547px, comfortably inside a 900px viewport, which
   is what keeps the sticky behaviour from breaking.
 
+## Optimus tiers
+
+The source shows a list of four tiers beside a spec panel, which is
+close to what the full stack section already does. But these tiers are
+literally a scale, one desk to 10,000 users, so the control is one: a
+track with four stops that fills up to wherever you are.
+
+- **`role="radiogroup"`** with roving tabindex, arrow keys, Home and
+  End. It is a real control, not four buttons that look like one.
+- **Every stop up to the active one reads as reached**, so the rail
+  shows position on a range rather than just which item is selected.
+- **Spec values use the system monospace stack.** Zero bytes, and it
+  gives the sheet the feel of hardware documentation.
+- **Rows arrive in a 45ms stagger** when the tier changes, so the eye
+  reads the sheet top to bottom instead of the block flashing in.
+- **No auto-advance here.** The path section already advances on its
+  own, and the copy says "pick the appliance", so this one waits.
+- All four panels share a grid cell and measure 372px, so switching
+  never shifts the page.
+
+## Anchor hygiene
+
+The built page is checked for duplicate ids and unresolved in-page
+anchors. Two real bugs came out of that check: the full stack cards and
+this section both claimed `id="optimus"`, and five header links still
+pointed at `#stack`, a section that had been deleted. `#cta` is the one
+remaining unresolved anchor and resolves when the closing section lands.
+
 ## Build status
 
-Sections complete: announcement bar, sticky header with four mega menus, hero, customer wall, stat band, why it matters, the four-step path, the full stack.
+Sections complete: announcement bar, sticky header with four mega menus, hero, customer wall, stat band, why it matters, the four-step path, the full stack, the Optimus scale.
 Page is 2224px at 1440, 18KB HTML and 5.3KB CSS gzipped, plus the 29KB font. Still no external scripts and no images. Hero is 884px tall at 1440, so it fits one screen.
 No horizontal overflow at 1440, 1280, 834 or 390.
 Payload 4.5KB HTML, 3.1KB CSS, both gzipped, plus a 29KB font.

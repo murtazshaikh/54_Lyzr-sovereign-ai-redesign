@@ -15,7 +15,7 @@ export interface Product {
 
 export const products: Product[] = [
   {
-    id: "agent-platform",
+    id: "stack-agent-platform",
     name: "Lyzr Agent Platform",
     tagline: "Agentic OS and Control Plane",
     status: "live",
@@ -31,7 +31,7 @@ export const products: Product[] = [
     caption: "Agents live in production",
   },
   {
-    id: "nitro",
+    id: "stack-nitro",
     name: "Lyzr Nitro",
     tagline: "Production modules for hyperscaler platforms",
     status: "live",
@@ -47,7 +47,7 @@ export const products: Product[] = [
     caption: "Simulations before production",
   },
   {
-    id: "optimus",
+    id: "stack-optimus",
     name: "Lyzr Optimus",
     tagline: "The on-prem agent factory",
     status: "dated",
