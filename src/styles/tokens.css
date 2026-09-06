@@ -83,9 +83,21 @@
   --r-md: 6px;
   --r-lg: 8px;
 
-  /* Motion. One curve, three durations. Nothing else.           */
-  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Motion.
+     --ease     the house curve: fast out, long settle
+     --ease-in  for things leaving, which should not linger
+     --ease-out entrances with a touch more overshoot
+     --spring   a single soft overshoot, used only on press-release   */
+  --ease:      cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in:   cubic-bezier(0.55, 0, 1, 0.45);
+  --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
+  --spring:    cubic-bezier(0.34, 1.56, 0.64, 1);
+
   --d-fast: 140ms;
   --d-mid:  260ms;
   --d-slow: 620ms;
+  --d-reveal: 900ms;
+
+  /* Header height, so anchors can clear it. */
+  --head-h: 64px;
 }

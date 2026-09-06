@@ -441,6 +441,59 @@ shift while the logo loads. The header copy is `eager` with
 `fetchpriority="high"` since it is the first thing above the fold;
 every other instance is lazy.
 
+## Motion system
+
+One curve became four, each with a job: `--ease` is the house curve,
+`--ease-in` for things leaving so they do not linger, `--ease-out` for
+entrances, and `--spring` for exactly one thing, the release of a
+button press.
+
+**Headlines rise out of a mask, line by line.** Lines are found with
+the Range API by walking the text and watching for the top offset to
+change, which is where the browser actually broke it. Counting words
+would fight `text-wrap: balance`, which nearly every headline uses.
+Re-run on resize, since a different width breaks the text differently.
+The splitter refuses any headline carrying inline markup rather than
+flattening it and silently dropping an emphasis.
+
+**Reading progress** uses the browser's native scroll timeline where it
+exists and rAF where it does not. One bug worth remembering: the
+`animation` shorthand resets `animation-duration` to `0s`, and a scroll
+timeline needs it left at `auto`, so the bar never moved. Longhands
+only.
+
+**A whisper of grain** over the whole page. Flat white at this scale
+can read as unfinished; the noise gives it a surface. One inline SVG
+turbulence, no request.
+
+**Anchors now clear the sticky header.** `scroll-padding-top` on the
+root, verified at 96px of clearance.
+
+## Mega menu
+
+One surface, not four panels. A single box carries the background,
+border and shadow, and it is the only thing that animates geometry, so
+moving between menus reads as one surface travelling rather than a
+close and a reopen. Measured mid-flight at `204, 895x378` between
+Solutions at `145, 1040x468` and Platform at `250, 780x307`.
+
+Two problems came out of building it:
+
+**Panels are siblings of the box, so nothing clipped them** while it
+resized, and the outgoing content hung outside a shrinking box. Both
+panels now clip with `clip-path` on the box's own timing. `clip-path`
+rather than width, because it hides content without reflowing it.
+Worst measured spill across a transition: 1px.
+
+**Both panels were briefly visible at once**, and two dense text panels
+at half opacity in the same place read as a smear. The hand-off is now
+sequential, out in 120ms and in from 150ms. Measured at 50ms intervals,
+two panels are never visible together; the box is briefly empty, which
+is what makes the swap feel deliberate.
+
+Everything below the header dims behind a scrim, which is also a click
+target for dismissing.
+
 ## Anchor hygiene
 
 The built page is checked for duplicate ids and unresolved in-page

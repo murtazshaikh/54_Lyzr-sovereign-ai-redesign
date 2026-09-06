@@ -18,6 +18,9 @@ const { title, description } = Astro.props;
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link
       rel="preload"
       href="/fonts/instrument-sans-latin.woff2"
@@ -27,12 +30,105 @@ const { title, description } = Astro.props;
     />
   </head>
   <body>
+    <div class="progress-rail" aria-hidden="true"><span data-progress></span></div>
+    <div class="grain" aria-hidden="true"></div>
+
     <slot />
 
+    <style is:global>
+      /* Reading progress. One transform, driven by the browser's own
+         scroll timeline where that exists, and by rAF where it does
+         not. */
+      .progress-rail {
+        position: fixed;
+        inset: 0 0 auto 0;
+        height: 2px;
+        z-index: 100;
+        pointer-events: none;
+      }
+      .progress-rail span {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, var(--purple), #9d86f5);
+        transform: scaleX(0);
+        transform-origin: left;
+      }
+      @supports (animation-timeline: scroll()) {
+        .progress-rail span {
+          /* Longhands, not the shorthand: `animation: progress linear`
+             resets animation-duration to 0s, and a scroll timeline
+             needs it left at auto or nothing advances. */
+          animation-name: progress;
+          animation-duration: auto;
+          animation-timing-function: linear;
+          animation-fill-mode: both;
+          animation-timeline: scroll(root block);
+        }
+        @keyframes progress { to { transform: scaleX(1); } }
+      }
+
+      /* A whisper of grain. Flat white at this scale can read as
+         unfinished; the noise gives it a surface without adding a
+         request or a visible texture. */
+      .grain {
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        opacity: 0.035;
+        mix-blend-mode: multiply;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .progress-rail { display: none; }
+      }
+    </style>
+
     <script>
+      import { splitLines } from "../scripts/lines";
+
+      // Headlines are split into lines, then revealed line by line.
+      // Splitting is re-run on resize because a different width breaks
+      // the text in different places.
+      const heads = document.querySelectorAll<HTMLElement>(".split");
+      const doSplit = () => heads.forEach((h) => splitLines(h));
+      if (heads.length) {
+        doSplit();
+        let t = 0;
+        window.addEventListener("resize", () => {
+          clearTimeout(t);
+          t = window.setTimeout(() => {
+            heads.forEach((h) => h.classList.remove("is-in"));
+            doSplit();
+            requestAnimationFrame(() =>
+              heads.forEach((h) => {
+                const r = h.getBoundingClientRect();
+                if (r.top < window.innerHeight) h.classList.add("is-in");
+              })
+            );
+          }, 180);
+        }, { passive: true });
+      }
+
+      // Progress bar fallback for engines without scroll timelines.
+      const bar = document.querySelector<HTMLElement>("[data-progress]");
+      if (bar && !CSS.supports("animation-timeline: scroll()")) {
+        let frame = 0;
+        const paint = () => {
+          const max = document.documentElement.scrollHeight - window.innerHeight;
+          bar.style.transform = `scaleX(${max > 0 ? window.scrollY / max : 0})`;
+        };
+        window.addEventListener("scroll", () => {
+          cancelAnimationFrame(frame);
+          frame = requestAnimationFrame(paint);
+        }, { passive: true });
+        paint();
+      }
+
       // Scroll reveal. ~20 lines of vanilla JS is the entire runtime
       // cost of the page's motion system.
-      const items = document.querySelectorAll<HTMLElement>(".reveal");
+      const items = document.querySelectorAll<HTMLElement>(".reveal, .split");
 
       if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         const io = new IntersectionObserver(

@@ -1,7 +1,8 @@
 ---
 ---
 
-<section class="closer" id="cta">
+<section class="closer" id="cta" data-spot>
+  <div class="closer__glow" aria-hidden="true"></div>
   <div class="shell closer__inner">
     <h2 class="closer__title reveal">
       Stop building on <em>someone else&rsquo;s</em> foundation.
@@ -27,6 +28,8 @@
 
 <style>
   .closer {
+    position: relative;
+    overflow: hidden;
     padding-block: clamp(4.5rem, 2rem + 7vw, 9rem);
     background: var(--ink);
     color: var(--paper);
@@ -39,7 +42,24 @@
     );
   }
 
-  .closer__inner { text-align: center; }
+  /* A soft light that follows the pointer across the dark ground. It
+     is one radial gradient moved by two custom properties, so nothing
+     is repainted but the layer itself. */
+  .closer__glow {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      380px circle at var(--mx, 50%) var(--my, 50%),
+      rgba(157, 134, 245, 0.20),
+      transparent 68%
+    );
+    transition: opacity 420ms var(--ease);
+  }
+  .closer[data-lit] .closer__glow { opacity: 1; }
+
+  .closer__inner { position: relative; text-align: center; }
 
   .closer__title {
     max-width: 18ch;
@@ -80,3 +100,25 @@
     color: rgba(255, 255, 255, 0.42);
   }
 </style>
+
+<script>
+  // Pointer-following light. Coordinates are written as custom
+  // properties on the section, which keeps the work to compositing.
+  const closer = document.querySelector<HTMLElement>("[data-spot]");
+  if (closer && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    let frame = 0;
+    closer.addEventListener("pointermove", (e) => {
+      if (e.pointerType !== "mouse") return;
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const r = closer.getBoundingClientRect();
+        closer.style.setProperty("--mx", `${e.clientX - r.left}px`);
+        closer.style.setProperty("--my", `${e.clientY - r.top}px`);
+      });
+    });
+    closer.addEventListener("pointerenter", (e) => {
+      if (e.pointerType === "mouse") closer.setAttribute("data-lit", "");
+    });
+    closer.addEventListener("pointerleave", () => closer.removeAttribute("data-lit"));
+  }
+</script>

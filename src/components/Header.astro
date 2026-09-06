@@ -20,8 +20,14 @@ const chev = `<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="
   </div>
 </div>
 
+<div class="scrim" data-scrim aria-hidden="true"></div>
+
 <header class="head">
   <div class="shell head__inner">
+    <!-- One box sits behind every panel. It is what actually moves and
+         resizes between menus, which is why the surface appears to stay
+         open and morph rather than closing and reopening. -->
+    <div class="megabox" data-box aria-hidden="true"></div>
     <a class="brand" href="/" aria-label="Lyzr home">
       <img
         class="brand__logo"
@@ -232,6 +238,27 @@ const chev = `<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="
   .announce__link .arrow { transition: transform var(--d-fast) var(--ease); }
   .announce__link:hover .arrow { transform: translateX(3px); }
 
+  /* Everything below the header dims while a menu is open, which is
+     what makes the panel read as a layer rather than a box. */
+  .scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: rgba(19, 17, 42, 0.38);
+    backdrop-filter: blur(1.5px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 320ms var(--ease),
+                visibility 0s linear 320ms;
+  }
+  .scrim.is-on {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition-delay: 0s;
+  }
+
   /* Header ----------------------------------------------------- */
   .head {
     position: sticky;
@@ -241,8 +268,10 @@ const chev = `<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="
     backdrop-filter: saturate(1.6) blur(12px);
     border-bottom: 1px solid var(--line);
   }
+  /* The header sits above the scrim so it stays lit. */
   .head__inner {
     position: relative;
+    z-index: 1;
     display: flex;
     align-items: center;
     gap: var(--s7);
@@ -313,30 +342,80 @@ const chev = `<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="
   }
 
   /* Menu panels ------------------------------------------------- */
+  /* The morphing surface. Only this element carries the background,
+     border and shadow, and only this element animates its geometry. */
+  .megabox {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 0;
+    height: 0;
+    margin-top: -1px;
+    background: var(--paper);
+    border: 1px solid var(--line-strong);
+    border-radius: 0 0 var(--r-lg) var(--r-lg);
+    box-shadow: 0 24px 60px -22px rgba(19, 17, 42, 0.28),
+                0 1px 2px rgba(19, 17, 42, 0.05);
+    opacity: 0;
+    transform-origin: top center;
+    transform: translateY(-6px) scaleY(0.97);
+    pointer-events: none;
+    z-index: 1;
+    transition:
+      opacity var(--d-mid) var(--ease),
+      transform var(--d-mid) var(--ease),
+      /* geometry is what makes it feel like one surface travelling */
+      left 420ms var(--ease-out),
+      width 420ms var(--ease-out),
+      height 420ms var(--ease-out);
+  }
+  .megabox.is-open {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+  /* First open has nothing to travel from, so the geometry must not
+     animate in from zero. */
+  .megabox.is-appearing { transition-property: opacity, transform; }
+
   .menu {
     position: absolute;
     top: 100%;
     left: var(--x, 0);
     margin-top: -1px;
     padding: var(--s6);
-    background: var(--paper);
-    border: 1px solid var(--line-strong);
-    border-radius: 0 0 var(--r-lg) var(--r-lg);
-    /* The one real shadow on the page: this layer genuinely floats. */
-    box-shadow: 0 16px 40px -16px rgba(19, 17, 42, 0.22),
-                0 1px 2px rgba(19, 17, 42, 0.05);
+    z-index: 2;
     visibility: hidden;
     opacity: 0;
-    transform: translateY(6px);
-    transition: opacity var(--d-mid) var(--ease),
-                transform var(--d-mid) var(--ease),
-                visibility 0s linear var(--d-mid);
+    /* content slides in from the side the reader came from */
+    transform: translateX(var(--from, 0));
+    /* The panels are siblings of the box, so nothing clips them while
+       it resizes. clip-path does, and unlike width it does not reflow
+       the content it is hiding. Matched to the box's own 420ms. */
+    transition: opacity 220ms var(--ease),
+                transform 340ms var(--ease-out),
+                clip-path 420ms var(--ease-out),
+                visibility 0s linear 220ms;
   }
+  /* The incoming panel waits for the outgoing one to be gone. Two dense
+     text panels at half opacity in the same place read as a smear, so
+     the hand-off is sequential: out in 120ms, in from 150ms. The box
+     is briefly empty, which is what makes the swap feel deliberate. */
   .menu.is-open {
     visibility: visible;
     opacity: 1;
     transform: none;
-    transition-delay: 0s;
+    transition-delay: 150ms, 150ms, 0s, 0s;
+  }
+  /* The outgoing panel leaves the other way, quickly. */
+  .menu.is-leaving {
+    visibility: visible;
+    opacity: 0;
+    transform: translateX(var(--to, 0));
+    transition: opacity 120ms var(--ease-in),
+                transform 220ms var(--ease-in),
+                clip-path 420ms var(--ease-out),
+                visibility 0s linear 420ms;
   }
   /* Invisible bridge so the pointer can cross from trigger to panel
      without a closing gap. */
@@ -614,7 +693,7 @@ const chev = `<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="
   }
   @media (prefers-reduced-motion: reduce) {
     .beacon::after { animation: none; }
-    .menu { transition: none; transform: none; }
+    .menu, .megabox, .scrim { transition: none; transform: none; }
   }
 </style>
 
@@ -624,6 +703,8 @@ const chev = `<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="
   // not flicker panels. Click and keyboard open too. Escape, outside
   // pointer, or tabbing away closes. Panels clamp inside the shell.
   const shell = document.querySelector<HTMLElement>(".head__inner");
+  const box = document.querySelector<HTMLElement>("[data-box]");
+  const scrim = document.querySelector<HTMLElement>("[data-scrim]");
   const items = [...document.querySelectorAll<HTMLElement>(".nav__item")];
   let active: HTMLElement | null = null;
   let openTimer = 0;
@@ -634,15 +715,33 @@ const chev = `<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="
     menu: item.querySelector<HTMLElement>(".menu")!,
   });
 
-  function place(item: HTMLElement) {
-    if (!shell) return;
+  /** Left offset for a panel, clamped inside the shell. */
+  function xFor(item: HTMLElement) {
     const { trigger, menu } = parts(item);
-    const cs = getComputedStyle(shell);
+    const cs = getComputedStyle(shell!);
     const padL = parseFloat(cs.paddingLeft);
     const padR = parseFloat(cs.paddingRight);
-    const max = shell.clientWidth - padR - menu.offsetWidth;
-    const x = Math.max(padL, Math.min(trigger.offsetLeft - 12, max));
-    menu.style.setProperty("--x", `${x}px`);
+    const max = shell!.clientWidth - padR - menu.offsetWidth;
+    return Math.max(padL, Math.min(trigger.offsetLeft - 12, max));
+  }
+
+  /** Measure a panel without showing it. */
+  function sizeOf(menu: HTMLElement) {
+    return { w: menu.offsetWidth, h: menu.offsetHeight };
+  }
+
+  type Rect = { x: number; w: number; h: number };
+  let boxRect: Rect | null = null;
+
+  /**
+   * The box rect expressed as an inset on a panel sitting at `panel`.
+   * Both share a top edge, so only left, right and bottom matter.
+   */
+  function insetOf(panel: Rect, target: Rect) {
+    const l = Math.max(0, target.x - panel.x);
+    const r = Math.max(0, panel.x + panel.w - (target.x + target.w));
+    const b = Math.max(0, panel.h - target.h);
+    return `inset(0px ${r}px ${b}px ${l}px round 0 0 8px 8px)`;
   }
 
   function close() {
@@ -650,16 +749,83 @@ const chev = `<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="
     const { trigger, menu } = parts(active);
     trigger.setAttribute("aria-expanded", "false");
     menu.classList.remove("is-open");
+    menu.style.removeProperty("--from");
+    menu.style.removeProperty("clip-path");
+    box?.classList.remove("is-open");
+    scrim?.classList.remove("is-on");
     active = null;
+    boxRect = null;
   }
 
   function open(item: HTMLElement) {
     if (active === item) return;
-    close();
-    place(item);
+    const first = !active;
+    const prev = active;
     const { trigger, menu } = parts(item);
+
+    // Direction of travel, so the incoming panel enters from the side
+    // the reader moved from and the outgoing one leaves the other way.
+    const dir = prev ? (items.indexOf(item) > items.indexOf(prev) ? 1 : -1) : 0;
+
+    const x = xFor(item);
+    const { w, h } = sizeOf(menu);
+    const next: Rect = { x, w, h };
+    const from = boxRect;
+
+    if (prev) {
+      const p = parts(prev);
+      p.trigger.setAttribute("aria-expanded", "false");
+      p.menu.classList.remove("is-open");
+      p.menu.style.setProperty("--to", `${dir * -18}px`);
+      p.menu.classList.add("is-leaving");
+      // Shrink the outgoing panel's clip to the box's destination, so
+      // its content never hangs outside the box while it contracts.
+      if (from) {
+        p.menu.style.clipPath = "inset(0px)";
+        void p.menu.offsetWidth;
+        p.menu.style.clipPath = insetOf(from, next);
+      }
+      const leaving = p.menu;
+      window.setTimeout(() => {
+        leaving.classList.remove("is-leaving");
+        leaving.style.removeProperty("clip-path");
+      }, 440);
+    }
+
+    menu.style.setProperty("--x", `${x}px`);
+    menu.style.setProperty("--from", `${dir * 18}px`);
+
+    // The incoming panel starts clipped to wherever the box is now and
+    // opens out with it, so a growing box never reveals content early.
+    if (from) {
+      menu.style.clipPath = insetOf(next, from);
+      void menu.offsetWidth;
+      menu.style.clipPath = "inset(0px)";
+    } else {
+      menu.style.removeProperty("clip-path");
+    }
+
+    if (box) {
+      // On the very first open there is nowhere to travel from, so the
+      // geometry is placed instantly and only opacity animates.
+      box.classList.toggle("is-appearing", first);
+      if (first) {
+        box.style.left = `${x}px`;
+        box.style.width = `${w}px`;
+        box.style.height = `${h}px`;
+        void box.offsetWidth;
+      } else {
+        box.style.left = `${x}px`;
+        box.style.width = `${w}px`;
+        box.style.height = `${h}px`;
+      }
+      box.classList.add("is-open");
+    }
+    boxRect = next;
+
     trigger.setAttribute("aria-expanded", "true");
     menu.classList.add("is-open");
+    scrim?.classList.add("is-on");
     active = item;
   }
 
@@ -682,6 +848,14 @@ const chev = `<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="
     });
   }
 
+  // Leaving the panel itself closes too, and the scrim is a click target
+  // for dismissing without moving the pointer back up.
+  box?.addEventListener("pointerenter", () => clearTimeout(closeTimer));
+  box?.addEventListener("pointerleave", () => {
+    closeTimer = window.setTimeout(close, 140);
+  });
+  scrim?.addEventListener("pointerdown", close);
+
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Escape" || !active) return;
     parts(active).trigger.focus();
@@ -690,7 +864,15 @@ const chev = `<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="
   document.addEventListener("pointerdown", (e) => {
     if (active && !active.contains(e.target as Node)) close();
   });
-  window.addEventListener("resize", () => active && place(active), { passive: true });
+  window.addEventListener("resize", () => {
+    if (!active) return;
+    const { menu } = parts(active);
+    const x = xFor(active);
+    const { w, h } = sizeOf(menu);
+    menu.style.setProperty("--x", `${x}px`);
+    if (box) { box.style.left = `${x}px`; box.style.width = `${w}px`; box.style.height = `${h}px`; }
+    boxRect = { x, w, h };
+  }, { passive: true });
 
   // ---- Mobile panel ----------------------------------------------
   const burger = document.querySelector<HTMLButtonElement>(".burger");

@@ -184,11 +184,29 @@ const year = new Date().getFullYear();
     margin-bottom: var(--s4);
   }
   .fgroup ul { display: grid; gap: var(--s3); }
+  /* The underline sweeps in from the left and out to the right, so a
+     pointer travelling down a column leaves a trail rather than a
+     series of blinks. */
   .fgroup__link {
+    position: relative;
+    display: inline-block;
     color: rgba(255, 255, 255, 0.62);
     transition: color var(--d-fast) var(--ease);
   }
+  .fgroup__link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform var(--d-mid) var(--ease);
+  }
   .fgroup__link:hover { color: var(--paper); }
+  .fgroup__link:hover::after { transform: scaleX(1); transform-origin: left; }
 
   /* Lower ------------------------------------------------------- */
   .foot__bottom {
@@ -213,8 +231,22 @@ const year = new Date().getFullYear();
     color: rgba(255, 255, 255, 0.5);
   }
   .foot__legal { display: flex; gap: var(--s4); }
-  .foot__legal a { transition: color var(--d-fast) var(--ease); }
+  .foot__legal a {
+    position: relative;
+    transition: color var(--d-fast) var(--ease);
+  }
+  .foot__legal a::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -2px;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform var(--d-mid) var(--ease);
+  }
   .foot__legal a:hover { color: var(--paper); }
+  .foot__legal a:hover::after { transform: scaleX(1); transform-origin: left; }
 
   .foot__social { display: flex; gap: var(--s2); }
   .social {
