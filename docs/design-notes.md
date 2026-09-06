@@ -301,43 +301,49 @@ appearing. Under reduced motion the marks are simply present.
 
 ## Customer stories
 
-A real scroll container, not a transform carousel, so trackpad, touch
-swipe, arrow buttons and keyboard all work with no extra code. The rail
-bleeds past the shell on the right, which is what tells a reader there
-is more without showing a scrollbar. Its left edge lines up exactly
-with the heading above it, verified at 140px on both.
+A real scroll container, not a transform carousel, so trackpad, touch,
+buttons and keyboard all work with almost no code. The rail bleeds past
+the shell on the right, which is what tells a reader there is more
+without showing a scrollbar.
 
-**A proportional indicator, not an "n of 5" counter.** The last card
-never becomes the leftmost one, so a count would claim a position the
-rail can never reach. The thumb's length is the share of the rail on
-screen and its offset is how far through that share you are.
+**It loops, endlessly, both ways.** The rail holds three copies of the
+set. The reader always sits in the middle one, and whenever they wander
+into an outer copy the scroll position is shifted by exactly one set
+width. The shift is the same distance as the content it replaces, so
+nothing moves on screen and there is no seam, no rewind, and no dead
+end in either direction.
 
-**Metrics and tags are pushed to the bottom of each card**, so those
-rows line up across cards even though the quotes differ in length.
+**One story carries the dark treatment**, so the rail has an anchor the
+eye returns to as it comes round again.
 
-**The tags name capabilities from the governance matrix**, so the proof
-visibly points back at the product rather than floating free.
+**Drag to scroll.** A native scroll container gives touch and trackpad
+for free but ignores a mouse drag, which is the gesture people reach
+for on a rail like this. Pointer capture handles the drag, and a
+movement of more than 4px suppresses the click that would otherwise
+fire on release.
 
-### Two things worth remembering
+**Dots, not a progress bar.** A loop has no start or end for a bar to
+measure against. A dot press travels to the nearest copy of that story,
+so it never scrolls the long way round.
 
-**Scroll-snap was removed, deliberately.** Once the trailing cards fit
-on screen, their snap positions sit past the maximum scroll, and the
-browser snaps backwards to the last reachable one. The rail visibly
-drifted off the end on its own, and the final cards could not be
-reached. `proximity` did not fix it. The buttons already land on exact
-card offsets, so snapping bought nothing and cost correctness.
+**Metrics and tags are bottom-pinned** so those rows align across cards
+despite different quote lengths, and the tags name capabilities from
+the governance matrix so the proof points back at the product.
 
-**The rail's vertical axis is pinned shut.** Setting `overflow-x: auto`
-makes the browser compute `overflow-y: auto` as well, so the rail's own
-vertical padding became a small scrollable strip inside the component.
-It was most visible before the cards revealed, while they still held
-their 16px entry offset. `overflow-y: hidden` fixes it, and the padding
-still gives the hover shadow room.
+### Three things worth remembering
 
-**The buttons step a tracked index** rather than recomputing position
-from `scrollLeft` on each click. Reading `scrollLeft` while a smooth
-scroll is still settling lands on the wrong card. Manual scrolling
-re-syncs the index once the rail comes to rest.
+**Scroll-snap was removed.** Once the trailing cards fit on screen,
+their snap positions sit past the maximum scroll, and the browser snaps
+backwards to the last reachable one. The rail visibly drifted off the
+end on its own. `proximity` did not fix it.
+
+**The buttons step a tracked index** rather than recomputing from
+`scrollLeft`, which reads mid-flight values during a smooth scroll and
+selects the wrong card.
+
+**The rail's vertical axis is pinned shut.** `overflow-x: auto` makes
+the browser compute `overflow-y: auto` too, so the vertical padding
+became a small scrollable strip inside the component.
 
 ## Anchor hygiene
 

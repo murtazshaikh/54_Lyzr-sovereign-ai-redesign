@@ -5,6 +5,8 @@ export interface Metric {
 
 export interface Story {
   company: string;
+  /** One story carries the dark treatment as the anchor of the rail. */
+  featured?: boolean;
   summary: string;
   quote: string;
   metrics: Metric[];
@@ -59,6 +61,7 @@ export const stories: Story[] = [
   },
   {
     company: "Accenture",
+    featured: true,
     summary: "Reimagining corporate venture capital",
     quote:
       "AgenticOS running 200+ agents, automating 15+ VC functions including deal sourcing, startup evaluation, due diligence, and investment memo generation all in production, all day, every day.",
