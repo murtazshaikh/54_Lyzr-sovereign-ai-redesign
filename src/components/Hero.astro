@@ -1,6 +1,4 @@
 ---
-import PartnerLogos from "./PartnerLogos.astro";
-
 const layers = [
   {
     name: "Lyzr Agent Platform",
@@ -81,10 +79,6 @@ const layers = [
         </div>
       </div>
     </div>
-
-    <div class="hero__trust reveal" style="--reveal-delay:120ms">
-      <PartnerLogos />
-    </div>
   </div>
 </section>
 
@@ -118,10 +112,6 @@ const layers = [
     gap: var(--s3);
     margin-top: var(--s6);
   }
-
-  /* The trust row spans the full shell so the right column has no
-     empty quadrant beneath it. */
-  .hero__trust { margin-top: clamp(2.5rem, 1rem + 4vw, 4.5rem); }
 
   /* Stack visual ------------------------------------------------ */
   .stack {

@@ -55,11 +55,9 @@ Six issues found on first visual review and fixed.
 
 | Issue | Fix |
 |---|---|
-| Dead quadrant under the stack card | Trust row moved out of the grid to span the full shell |
 | Hero 1130px tall, only half a card above the fold | Display ceiling cut 76px to 66px, top padding reduced. Now 1003px |
 | Headline broke into four ragged lines | `max-width` moved to 17ch, settles into three full lines |
 | Green status pill sat outside the palette | Desaturated to `#35624f` on `#eff4f2` so it recedes |
-| Partner names were plain text at 42% opacity | Real monochrome SVG marks, inlined, about 4KB total |
 | Announcement bar lost its message on phones | Short variant swaps in under 1020px |
 
 Note on the Azure mark: the Wikimedia source layers four paths, two of
