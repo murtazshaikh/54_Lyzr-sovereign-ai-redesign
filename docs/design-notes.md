@@ -168,8 +168,22 @@ separators, so a naive number rewriter changes an arc's argument count
 and the path silently collapses. That is exactly what happened to the
 Hitachi mark before svgo replaced the regex.
 
-Firstsource appears on the source page but publishes no vector mark,
-only PNG, so it is omitted rather than mixed in as a raster.
+Eight marks: Movate, Accenture, Persistent, NTT Data, Hitachi, KPMG,
+AWS, NVIDIA. Ordered so the two compact glyph marks do not sit next to
+each other.
+
+Two source quirks worth recording:
+
+- **KPMG** is white letterforms knocked out of a blue plate. Flattened
+  to one colour the plate swallows the letters and the mark renders as
+  a solid block, so the plate is dropped and the letterforms kept.
+- **Movate** ships a full raster copy of itself alongside its vector
+  paths. Stripping the embedded image took the file from 600KB to 19KB
+  before svgo even ran.
+
+Three names on the source wall are omitted because they publish no
+vector mark that could be found: Firstsource, WTW and MSP Corp. Mixing
+a PNG into a row of crisp vectors would show at any zoom.
 
 ## Build status
 
