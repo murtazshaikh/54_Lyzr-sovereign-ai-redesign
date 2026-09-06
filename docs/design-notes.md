@@ -362,9 +362,20 @@ dark background, so it is recoloured to `#5d6a88` for a white page.
 
 Getting it small took some work. The recoloured strip at full width was
 50KB, and the alpha channel was most of that: at `alpha_q` 90 it was
-36KB, at 70 it was 17KB with no visible difference on line art. Shipped
-at 1400px wide, which still renders crisp at the ~1100px it occupies,
-lazy-loaded and below the fold.
+36KB, at 70 it was 21KB with no visible difference on line art.
+
+**Source width and display width are locked to a 2x ratio.** A first
+pass shipped 1400px and rendered it at 1100px, which is 0.64x of what a
+retina screen asks for, and it read as soft. It is now a 1600px source
+rendered at 800px: exactly 1.0x, measured in the browser rather than
+assumed. Lazy-loaded and below the fold.
+
+The perceived vertical stretch was the blur, not the geometry. The
+aspect ratio was 8.28 at both natural and rendered size throughout.
+
+Compliance icons use the paths from Lyzr's own markup, on a 24-unit
+viewBox, kept separate from the 16-unit set the governance matrix uses
+so neither drifts when the other changes.
 
 The whole strip is one image, so the recognitions would be invisible to
 a screen reader. The `awards` array still exists and now builds the alt

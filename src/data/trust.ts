@@ -1,4 +1,4 @@
-import type { IconKey } from "./icons";
+import type { ComplianceKey } from "./icons";
 
 export interface Award {
   source: string;
@@ -15,14 +15,14 @@ export const awards: Award[] = [
 ];
 
 export interface Certification {
-  icon: IconKey;
+  icon: ComplianceKey;
   label: string;
 }
 
 export const certifications: Certification[] = [
-  { icon: "globe", label: "GDPR Compliant" },
-  { icon: "shield", label: "SOC 2 Type II" },
-  { icon: "lock", label: "ISO 27001 Certified" },
-  { icon: "pulse", label: "HIPAA Compliant" },
-  { icon: "audit", label: "CCPA" },
+  { icon: "gdpr", label: "GDPR Compliant" },
+  { icon: "soc2", label: "SOC 2 Type II" },
+  { icon: "iso", label: "ISO 27001 Certified" },
+  { icon: "hipaa", label: "HIPAA Compliant" },
+  { icon: "ccpa", label: "CCPA" },
 ];

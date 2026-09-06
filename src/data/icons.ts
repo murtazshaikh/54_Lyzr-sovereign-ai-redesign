@@ -37,11 +37,27 @@ export const icons = {
   scales: wrap('<path d="M8 2.4v11.2M4.2 3.6h7.6M2 12.2h4M10 12.2h4"/><path d="M4 4.2 2 9.4h4zM12 4.2l-2 5.2h4z"/>'),
   doc: wrap('<path d="M9.2 1.9H4.6a1.3 1.3 0 0 0-1.3 1.3v9.6a1.3 1.3 0 0 0 1.3 1.3h6.8a1.3 1.3 0 0 0 1.3-1.3V5.2z"/><path d="M9.2 1.9v3.3h3.5"/><path d="M5.8 9h4.4M5.8 11.3h3"/>'),
   flask: wrap('<path d="M6.4 1.9v3.7L3.1 11.6a1.3 1.3 0 0 0 1.1 2h7.6a1.3 1.3 0 0 0 1.1-2L9.6 5.6V1.9"/><path d="M5.6 1.9h4.8M4.6 9.6h6.8"/>'),
-  globe: wrap('<circle cx="8" cy="8" r="6.3"/><path d="M1.7 8h12.6M8 1.7c1.7 1.9 2.6 4 2.6 6.3S9.7 12.4 8 14.3C6.3 12.4 5.4 10.3 5.4 8s.9-4.4 2.6-6.3z"/>'),
-  pulse: wrap('<path d="M1.6 8h3.1l1.8-4.6 2.9 9.2 1.8-4.6h3.2"/>'),
   check: wrap('<circle cx="8" cy="8" r="6.4"/><path d="M5.5 8.2l1.8 1.8 3.4-3.6"/>'),
   play: wrap('<path d="M5.5 3.5v9l7-4.5z" fill="currentColor" stroke="none"/>'),
   external: wrap('<path d="M5 11l6-6M6 5h5v5"/>'),
 } as const;
 
-export type IconKey = keyof typeof icons;
+/** Compliance marks. 24-unit viewBox, from Lyzr's own markup. */
+const w24 = (body: string) =>
+  `<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${body}</svg>`;
+
+export const complianceIcons = {
+  gdpr: w24(
+    '<circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2c-2.76 4-2.76 16 0 20"/><path d="M12 2c2.76 4 2.76 16 0 20"/>'
+  ),
+  soc2: w24('<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>'),
+  iso: w24(
+    '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>'
+  ),
+  hipaa: w24('<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>'),
+  ccpa: w24(
+    '<polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>'
+  ),
+} as const;
+
+export type ComplianceKey = keyof typeof complianceIcons;
