@@ -2,10 +2,10 @@
 const nav = [
   { label: "Solutions", href: "#stack", menu: true },
   { label: "Platform", href: "#stack", menu: true },
-  { label: "Partners", href: "#proof", menu: true },
-  { label: "Resources", href: "#governance", menu: true },
   { label: "Customers", href: "#proof" },
   { label: "Pricing", href: "#optimus" },
+  { label: "Partners", href: "#proof", menu: true },
+  { label: "Resources", href: "#governance", menu: true },
 ];
 ---
 
@@ -44,8 +44,14 @@ const nav = [
     </nav>
 
     <div class="head__actions">
-      <a class="head__signin" href="#cta">Sign in</a>
-      <a class="btn btn--primary btn--sm" href="#cta">Book a demo</a>
+      <a class="head__usecases" href="#stack">
+        <svg class="head__star" viewBox="0 0 12 12" aria-hidden="true">
+          <path d="M6 1.2l1.45 2.95 3.25.47-2.35 2.3.55 3.23L6 8.62l-2.9 1.53.55-3.23L1.3 4.62l3.25-.47z" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" />
+        </svg>
+        Agent Usecases
+      </a>
+      <a class="btn btn--ghost btn--sm" href="#stack">Agent Studio</a>
+      <a class="btn btn--primary btn--sm" href="#cta">Talk to Us</a>
     </div>
 
     <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
@@ -61,8 +67,9 @@ const nav = [
         ))}
       </nav>
       <div class="mobile__actions">
-        <a class="btn btn--ghost" href="#cta">Sign in</a>
-        <a class="btn btn--primary" href="#cta">Book a demo</a>
+        <a class="mobile__link" href="#stack">Agent Usecases</a>
+        <a class="btn btn--ghost" href="#stack">Agent Studio</a>
+        <a class="btn btn--primary" href="#cta">Talk to Us</a>
       </div>
     </div>
   </div>
@@ -228,18 +235,27 @@ const nav = [
   .head__actions {
     display: flex;
     align-items: center;
-    gap: var(--s4);
+    gap: var(--s2);
     flex: none;
   }
-  /* Sign in is a link, not a control, so Book a demo is the only
-     bordered element in the header. */
-  .head__signin {
+  /* Agent Usecases is a link with a mark, not a control, so the two
+     buttons beside it keep their weight. */
+  .head__usecases {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: var(--s1);
     font-size: 0.9375rem;
     font-weight: 500;
     color: var(--ink-70);
     transition: color var(--d-fast) var(--ease);
   }
-  .head__signin:hover { color: var(--ink); }
+  .head__usecases:hover { color: var(--ink); }
+  .head__star {
+    width: 13px;
+    height: 13px;
+    color: var(--purple);
+  }
 
   /* Burger ------------------------------------------------------ */
   .burger {
@@ -288,6 +304,7 @@ const nav = [
     gap: var(--s3);
     margin-top: var(--s5);
   }
+  .mobile__actions .mobile__link { border-bottom: 0; padding-block: 0 var(--s2); }
   .mobile__actions .btn { justify-content: center; }
 
   @media (max-width: 1020px) {
