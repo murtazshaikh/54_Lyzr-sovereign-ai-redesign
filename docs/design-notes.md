@@ -120,27 +120,40 @@ a real distinction: one is orderable today, the other has no date.
 Purple is now spent on the state the page is actually selling, and the
 hollow dot says dated but not yet true.
 
-## Customer board
+## Customer wall
 
-A board, not a belt. The first version was a logo strip sliding on a
-timer, which is decoration: it says these names exist, and nothing
-else. This says who is running, in what sector, and that it is live
-right now, which is the claim the section is actually making.
+A full-bleed hairline belt that scrolls continuously, with the heading
+centred above it.
 
-- **Each row carries the heartbeat trace** from the status system, with
-  the beats offset 380ms per row so the board reads as six independent
-  services rather than one synchronised widget.
-- **Rows light on hover** with a green rule down the left edge, the way
-  a monitoring interface behaves.
-- **The footer counts up** to the page's own figures, 1,000+ agents and
-  500+ enterprises, so the board resolves into the claim.
+An operations-board version was built and reverted. It was more
+informative on paper and worse in practice: a static table in the
+middle of the page killed the movement that gives this section its
+life, and the sector column added a row of text nobody needs to read.
 
-**Nothing per-customer is invented.** The sector column describes what
-each company does, which is public fact. Agent counts or deployment
-details per named enterprise would be fabrication, so there are none.
-AWS and NVIDIA were dropped from this board entirely: they are
-technology partners, not customers running agents, and they already
-appear in the Partners menu.
+- **Colour on hover.** The marks are desaturated at rest and lift to
+  full brand colour under the cursor, while the rest of the set
+  recedes. One asset serves both states through a CSS filter; shipping
+  a second coloured set would have doubled the payload for the same
+  effect.
+- **Hover stops the belt**, because a logo wall you cannot read is just
+  noise.
+- **Edges dissolve** with a mask rather than being cut off.
+- **Reduced motion** collapses it to a single static wrapped row.
+- **Sprite.** Geometry is defined once and referenced 24 times through
+  `<use>`.
+- **The belt repeats the set four times** and translates by exactly one
+  set. Two copies was not enough: a set is ~1095px, so once the track
+  had slid a full set its right edge sat inside a 1440px viewport and
+  opened a gap.
+
+Three marks came from a monochrome source and carry their brand colour
+applied per shape: AWS `#FF9900`, Hitachi `#E60027`, NVIDIA `#76B900`.
+
+**KPMG needed a judgement call.** Its logo is white letterforms knocked
+out of a blue plate. Kept whole, it renders as a solid grey block beside
+eight light wordmarks and drags the eye. The plate is dropped and the
+letterforms take KPMG blue, which sits with the row at rest and is still
+correct on hover.
 
 ### Logo pipeline
 
