@@ -1,24 +1,28 @@
 ---
 import { awards, certifications } from "../data/trust";
 import { icons } from "../data/icons";
-import { laurel } from "../data/laurel";
+
+// The badge strip is one image, so the recognitions still have to reach
+// a screen reader somehow. The data builds the alt text.
+const badgeAlt =
+  "Recognized by leading analysts: " +
+  awards.map((a) => `${a.source}, ${a.title}`).join("; ") + ".";
 ---
 
 <section class="trust" id="trust">
   <div class="shell">
     <p class="label trust__label reveal">Recognized by leading analysts</p>
 
-    <ol class="awards">
-      {awards.map((a, i) => (
-        <li class="award reveal" style={`--reveal-delay:${i * 50}ms`}>
-          <span class="award__wreath" aria-hidden="true">
-            <svg viewBox="0 0 48 48" fill="currentColor" set:html={laurel} />
-            <span class="award__title">{a.title}</span>
-          </span>
-          <p class="award__source">{a.source}</p>
-        </li>
-      ))}
-    </ol>
+    <img
+      class="badges reveal"
+      src="/images/analyst-badges.webp"
+      width="1400"
+      height="169"
+      alt={badgeAlt}
+      loading="lazy"
+      decoding="async"
+      style="--reveal-delay:60ms"
+    />
 
     <div class="certs">
       <p class="label trust__label trust__label--rule reveal">
@@ -52,62 +56,17 @@ import { laurel } from "../data/laurel";
   }
   .trust__rule { width: 22px; height: 2px; background: var(--purple); }
 
-  /* Awards ------------------------------------------------------- */
-  .awards {
-    display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: var(--s4);
-    margin-top: clamp(2rem, 1rem + 2.5vw, 3rem);
-  }
-
-  .award {
-    display: grid;
-    justify-items: center;
-    gap: var(--s3);
-    text-align: center;
-  }
-
-  /* The wreath wraps the award title, so the laurel frames the claim
-     the way an award badge does rather than sitting beside it. */
-  .award__wreath {
-    position: relative;
-    display: grid;
-    place-items: center;
+  /* Badge strip -------------------------------------------------- */
+  /* Lyzr's own badge artwork, recoloured for a white page: the source
+     is near-white on transparent, built for a dark background. Shipped
+     at 1400px wide, which is 17KB and still crisp at the ~1100px it
+     renders at. */
+  .badges {
+    display: block;
     width: 100%;
-    min-height: 88px;
-    color: var(--ink-45);
-    transition: color var(--d-mid) var(--ease);
-  }
-  .award__wreath svg {
-    position: absolute;
-    inset: 50% auto auto 50%;
-    translate: -50% -50%;
-    width: 106px;
-    height: 106px;
-    opacity: 0.55;
-    transition: opacity var(--d-mid) var(--ease),
-                scale var(--d-mid) var(--ease);
-  }
-  /* The title sits inside the wreath, so its measure has to stay
-     narrower than the wreath's inner opening or the words collide
-     with the leaves. */
-  .award__title {
-    position: relative;
-    max-width: 5.75rem;
-    font-size: 0.6875rem;
-    line-height: 1.25;
-    font-weight: 500;
-    color: var(--ink-70);
-    text-wrap: balance;
-  }
-  .award:hover .award__wreath { color: var(--purple); }
-  .award:hover .award__wreath svg { opacity: 1; scale: 1.05; }
-
-  .award__source {
-    font-size: 0.9375rem;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    color: var(--ink);
+    max-width: 1100px;
+    height: auto;
+    margin: clamp(1.75rem, 1rem + 2vw, 2.75rem) auto 0;
   }
 
   /* Certifications ----------------------------------------------- */

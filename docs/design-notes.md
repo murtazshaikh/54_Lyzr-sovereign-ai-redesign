@@ -356,20 +356,21 @@ full opacity on hover.
 
 ## Recognition and compliance
 
-**The laurel is generated, not drawn.** Leaves are placed along an arc
-by formula so both sprigs mirror exactly, which hand-placed coordinates
-never quite do. The first attempt hugged the stem too closely and read
-as a pair of parentheses; splaying the leaves 40 degrees off the
-tangent fixed it. The whole wreath is about 2KB of inline SVG and is
-reused six times.
+**Lyzr's own badge artwork**, so the analyst logos are real rather than
+approximated. The source is near-white on transparency, built for a
+dark background, so it is recoloured to `#5d6a88` for a white page.
 
-**The wreath frames the award title** rather than sitting beside it, so
-it reads as a badge. That constrains the title's measure: it must stay
-narrower than the wreath's inner opening or the words collide with the
-leaves. Verified that all six titles sit inside their wreath.
+Getting it small took some work. The recoloured strip at full width was
+50KB, and the alpha channel was most of that: at `alpha_q` 90 it was
+36KB, at 70 it was 17KB with no visible difference on line art. Shipped
+at 1400px wide, which still renders crisp at the ~1100px it occupies,
+lazy-loaded and below the fold.
 
-No analyst logos are faked. The laurel is a generic motif; the
-recognitions are set typographically.
+The whole strip is one image, so the recognitions would be invisible to
+a screen reader. The `awards` array still exists and now builds the alt
+text, which keeps the data meaningful rather than orphaned.
+
+The page's first and only image. Everything else is still inline SVG.
 
 ## Anchor hygiene
 
