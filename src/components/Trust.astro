@@ -24,6 +24,8 @@ const badgeAlt =
       style="--reveal-delay:60ms"
     />
 
+    <div class="divider reveal" aria-hidden="true"></div>
+
     <div class="certs">
       <p class="label trust__label trust__label--rule reveal">
         <span class="trust__rule" aria-hidden="true"></span>
@@ -72,17 +74,26 @@ const badgeAlt =
   }
 
   /* Certifications ----------------------------------------------- */
-  .certs {
-    margin-top: clamp(2.5rem, 1.5rem + 3vw, 4rem);
-    padding-top: clamp(2rem, 1rem + 2.5vw, 3rem);
-    border-top: 1px solid var(--line);
+  /* The rule is its own element so it can match the badge strip's
+     width instead of spanning the whole shell. Lining it up with the
+     artwork above is what makes the block read as one column. */
+  .divider {
+    width: 100%;
+    max-width: 601px;
+    height: 1px;
+    margin: clamp(2.5rem, 1.5rem + 3vw, 4rem) auto 0;
+    background: var(--line-strong);
   }
+
+  .certs { margin-top: clamp(2rem, 1rem + 2.5vw, 3rem); }
 
   /* A grid of large outlined marks over centred labels, matching the
      source layout, rather than the chips this was before. */
   .certs__grid {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
+    max-width: 1000px;
+    margin-inline: auto;
     gap: clamp(2rem, 1rem + 2.5vw, 3rem) var(--s4);
     margin-top: clamp(2rem, 1rem + 2.5vw, 3rem);
   }

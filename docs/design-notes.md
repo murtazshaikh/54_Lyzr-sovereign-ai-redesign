@@ -374,8 +374,15 @@ below the fold.
 The perceived vertical stretch was the blur, not the geometry. The
 aspect ratio was 8.28 at both natural and rendered size throughout.
 
+**The rule between the two halves is its own element**, sized to match
+the badge strip rather than spanning the whole shell. Lining it up with
+the artwork above is what makes the block read as one column instead of
+three widths stacked. Verified: the divider and the strip are both
+601px and every element in the section shares one centre axis.
+
 Compliance is a five-column grid of large outlined marks over centred
-labels, matching the source layout rather than the chips it was first
+labels, held to a 1000px measure so the five items sit closer together
+than the shell would place them, matching the source layout rather than the chips it was first
 built as. The icon paths come from Lyzr's own markup on a 24-unit
 viewBox, kept separate from the 16-unit set the governance matrix uses
 so neither drifts when the other changes. Stroke width is thinned to
