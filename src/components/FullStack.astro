@@ -1,0 +1,286 @@
+---
+import { products } from "../data/fullstack";
+import { icons } from "../data/icons";
+---
+
+<section class="full" id="full-stack">
+  <div class="shell full__grid">
+    <!-- Sticky index. It holds the section heading and tracks which
+         product the reader is currently on, which is what lets the
+         right column be a long scroll rather than a card grid. -->
+    <aside class="full__aside">
+      <p class="label full__eyebrow reveal">
+        <span class="full__dot" aria-hidden="true"></span>
+        The full stack
+      </p>
+      <h2 class="h2 full__title reveal" style="--reveal-delay:60ms">
+        What&rsquo;s live today. What&rsquo;s coming next
+      </h2>
+      <p class="lead full__lead reveal" style="--reveal-delay:120ms">
+        The software is live. The production modules are live. The
+        hardware ships Q4. Every layer Lyzr, from the agents your teams
+        run, to the machine they run on.
+      </p>
+
+      <nav class="index reveal" style="--reveal-delay:180ms" aria-label="Products">
+        <ol>
+          {products.map((p, i) => (
+            <li>
+              <a class="index__link" href={`#${p.id}`} data-index={i}>
+                <span class="index__rule" aria-hidden="true"></span>
+                <span class="index__num">{String(i + 1).padStart(2, "0")}</span>
+                <span class="index__name">{p.name}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    </aside>
+
+    <ol class="products">
+      {products.map((p, i) => (
+        <li class="product reveal" id={p.id} data-product={i}>
+          <div class="product__head">
+            <span class={`pill pill--${p.status}`}>
+              {p.status === "live" && <span class="dot" />}
+              {p.status === "dated" && <span class="dot dot--ring" />}
+              {p.statusLabel}
+            </span>
+            <h3 class="product__name">{p.name}</h3>
+            <p class="product__tagline">{p.tagline}</p>
+          </div>
+
+          <div class="product__body">
+            <p class="product__copy">{p.body}</p>
+            <ul class="product__points">
+              {p.points.map((pt) => (
+                <li>
+                  <span class="product__tick" set:html={icons.check} />
+                  {pt}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="product__figure">
+            <p class="product__value">
+              <span data-count={p.value}>{p.value}</span
+              ><span class="product__suffix">{p.suffix}</span>
+            </p>
+            <p class="product__caption">{p.caption}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .full {
+    padding-block: clamp(3.5rem, 1.5rem + 5vw, 7rem);
+    background: var(--wash);
+    border-top: 1px solid var(--line);
+  }
+
+  .full__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
+    gap: clamp(2.5rem, 1rem + 5vw, 6rem);
+    align-items: start;
+  }
+
+  /* Aside -------------------------------------------------------- */
+  .full__aside {
+    position: sticky;
+    /* clears the 64px sticky header with room to breathe */
+    top: calc(64px + var(--s7));
+  }
+  .full__eyebrow { display: inline-flex; align-items: center; gap: var(--s2); }
+  .full__dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--purple);
+  }
+  .full__title { margin-top: var(--s3); max-width: 16ch; }
+  .full__lead  { margin-top: var(--s5); max-width: 44ch; }
+
+  /* Index -------------------------------------------------------- */
+  .index { margin-top: var(--s7); }
+  .index ol { display: grid; }
+
+  .index__link {
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    gap: var(--s3);
+    padding: var(--s3) 0 var(--s3) var(--s4);
+    border-top: 1px solid var(--line);
+    font-weight: 500;
+    color: var(--ink-45);
+    transition: color var(--d-mid) var(--ease);
+  }
+  .index li:last-child .index__link { border-bottom: 1px solid var(--line); }
+
+  /* The rule slides in on the active item rather than a background
+     change, so the list stays quiet while still being legible. */
+  .index__rule {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--purple);
+    transform: scaleY(0);
+    transform-origin: center;
+    transition: transform var(--d-mid) var(--ease);
+  }
+  .index__num {
+    font-size: var(--t-label);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    font-variant-numeric: tabular-nums;
+  }
+  .index__link:hover { color: var(--ink-70); }
+  .index__link[aria-current="true"] { color: var(--ink); }
+  .index__link[aria-current="true"] .index__rule { transform: scaleY(1); }
+
+  /* Products ----------------------------------------------------- */
+  .products {
+    display: grid;
+    gap: clamp(1.25rem, 0.5rem + 2vw, 2rem);
+  }
+
+  .product {
+    display: grid;
+    gap: var(--s5);
+    padding: clamp(1.5rem, 1rem + 1.6vw, 2.25rem);
+    background: var(--paper);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-lg);
+    scroll-margin-top: 120px;
+    transition: border-color var(--d-mid) var(--ease),
+                box-shadow var(--d-mid) var(--ease);
+  }
+  /* The card the index is pointing at lifts very slightly. */
+  .product.is-current {
+    border-color: rgba(116, 88, 232, 0.42);
+    box-shadow: 0 10px 30px -18px rgba(19, 17, 42, 0.28);
+  }
+
+  .product__head {
+    padding-bottom: var(--s5);
+    border-bottom: 1px solid var(--line);
+  }
+  .product__name {
+    margin-top: var(--s3);
+    font-size: clamp(1.25rem, 1.05rem + 0.8vw, 1.5rem);
+    font-weight: 600;
+    letter-spacing: -0.028em;
+    line-height: 1.2;
+  }
+  .product__tagline {
+    margin-top: var(--s1);
+    color: var(--ink-45);
+  }
+
+  .product__body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(1.25rem, 0.5rem + 2vw, 2.5rem);
+  }
+  .product__copy {
+    color: var(--ink-70);
+    text-wrap: pretty;
+  }
+
+  .product__points { display: grid; gap: var(--s3); }
+  .product__points li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s2);
+    font-size: var(--t-small);
+    line-height: 1.45;
+    color: var(--ink-70);
+  }
+  .product__tick {
+    flex: none;
+    width: 15px;
+    height: 15px;
+    margin-top: 2px;
+    color: var(--purple);
+  }
+  .product__tick :global(svg) { width: 100%; height: 100%; }
+
+  .product__figure {
+    display: flex;
+    align-items: baseline;
+    gap: var(--s4);
+    padding-top: var(--s5);
+    border-top: 1px solid var(--line);
+  }
+  .product__value {
+    display: flex;
+    align-items: baseline;
+    font-size: clamp(1.875rem, 1.4rem + 1.6vw, 2.5rem);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: var(--purple-ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .product__suffix { font-size: 0.62em; margin-left: 1px; }
+  .product__caption {
+    font-size: var(--t-small);
+    color: var(--ink-45);
+  }
+
+  @media (max-width: 980px) {
+    .full__grid { grid-template-columns: 1fr; }
+    .full__aside { position: static; }
+    .full__title { max-width: 22ch; }
+    /* The index is a scroll tracker. With one column it would sit
+       above the very thing it tracks, so it goes away. */
+    .index { display: none; }
+  }
+  @media (max-width: 640px) {
+    .product__body { grid-template-columns: 1fr; }
+    .product__figure { flex-direction: column; align-items: flex-start; gap: var(--s2); }
+  }
+</style>
+
+<script>
+  const section = document.querySelector<HTMLElement>(".full");
+  if (section) {
+    const cards = [...section.querySelectorAll<HTMLElement>("[data-product]")];
+    const links = [...section.querySelectorAll<HTMLElement>("[data-index]")];
+
+    const setCurrent = (i: number) => {
+      cards.forEach((c, n) => c.classList.toggle("is-current", n === i));
+      links.forEach((l, n) =>
+        n === i
+          ? l.setAttribute("aria-current", "true")
+          : l.removeAttribute("aria-current")
+      );
+    };
+
+    // Whichever card is nearest the middle of the viewport wins. A
+    // plain isIntersecting test flickers when two cards overlap the
+    // band, so compare distances instead.
+    const io = new IntersectionObserver(
+      () => {
+        const mid = window.innerHeight / 2;
+        let best = 0;
+        let bestDist = Infinity;
+        cards.forEach((c, i) => {
+          const r = c.getBoundingClientRect();
+          const d = Math.abs(r.top + r.height / 2 - mid);
+          if (d < bestDist) { bestDist = d; best = i; }
+        });
+        setCurrent(best);
+      },
+      { rootMargin: "-45% 0px -45% 0px", threshold: [0, 0.5, 1] }
+    );
+    cards.forEach((c) => io.observe(c));
+    setCurrent(0);
+  }
+</script>

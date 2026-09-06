@@ -236,9 +236,30 @@ it yields the moment they engage.
 - **Reduced motion** disables the auto-advance and the dwell bar
   entirely; the steps become plain clickable tabs.
 
+## The full stack
+
+The source shows three equal cards, one of them dark. By this point in
+the page that shape would have been the fourth three-column block and
+the second "one dark card" treatment, so it is built differently.
+
+**A sticky index tracking a scrolling column.** The left side holds the
+heading and a numbered list of the three products and stays put; the
+right side is a long scroll of the three cards. As a card reaches the
+middle of the viewport the index highlights it and the card lifts on a
+faint purple border.
+
+- **Nearest-to-centre, not `isIntersecting`.** With cards this tall two
+  can overlap the trigger band at once and a plain intersection test
+  flickers between them. The observer instead measures which card
+  centre is closest to the viewport centre.
+- **The index is a scroll tracker, so it disappears below 980px**,
+  where one column would put it directly above the thing it tracks.
+- The aside measures 547px, comfortably inside a 900px viewport, which
+  is what keeps the sticky behaviour from breaking.
+
 ## Build status
 
-Sections complete: announcement bar, sticky header with four mega menus, hero, customer wall, stat band, why it matters, the four-step path.
+Sections complete: announcement bar, sticky header with four mega menus, hero, customer wall, stat band, why it matters, the four-step path, the full stack.
 Page is 2224px at 1440, 18KB HTML and 5.3KB CSS gzipped, plus the 29KB font. Still no external scripts and no images. Hero is 884px tall at 1440, so it fits one screen.
 No horizontal overflow at 1440, 1280, 834 or 390.
 Payload 4.5KB HTML, 3.1KB CSS, both gzipped, plus a 29KB font.
