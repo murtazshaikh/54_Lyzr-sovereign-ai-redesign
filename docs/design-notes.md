@@ -289,6 +289,15 @@ track with four stops that fills up to wherever you are.
   gives the sheet the feel of hardware documentation.
 - **Rows arrive in a 45ms stagger** when the tier changes, so the eye
   reads the sheet top to bottom instead of the block flashing in.
+- **Something accumulates.** The section argues that ownership is added
+  a layer at a time, so a strip above the steps fills as the reader
+  advances: "stack you own, N of 4 layers". Segments rather than a
+  percentage, because the layers are discrete and countable and a
+  smooth bar would imply a precision the claim does not have. Steps
+  already passed keep a filled index, so the row reads as ground
+  covered rather than a set of alternatives. Stepping back shows fewer:
+  it is a position on the progression, not a score.
+
 - **No auto-advance here.** The path section already advances on its
   own, and the copy says "pick the appliance", so this one waits.
 - All four panels share a grid cell and measure 372px, so switching

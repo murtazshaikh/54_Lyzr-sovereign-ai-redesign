@@ -20,6 +20,23 @@ import { icons } from "../data/icons";
       </p>
     </div>
 
+    <!-- The section argues that ownership accumulates, so something on
+         screen has to accumulate. Four segments, one per layer, filling
+         as the reader advances. Segments rather than a percentage
+         because the layers are discrete and countable, and a smooth
+         bar would imply a precision the claim does not have. -->
+    <div class="owned reveal" style="--reveal-delay:160ms">
+      <p class="owned__label">Stack you own</p>
+      <div class="owned__bar" aria-hidden="true">
+        {steps.map((_, i) => (
+          <span class="owned__seg" data-seg={i}></span>
+        ))}
+      </div>
+      <p class="owned__count" aria-live="polite">
+        <span data-owned>1</span> of {steps.length} layers
+      </p>
+    </div>
+
     <div class="path__steps reveal" role="tablist" aria-label="Steps to sovereign AI">
       {steps.map((s, i) => (
         <button
@@ -92,6 +109,51 @@ import { icons } from "../data/icons";
   }
   .path__lead { margin-top: var(--s5); }
 
+  /* Ownership strip ---------------------------------------------- */
+  .owned {
+    display: flex;
+    align-items: center;
+    gap: var(--s4);
+    max-width: 34rem;
+    margin: clamp(2rem, 1rem + 2.5vw, 3rem) auto 0;
+  }
+  .owned__label,
+  .owned__count {
+    font-size: var(--t-label);
+    font-weight: 600;
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-45);
+    white-space: nowrap;
+  }
+  .owned__count { color: var(--ink); font-variant-numeric: tabular-nums; }
+
+  .owned__bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3px;
+    flex: 1;
+  }
+  .owned__seg {
+    height: 6px;
+    border-radius: 2px;
+    background: var(--line-strong);
+    position: relative;
+    overflow: hidden;
+  }
+  .owned__seg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--purple);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 420ms var(--ease-out);
+  }
+  /* The strip reads as "at this step you own N of 4", so stepping back
+     shows fewer. It is a position on the progression, not a score. */
+  .owned__seg.is-owned::after { transform: none; }
+
   /* Steps ------------------------------------------------------- */
   .path__steps {
     display: grid;
@@ -118,6 +180,14 @@ import { icons } from "../data/icons";
                 color var(--d-mid) var(--ease);
   }
   .step:hover { border-color: var(--ink-45); }
+
+  /* A step you have passed keeps its mark, so the row reads as ground
+     covered rather than a set of alternatives. */
+  .step.is-done { border-color: rgba(116, 88, 232, 0.4); }
+  .step.is-done .step__num {
+    background: var(--purple);
+    color: var(--paper);
+  }
 
   .step__num {
     display: grid;
@@ -279,6 +349,17 @@ import { icons } from "../data/icons";
     // A click means the reader is driving. Stop advancing for them.
     let taken = false;
 
+    const segs = [...root.querySelectorAll<HTMLElement>("[data-seg]")];
+    const ownedOut = root.querySelector<HTMLElement>("[data-owned]");
+
+    /** Fill every segment up to and including the current step, and mark
+     *  the steps already passed. */
+    function paintOwnership(i: number) {
+      segs.forEach((s, n) => s.classList.toggle("is-owned", n <= i));
+      tabs.forEach((t, n) => t.classList.toggle("is-done", n < i));
+      if (ownedOut) ownedOut.textContent = String(i + 1);
+    }
+
     function show(next: number) {
       if (next === current) return;
       tabs[current].setAttribute("aria-selected", "false");
@@ -294,6 +375,7 @@ import { icons } from "../data/icons";
       // reflow so the entrance animation restarts every time
       void panels[current].offsetWidth;
       panels[current].classList.add("is-entering");
+      paintOwnership(current);
     }
 
     function stop() {
@@ -339,6 +421,8 @@ import { icons } from "../data/icons";
     root.addEventListener("focusin", () => { hovered = true; stop(); });
 
     // Only run the belt while the section is actually on screen.
+    paintOwnership(0);
+
     new IntersectionObserver(
       ([entry]) => {
         visible = entry.isIntersecting;
