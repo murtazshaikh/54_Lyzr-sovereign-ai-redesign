@@ -241,10 +241,17 @@ it yields the moment they engage.
   selection unmistakable without a highlight colour or a border trick.
 - **A dwell bar** fills across the active card, so the advance is
   announced rather than surprising.
-- **It yields, then comes back.** Hover or focus pauses it. A click or
-  arrow key hands control to the reader, and the belt resumes after ten
-  seconds of no interaction. Stopping for good meant one stray click
-  silently killed the progression for the rest of the visit.
+- **Hover does not pause it.** It used to, on the reasoning that the
+  panel should not move while being read. In practice that meant the
+  belt stopped exactly when someone was looking at it and only ever
+  advanced while unobserved, which reads as broken. Reading is served
+  by the click instead, which hands control over properly.
+- **It yields, then comes back.** A click or arrow key hands control to
+  the reader, and the belt resumes after ten seconds of no interaction.
+  Stopping for good meant one stray click silently killed the
+  progression for the rest of the visit.
+- **Dwell is 3s.** Long enough to read a step card, short enough that
+  the progression is visible without waiting for it.
 - **Focus used to stall it permanently.** `focusin` paused the belt and
   nothing unpaused it, so a single tab into the section stopped it
   until reload. There is a matching `focusout` now, which ignores focus

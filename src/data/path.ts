@@ -65,4 +65,4 @@ export const steps: Step[] = [
 ];
 
 /** How long each step holds before the belt advances. */
-export const DWELL_MS = 4800;
+export const DWELL_MS = 3000;

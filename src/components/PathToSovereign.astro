@@ -345,6 +345,7 @@ import { icons } from "../data/icons";
     let current = 0;
     let timer = 0;
     let visible = false;
+    // Only keyboard focus holds the belt now; see the focus handlers.
     let hovered = false;
     // A click means the reader is driving, so the belt yields. It comes
     // back after a spell of no interaction, otherwise one stray click
@@ -428,10 +429,10 @@ import { icons } from "../data/icons";
       });
     });
 
-    root.addEventListener("pointerenter", () => { hovered = true; stop(); });
-    root.addEventListener("pointerleave", () => { hovered = false; start(); });
-    // focusin paused the belt with nothing to unpause it, so a single
-    // tab into the section stalled it for good.
+    // Hover deliberately does NOT pause. Pausing on hover meant the
+    // belt stopped exactly when someone was looking at it, so it only
+    // ever advanced while unobserved. Reading is served by the click,
+    // which hands control over properly.
     root.addEventListener("focusin", () => { hovered = true; stop(); });
     root.addEventListener("focusout", (e) => {
       if (root.contains(e.relatedTarget as Node)) return;
