@@ -1,0 +1,100 @@
+---
+import type { NavLink } from "../data/nav";
+import { icons } from "../data/icons";
+import { marks } from "../data/marks";
+
+interface Props {
+  link: NavLink;
+}
+
+const { link } = Astro.props;
+
+// A menu row with nowhere to go is text, not a link. Rendering it as an
+// anchor to "#" would tell a crawler the page links to itself and make a
+// screen reader announce a link that does nothing.
+const Tag = link.href ? "a" : "span";
+---
+
+<Tag
+  class:list={["menu__link", { "is-muted": link.muted, "has-desc": !!link.desc }]}
+  href={link.href}
+  aria-disabled={link.muted ? "true" : undefined}
+>
+  {link.icon && <span class="menu__ico" set:html={icons[link.icon]} />}
+  {link.mark && <span class="menu__ico menu__ico--mark" set:html={marks[link.mark]} />}
+  <span class="menu__text">
+    <span class="menu__label">
+      {link.label}
+      {link.badge && <span class={`badge badge--${link.badge.toLowerCase()}`}>{link.badge}</span>}
+    </span>
+    {link.desc && <span class="menu__desc">{link.desc}</span>}
+  </span>
+  {link.external && <span class="menu__ext" set:html={icons.external} />}
+</Tag>
+
+<style>
+  .menu__link {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s2);
+    padding: 5px 0;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--ink-70);
+    transition: color var(--d-fast) var(--ease);
+  }
+  .menu__link:hover { color: var(--ink); }
+  .menu__link.has-desc { padding: var(--s2) 0; }
+  .menu__link.has-desc .menu__label { color: var(--ink); font-weight: 600; }
+  .menu__link.has-desc:hover .menu__label { color: var(--purple-ink); }
+  .menu__link.has-desc .menu__label { white-space: normal; }
+  .menu__link:hover .menu__ext { opacity: 0.8; transform: translate(1px, -1px); }
+  .menu__link.is-muted { opacity: 0.42; pointer-events: none; }
+  .menu__text { display: grid; gap: 2px; min-width: 0; }
+  .menu__label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s2);
+    line-height: 1.35;
+    white-space: nowrap;
+  }
+  .menu__desc {
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: var(--ink-45);
+    text-wrap: pretty;
+  }
+  .menu__ico {
+    flex: none;
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+    color: var(--purple);
+  }
+  .menu__ico :global(svg) { width: 100%; height: 100%; }
+  .menu__ico--mark { color: var(--ink); opacity: 0.75; }
+  .menu__ext {
+    flex: none;
+    width: 12px;
+    height: 12px;
+    margin-left: auto;
+    margin-top: 4px;
+    opacity: 0.35;
+    transition: opacity var(--d-fast) var(--ease),
+                transform var(--d-fast) var(--ease);
+  }
+  .menu__ext :global(svg) { width: 100%; height: 100%; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    height: 16px;
+    padding-inline: 5px;
+    border-radius: var(--r-sm);
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .badge--new { background: var(--dated-wash); color: var(--dated); }
+  .badge--oss { background: var(--planned-wash); color: var(--planned); }
+</style>
