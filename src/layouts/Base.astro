@@ -21,6 +21,19 @@ const { title, description } = Astro.props;
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <noscript>
+      <!-- Every reveal starts at opacity 0 and is lifted by script. With
+           no script that is a blank page, so hand it all back. This is a
+           <noscript> in <head> so it applies before first paint rather
+           than flashing empty first. -->
+      <style>
+        .reveal, .split { opacity: 1 !important; transform: none !important; }
+        .ln__i { transform: none !important; }
+        .meter i { transform: scaleX(var(--v)) !important; }
+        .owned__seg::after { transform: none !important; }
+      </style>
+    </noscript>
+
     <link
       rel="preload"
       href="/fonts/instrument-sans-latin.woff2"
@@ -192,6 +205,12 @@ const { title, description } = Astro.props;
         const target = Number(el.dataset.count);
         if (reduce || !target) return render(el, target);
 
+        // Zero it here, at the moment it starts counting, rather than at
+        // load. Blanking every figure up front meant anything that read
+        // the page without scrolling — a crawler, a screenshot, a
+        // reader who never reached the section — saw 0.
+        render(el, 0);
+
         const dur = 1100;
         const t0 = performance.now();
         const tick = (now: number) => {
@@ -205,7 +224,6 @@ const { title, description } = Astro.props;
       };
 
       if (nums.length && !reduce) {
-        nums.forEach((el) => render(el, 0));
         const io2 = new IntersectionObserver(
           (entries) => {
             for (const e of entries) {
