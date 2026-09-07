@@ -572,6 +572,15 @@ is what makes the swap feel deliberate.
 Everything below the header dims behind a scrim, which is also a click
 target for dismissing.
 
+**The nav items have no gap between them.** A gap meant the pointer
+crossed dead space on its way from one trigger to the next, which fired
+the close timer and made the panel shut and reopen mid-travel. The
+spacing is padding on the links instead, so the hit areas touch. The
+words sit the same 24px apart as before, and the hover underline is
+inset by the padding so it still tracks the label rather than the whole
+hit area. Verified across a slow slide: the panel holds open the entire
+way for both adjacent menu pairs.
+
 ## Idle work
 
 Nothing animates off screen. A looping animation in a section nobody

@@ -292,16 +292,19 @@ const chev = `<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="
   }
 
   /* Nav triggers ------------------------------------------------ */
+  /* No gap between items. A gap means the pointer passes over dead
+     space on its way from one trigger to the next, which closes the
+     menu and reopens it. The spacing is padding on the links instead,
+     so the hit areas touch and the travel is continuous. */
   .nav {
     display: flex;
-    gap: var(--s5);
-    margin-right: auto;
+    margin-inline: calc(var(--s3) * -1) auto;
   }
   .nav__link {
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    padding: var(--s2) 0;
+    padding: var(--s2) var(--s3);
     border: 0;
     background: none;
     font-size: 0.9375rem;
@@ -311,11 +314,13 @@ const chev = `<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="
     position: relative;
     transition: color var(--d-fast) var(--ease);
   }
+  /* The underline is inset by the padding so it still sits under the
+     words rather than under the whole hit area. */
   .nav__link::after {
     content: "";
     position: absolute;
-    left: 0;
-    right: 0;
+    left: var(--s3);
+    right: var(--s3);
     bottom: 0;
     height: 1px;
     background: var(--ink);
