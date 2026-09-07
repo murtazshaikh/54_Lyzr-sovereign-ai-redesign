@@ -1,8 +1,7 @@
 ---
-import { primaryGroups, secondaryGroups, legal, address, subscriberCount } from "../data/footer";
+import { primaryGroups, secondaryGroups, legal, address, subscriberCount, disclaimer } from "../data/footer";
 import { socials } from "../data/socials";
 
-const year = new Date().getFullYear();
 ---
 
 <footer class="foot">
@@ -42,45 +41,45 @@ const year = new Date().getFullYear();
         </form>
       </div>
 
-      <div class="foot__groups">
+      <nav class="foot__groups" aria-label="Footer">
         {primaryGroups.map((g) => (
-          <nav class="fgroup" aria-label={g.title}>
+          <div class="fgroup">
             <h3 class="fgroup__title">{g.title}</h3>
             <ul>
               {g.links.map((l) => (
-                <li><a class="fgroup__link" href="#">{l}</a></li>
+                <li><span class="fgroup__link">{l}</span></li>
               ))}
             </ul>
-          </nav>
+          </div>
         ))}
-      </div>
+      </nav>
     </div>
 
     <!-- Lower: the long tail of content links -->
-    <div class="foot__bottom">
+    <nav class="foot__bottom" aria-label="More resources">
       {secondaryGroups.map((g) => (
-        <nav class="fgroup" aria-label={g.title}>
+        <div class="fgroup">
           <h3 class="fgroup__title">{g.title}</h3>
           <ul>
             {g.links.map((l) => (
-              <li><a class="fgroup__link" href="#">{l}</a></li>
+              <li><span class="fgroup__link">{l}</span></li>
             ))}
           </ul>
-        </nav>
+        </div>
       ))}
-    </div>
+    </nav>
 
     <div class="foot__base">
       <ul class="foot__legal">
-        {legal.map((l) => <li><a href="#">{l}</a></li>)}
+        {legal.map((l) => <li><span>{l}</span></li>)}
       </ul>
-      <p class="foot__copy">Lyzr &copy; {year}. All rights reserved.</p>
+      <p class="foot__copy">{disclaimer}</p>
       <ul class="foot__social">
         {socials.map((s) => (
           <li>
-            <a class="social" href={s.href} aria-label={s.name}>
+            <span class="social" role="img" aria-label={s.name}>
               <Fragment set:html={s.svg} />
-            </a>
+            </span>
           </li>
         ))}
       </ul>
@@ -205,7 +204,7 @@ const year = new Date().getFullYear();
     transform-origin: right;
     transition: transform var(--d-mid) var(--ease);
   }
-  .fgroup__link:hover { color: var(--paper); }
+  .fgroup__link:hover { color: var(--paper); cursor: default; }
   .fgroup__link:hover::after { transform: scaleX(1); transform-origin: left; }
 
   /* Lower ------------------------------------------------------- */
@@ -230,12 +229,13 @@ const year = new Date().getFullYear();
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     color: rgba(255, 255, 255, 0.5);
   }
+  .foot__copy { max-width: 64ch; line-height: 1.5; }
   .foot__legal { display: flex; gap: var(--s4); }
-  .foot__legal a {
+  .foot__legal span {
     position: relative;
     transition: color var(--d-fast) var(--ease);
   }
-  .foot__legal a::after {
+  .foot__legal span::after {
     content: "";
     position: absolute;
     left: 0; right: 0; bottom: -2px;
@@ -245,8 +245,8 @@ const year = new Date().getFullYear();
     transform-origin: right;
     transition: transform var(--d-mid) var(--ease);
   }
-  .foot__legal a:hover { color: var(--paper); }
-  .foot__legal a:hover::after { transform: scaleX(1); transform-origin: left; }
+  .foot__legal span:hover { color: var(--paper); }
+  .foot__legal span:hover::after { transform: scaleX(1); transform-origin: left; }
 
   .foot__social { display: flex; gap: var(--s2); }
   .social {

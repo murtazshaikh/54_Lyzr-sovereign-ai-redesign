@@ -99,4 +99,10 @@ export const secondaryGroups: LinkGroup[] = [
 export const legal = ["Privacy policy", "Security", "Terms of Use"];
 
 export const address = "525 Washington Blvd, 2410, Jersey City, NJ 07310, USA";
+
+/** This page reproduces Lyzr's copy, brand and logo for a design
+ *  exercise. Claiming copyright over it would be false, so the footer
+ *  says what the page actually is. */
+export const disclaimer =
+  "An independent concept redesign of lyzr.ai/sovereign-ai. Not affiliated with or endorsed by Lyzr. All Lyzr names, logos and copy belong to Lyzr.";
 export const subscriberCount = "24,647+";

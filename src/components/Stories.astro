@@ -31,20 +31,17 @@ const copies = Array.from({ length: COPIES }, (_, c) => c);
     </div>
 
     <div class="stories__controls reveal" style="--reveal-delay:180ms">
-      <ol class="dots" role="tablist" aria-label="Customer stories">
+      <div class="dots" role="group" aria-label="Jump to a story">
         {stories.map((s, i) => (
-          <li>
-            <button
-              class="dot-btn"
-              type="button"
-              role="tab"
-              data-dot={i}
-              aria-selected={i === 0 ? "true" : "false"}
-              aria-label={s.company}
-            ><span></span></button>
-          </li>
+          <button
+            class="dot-btn"
+            type="button"
+            data-dot={i}
+            aria-current={i === 0 ? "true" : "false"}
+            aria-label={s.company}
+          ><span></span></button>
         ))}
-      </ol>
+      </div>
       <div class="stories__arrows">
         <button class="arrowbtn" type="button" data-dir="prev" aria-label="Previous story">
           <Fragment set:html={chev("prev")} />
@@ -142,7 +139,7 @@ const copies = Array.from({ length: COPIES }, (_, c) => c);
                 background var(--d-mid) var(--ease);
   }
   .dot-btn:hover span { background: var(--ink-45); }
-  .dot-btn[aria-selected="true"] span {
+  .dot-btn[aria-current="true"] span {
     width: 18px;
     background: var(--purple);
   }
@@ -324,7 +321,9 @@ const copies = Array.from({ length: COPIES }, (_, c) => c);
     function paintDots() {
       const active = ((index % COUNT) + COUNT) % COUNT;
       dots.forEach((d, i) =>
-        d.setAttribute("aria-selected", String(i === active))
+        i === active
+          ? d.setAttribute("aria-current", "true")
+          : d.removeAttribute("aria-current")
       );
     }
 

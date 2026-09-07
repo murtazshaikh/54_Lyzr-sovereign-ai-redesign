@@ -17,6 +17,17 @@ const { title, description } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <!-- This page reproduces another company's copy, brand and logo for
+         a design exercise. It should never compete with, or be mistaken
+         for, Lyzr's own page in search results. Bare `noindex`, not
+         `noindex, nofollow`: there is nothing here to nofollow, and a
+         future attribution link to lyzr.ai should carry its weight. -->
+    <meta name="robots" content="noindex" />
+
+    <!-- `only light`, not `light`: plain `light` is the UA default and
+         does not opt out of Chrome Android's automatic dark theme,
+         which would invert a page designed around a white ground. -->
+    <meta name="color-scheme" content="only light" />
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
@@ -43,6 +54,7 @@ const { title, description } = Astro.props;
     />
   </head>
   <body>
+    <a class="skip" href="#main">Skip to content</a>
     <div class="progress-rail" aria-hidden="true"><span data-progress></span></div>
     <div class="grain" aria-hidden="true"></div>
 
@@ -52,6 +64,24 @@ const { title, description } = Astro.props;
       /* Reading progress. One transform, driven by the browser's own
          scroll timeline where that exists, and by rAF where it does
          not. */
+      /* Visible only once focused, so a keyboard reader can jump past
+         six nav items and four mega menus. */
+      .skip {
+        position: fixed;
+        top: var(--s3);
+        left: var(--s3);
+        z-index: 200;
+        padding: var(--s3) var(--s4);
+        border-radius: var(--r-md);
+        background: var(--ink);
+        color: var(--paper);
+        font-size: var(--t-small);
+        font-weight: 600;
+        transform: translateY(-160%);
+        transition: transform var(--d-mid) var(--ease);
+      }
+      .skip:focus-visible { transform: none; }
+
       .progress-rail {
         position: fixed;
         inset: 0 0 auto 0;
@@ -106,7 +136,25 @@ const { title, description } = Astro.props;
       }
 
       @media (prefers-reduced-motion: reduce) {
-        .progress-rail { display: none; }
+        /* Visible only once focused, so a keyboard reader can jump past
+         six nav items and four mega menus. */
+      .skip {
+        position: fixed;
+        top: var(--s3);
+        left: var(--s3);
+        z-index: 200;
+        padding: var(--s3) var(--s4);
+        border-radius: var(--r-md);
+        background: var(--ink);
+        color: var(--paper);
+        font-size: var(--t-small);
+        font-weight: 600;
+        transform: translateY(-160%);
+        transition: transform var(--d-mid) var(--ease);
+      }
+      .skip:focus-visible { transform: none; }
+
+      .progress-rail { display: none; }
       }
     </style>
 

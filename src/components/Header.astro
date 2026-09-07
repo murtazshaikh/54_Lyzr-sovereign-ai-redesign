@@ -6,7 +6,7 @@ import { marks } from "../data/marks";
 const chev = `<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="M2.5 3.75 5 6.25l2.5-2.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 ---
 
-<div class="announce">
+<aside class="announce" aria-label="Announcement">
   <div class="shell announce__inner">
     <span class="announce__new">
       <span class="beacon" aria-hidden="true"></span>
@@ -18,7 +18,7 @@ const chev = `<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="
     <span class="announce__sep announce__sep--cta" aria-hidden="true"></span>
     <a class="announce__link" href="#full-stack">Access now <span class="arrow">&rarr;</span></a>
   </div>
-</div>
+</aside>
 
 <div class="scrim" data-scrim aria-hidden="true"></div>
 
@@ -63,7 +63,11 @@ const chev = `<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="
                     <ul class="menu__list">
                       {col.links.map((l) => (
                         <li>
-                          <a
+                          <Fragment>
+                          {(() => {
+                            const Tag = l.href ? "a" : "span";
+                            return (
+                          <Tag
                             class:list={["menu__link", { "is-muted": l.muted, "has-desc": !!l.desc }]}
                             href={l.href}
                             aria-disabled={l.muted ? "true" : undefined}
@@ -78,7 +82,10 @@ const chev = `<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="
                               {l.desc && <span class="menu__desc">{l.desc}</span>}
                             </span>
                             {l.external && <span class="menu__ext" set:html={icons.external} />}
-                          </a>
+                          </Tag>
+                            );
+                          })()}
+                          </Fragment>
                         </li>
                       ))}
                     </ul>
@@ -91,13 +98,14 @@ const chev = `<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="
                   <p class="menu__title">Featured</p>
                   <div class="menu__cards">
                     {item.featured.map((f) => (
-                      <a class="fcard" href={f.href}>
+                      <Fragment set:html="" />
+                      <div class="fcard">
                         <span class="fcard__play" set:html={icons.play} />
                         <span class="fcard__body">
                           <span class="fcard__source">{f.source}</span>
                           <span class="fcard__title">{f.title}</span>
                         </span>
-                      </a>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -143,7 +151,7 @@ const chev = `<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="
                     <ul class="mnav__list">
                       {col.links.map((l) => (
                         <li>
-                          <a class:list={["mnav__sub", { "is-muted": l.muted }]} href={l.href}>{l.label}</a>
+                          <span class:list={["mnav__sub", { "is-muted": l.muted }]}>{l.label}</span>
                         </li>
                       ))}
                     </ul>
