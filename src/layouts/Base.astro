@@ -8,6 +8,18 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
+
+// Absolute URLs require a configured origin. Without one these stay
+// undefined and the tags are skipped rather than emitting "undefined/..."
+// which is worse than emitting nothing.
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : null;
+const ogImage = Astro.site ? new URL("/images/og.png", Astro.site).href : null;
+
+// The card is where the link leaves its interview thread, so it names
+// itself rather than borrowing Lyzr's voice.
+const shareTitle = "Sovereign AI, a concept redesign";
+const shareDescription =
+  "An independent redesign of Lyzr's Sovereign AI page in Ramp's design language. Astro, no client framework, 34KB of HTML. Not affiliated with Lyzr.";
 ---
 
 <!doctype html>
@@ -29,6 +41,32 @@ const { title, description } = Astro.props;
          which would invert a page designed around a white ground. -->
     <meta name="color-scheme" content="only light" />
     <meta name="theme-color" content="#ffffff" />
+
+    {canonical && <link rel="canonical" href={canonical} />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={shareTitle} />
+    <meta property="og:description" content={shareDescription} />
+    <meta property="og:site_name" content="Concept redesign by Murtaza Shaikh" />
+    {canonical && <meta property="og:url" content={canonical} />}
+    {ogImage && (
+      <>
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta
+          property="og:image:alt"
+          content="A redesign of Lyzr's Sovereign AI page in Ramp's design language. Labelled as a design exercise."
+        />
+      </>
+    )}
+
+    {/* Without this X renders a small square thumbnail and the 1200x630
+        card is wasted. */}
+    <meta name="twitter:card" content={ogImage ? "summary_large_image" : "summary"} />
+    <meta name="twitter:title" content={shareTitle} />
+    <meta name="twitter:description" content={shareDescription} />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />

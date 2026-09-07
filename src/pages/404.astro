@@ -1,0 +1,77 @@
+---
+// Standalone on purpose. It imports no shared layout, tokens or
+// components, so a 404 still renders even if the main bundle is the
+// thing that broke. A handful of duplicated values is the price.
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Page not found</title>
+    <meta name="robots" content="noindex" />
+    <meta name="color-scheme" content="only light" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <style>
+      :root { --ink: #13112a; --slate: #8f9bb7; --purple: #7458e8; }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        display: grid;
+        place-content: center;
+        justify-items: start;
+        gap: 1rem;
+        padding: 2.5rem;
+        background: #fff;
+        color: var(--ink);
+        font-family: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      p.code {
+        margin: 0;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: var(--slate);
+      }
+      h1 {
+        margin: 0;
+        font-size: clamp(2rem, 1.2rem + 3vw, 3rem);
+        line-height: 1.05;
+        letter-spacing: -0.035em;
+        font-weight: 600;
+        max-width: 18ch;
+      }
+      p.body { margin: 0; color: #4a4762; max-width: 46ch; line-height: 1.55; }
+      a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        height: 46px;
+        margin-top: 0.5rem;
+        padding-inline: 1.5rem;
+        border-radius: 6px;
+        background: var(--ink);
+        color: #fff;
+        font-size: 0.9375rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 140ms cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      a:hover { background: var(--purple); }
+      a:focus-visible { outline: 2px solid var(--purple); outline-offset: 3px; }
+    </style>
+  </head>
+  <body>
+    <p class="code">Error 404</p>
+    <h1>There is only one page here.</h1>
+    <p class="body">
+      This is a single-page design exercise, so whatever you were looking
+      for is almost certainly on the home page.
+    </p>
+    <a href="/">Take me there &rarr;</a>
+  </body>
+</html>

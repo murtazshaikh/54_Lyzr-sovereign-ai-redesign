@@ -602,6 +602,60 @@ returns.
 The path section's own timer was already gated on visibility and
 verified not to advance while off screen.
 
+## SEO and identity
+
+Audited across five independent lenses, each finding then adversarially
+checked. Two things came out of it that were not SEO at all.
+
+**Without JavaScript the page rendered blank.** 79 elements carrying
+text sat at `opacity: 0`, because every reveal starts hidden and is
+lifted by script. A `<noscript>` style block in head hands them back
+before first paint. Invisible text elements: 79 to 4, and those four
+are legitimately hidden.
+
+**Figures read zero to anything that did not scroll.** The count-up
+blanked every number at load. Zeroing now happens inside the observer
+at the moment a figure starts counting.
+
+### Identity
+
+The page carries Lyzr's copy, logo and brand, and the footer asserted
+"Lyzr © 2026. All rights reserved." on what will be a personal domain.
+That is a false copyright claim.
+
+- The footer states what the page is: an independent concept redesign,
+  not affiliated with or endorsed by Lyzr.
+- `meta robots noindex`, so it never competes with the real page. Bare
+  `noindex`, not `noindex, nofollow`: there is nothing here to nofollow.
+- **No robots.txt with `Disallow`.** A disallowed URL can still be
+  indexed as a URL-only listing, and the block stops a crawler ever
+  reading the `noindex`. The meta tag has to be the only mechanism.
+- **No structured data at all.** Organization markup naming Lyzr would
+  assert this domain is Lyzr; Product markup on Optimus, or Review
+  markup on the testimonials, would assert claims this page has no
+  standing to make. The honest schema for this page is none.
+- **No sitemap**, deliberately, on a page that asks not to be indexed.
+
+### Link graph
+
+211 anchors pointed at `#`. The page linked to itself 211 times, and a
+screen reader announced 211 links that go nowhere. Placeholders in the
+menus, footer and legal row render as text now. The social marks too:
+pointing them at Lyzr's real profiles would assert affiliation. Every
+remaining anchor has a real target.
+
+### Sharing
+
+Open Graph and Twitter tags are emitted always; the absolute ones,
+canonical and `og:url` and `og:image`, only when `site` is configured.
+A scraper ignores a relative `og:image`, and a placeholder origin is
+worse than none, so they are skipped until there is a real one. Both
+branches verified: 14 tags with an origin set and no `undefined`
+anywhere, 7 safe tags without.
+
+The card names itself rather than borrowing Lyzr's voice, because the
+share preview is the moment the link leaves its interview thread.
+
 ## Anchor hygiene
 
 The built page is checked for duplicate ids and unresolved in-page
