@@ -241,8 +241,14 @@ it yields the moment they engage.
   selection unmistakable without a highlight colour or a border trick.
 - **A dwell bar** fills across the active card, so the advance is
   announced rather than surprising.
-- **It yields.** Hover or focus pauses it. A click or arrow key means
-  the reader is driving, and the belt stops for good.
+- **It yields, then comes back.** Hover or focus pauses it. A click or
+  arrow key hands control to the reader, and the belt resumes after ten
+  seconds of no interaction. Stopping for good meant one stray click
+  silently killed the progression for the rest of the visit.
+- **Focus used to stall it permanently.** `focusin` paused the belt and
+  nothing unpaused it, so a single tab into the section stopped it
+  until reload. There is a matching `focusout` now, which ignores focus
+  moving between elements inside the section.
 - **It idles.** An IntersectionObserver stops the timer whenever the
   section is off screen, so nothing runs in the background.
 - **No layout jump.** All four panels sit in one grid cell, so the

@@ -346,8 +346,22 @@ import { icons } from "../data/icons";
     let timer = 0;
     let visible = false;
     let hovered = false;
-    // A click means the reader is driving. Stop advancing for them.
+    // A click means the reader is driving, so the belt yields. It comes
+    // back after a spell of no interaction, otherwise one stray click
+    // silently kills the progression for the rest of the visit.
     let taken = false;
+    let resumeTimer = 0;
+
+    const HAND_BACK_MS = 10000;
+    function yieldToReader() {
+      taken = true;
+      stop();
+      clearTimeout(resumeTimer);
+      resumeTimer = window.setTimeout(() => {
+        taken = false;
+        start();
+      }, HAND_BACK_MS);
+    }
 
     const segs = [...root.querySelectorAll<HTMLElement>("[data-seg]")];
     const ownedOut = root.querySelector<HTMLElement>("[data-owned]");
@@ -397,9 +411,8 @@ import { icons } from "../data/icons";
 
     tabs.forEach((tab, i) => {
       tab.addEventListener("click", () => {
-        taken = true;
-        stop();
         show(i);
+        yieldToReader();
       });
       tab.addEventListener("keydown", (e) => {
         const map: Record<string, number> = {
@@ -408,17 +421,23 @@ import { icons } from "../data/icons";
         const step = map[e.key];
         if (!step) return;
         e.preventDefault();
-        taken = true;
-        stop();
         const next = (current + step + tabs.length) % tabs.length;
         show(next);
         tabs[next].focus();
+        yieldToReader();
       });
     });
 
     root.addEventListener("pointerenter", () => { hovered = true; stop(); });
     root.addEventListener("pointerleave", () => { hovered = false; start(); });
+    // focusin paused the belt with nothing to unpause it, so a single
+    // tab into the section stalled it for good.
     root.addEventListener("focusin", () => { hovered = true; stop(); });
+    root.addEventListener("focusout", (e) => {
+      if (root.contains(e.relatedTarget as Node)) return;
+      hovered = false;
+      start();
+    });
 
     // Only run the belt while the section is actually on screen.
     paintOwnership(0);
