@@ -64,5 +64,12 @@ export const steps: Step[] = [
   },
 ];
 
-/** How long each step holds before the belt advances. */
-export const DWELL_MS = 3000;
+/** How long each step holds before the belt advances.
+ *
+ *  5s. A step card runs about 14 words, which is ~4s of reading at a
+ *  normal 200-250wpm, plus about a second to register the change.
+ *  Faster feels twitchy: the panel moves before the card that caused
+ *  it has been read. Slower and a reader who gives the section the
+ *  usual 10-15 seconds may see only one transition and never learn
+ *  there are four steps. */
+export const DWELL_MS = 5000;

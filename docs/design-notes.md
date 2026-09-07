@@ -250,8 +250,14 @@ it yields the moment they engage.
   the reader, and the belt resumes after ten seconds of no interaction.
   Stopping for good meant one stray click silently killed the
   progression for the rest of the visit.
-- **Dwell is 3s.** Long enough to read a step card, short enough that
-  the progression is visible without waiting for it.
+- **Dwell is 5s.** A step card runs about 14 words, roughly 4s of
+  reading at 200-250wpm, plus a second to register the change. Faster
+  feels twitchy, because the panel moves before the card that caused it
+  has been read. Slower and a reader giving the section the usual 10-15
+  seconds may see one transition and never learn there are four steps.
+  It also sits exactly on the WCAG line where auto-updating content
+  needs a pause mechanism; clicking and keyboard focus both provide
+  one.
 - **Focus used to stall it permanently.** `focusin` paused the belt and
   nothing unpaused it, so a single tab into the section stopped it
   until reload. There is a matching `focusout` now, which ignores focus
