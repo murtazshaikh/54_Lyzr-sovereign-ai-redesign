@@ -264,6 +264,11 @@ it yields the moment they engage.
   moving between elements inside the section.
 - **It idles.** An IntersectionObserver stops the timer whenever the
   section is off screen, so nothing runs in the background.
+- **The panel box never animates.** Fading the whole panel faded its
+  dark ground with it, so the block flashed on every step change. Only
+  the words inside move now, staggered 55ms apart. All four panels
+  share a grid cell and an identical surface, so the box reads as one
+  static object being rewritten.
 - **No layout jump.** All four panels sit in one grid cell, so the
   block is as tall as the tallest and the page never shifts when the
   step changes. Measured: all four are 220px.
@@ -566,6 +571,27 @@ is what makes the swap feel deliberate.
 
 Everything below the header dims behind a scrim, which is also a click
 target for dismissing.
+
+## Idle work
+
+Nothing animates off screen. A looping animation in a section nobody
+can see is pure compositor work, and the page had nine of them running
+permanently: four heartbeat traces, three status pulses, the marquee
+belt and the beacon.
+
+Every `section` is observed and gets `is-idle` when it leaves the
+viewport, which pauses every animation inside it. Paused rather than
+cancelled, so each picks up where it left off. A 200px margin means
+they resume just before scrolling into view rather than visibly
+starting late.
+
+Measured at the top of the page: running animations drop from nine to
+five, and the five are the ones actually on screen. The marquee belt
+reports `paused` the moment the wall scrolls away and `running` when it
+returns.
+
+The path section's own timer was already gated on visibility and
+verified not to advance while off screen.
 
 ## Anchor hygiene
 

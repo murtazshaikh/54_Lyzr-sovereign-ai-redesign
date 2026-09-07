@@ -67,6 +67,18 @@ const { title, description } = Astro.props;
         @keyframes progress { to { transform: scaleX(1); } }
       }
 
+      /* Anything off screen stops animating. A looping animation in a
+         section nobody can see is pure compositor work: the marquee
+         belt, the heartbeat traces and the beacon all keep a thread
+         busy for no one. Paused rather than removed, so they pick up
+         where they left off. */
+      [data-idle].is-idle,
+      [data-idle].is-idle *,
+      [data-idle].is-idle *::before,
+      [data-idle].is-idle *::after {
+        animation-play-state: paused !important;
+      }
+
       /* A whisper of grain. Flat white at this scale can read as
          unfinished; the noise gives it a surface without adding a
          request or a visible texture. */
@@ -145,6 +157,22 @@ const { title, description } = Astro.props;
       } else {
         items.forEach((el) => el.classList.add("is-in"));
       }
+
+      // Park animations in sections that are off screen. The margin
+      // means they resume just before scrolling into view rather than
+      // visibly starting late.
+      const idleTargets = document.querySelectorAll<HTMLElement>("section, .announce");
+      idleTargets.forEach((el) => el.setAttribute("data-idle", ""));
+      const idleObserver = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) e.target.classList.toggle("is-idle", !e.isIntersecting);
+        },
+        { rootMargin: "200px 0px" }
+      );
+      idleTargets.forEach((el) => {
+        el.classList.add("is-idle");
+        idleObserver.observe(el);
+      });
 
       // Count-up. Any element with data-count animates from 0 to that
       // value once, when it first scrolls into view. Reduced motion and

@@ -273,11 +273,24 @@ import { icons } from "../data/icons";
   .panel[hidden] {
     display: none;
   }
-  .panel.is-entering {
-    animation: panel-in var(--d-slow) var(--ease) both;
+  /* The panel box itself never animates. Fading the whole panel faded
+     its dark ground with it, so the block flashed on every step change.
+     All four panels share a grid cell and an identical surface, so the
+     box reads as one static object while only the words inside move. */
+  .panel.is-entering .panel__heading,
+  .panel.is-entering .panel__body,
+  .panel.is-entering .panel__points li {
+    animation: panel-in 460ms var(--ease-out) both;
+    animation-delay: calc(var(--n, 0) * 55ms);
   }
+  .panel.is-entering .panel__heading { --n: 0; }
+  .panel.is-entering .panel__body { --n: 1; }
+  .panel.is-entering .panel__points li:nth-child(1) { --n: 2; }
+  .panel.is-entering .panel__points li:nth-child(2) { --n: 3; }
+  .panel.is-entering .panel__points li:nth-child(3) { --n: 4; }
+
   @keyframes panel-in {
-    from { opacity: 0; transform: translateY(8px); }
+    from { opacity: 0; transform: translateY(6px); }
     to   { opacity: 1; transform: none; }
   }
 
